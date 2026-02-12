@@ -1,0 +1,309 @@
+[
+  {
+    "id": "blaze",
+    "name": "Lohe",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Lohe",
+    "specificFields": []
+  },
+  {
+    "id": "bogged",
+    "name": "Sumpf-Skelett",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Sumpfskelett",
+    "specificFields": []
+  },
+  {
+    "id": "breeze",
+    "name": "Brise",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Brise",
+    "specificFields": []
+  },
+  {
+    "id": "creeper",
+    "name": "Creeper",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Creeper",
+    "specificFields": [
+      { "name": "charged", "type": "checkbox", "label": "Geladen" },
+      { "name": "ExplosionRadius", "type": "number", "label": "Explosionsradius", "min": 0, "max": 100, "default": 3 },
+      { "name": "Fuse", "type": "number", "label": "Zündzeit", "min": 0, "max": 100, "default": 30 },
+      { "name": "ignited", "type": "checkbox", "label": "Gezündet" }
+    ]
+  },
+  {
+    "id": "drowned",
+    "name": "Ertrunkener",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Ertrunkener",
+    "specificFields": [
+      { "name": "CanBreakDoors", "type": "checkbox", "label": "Kann Türen zerstören" },
+      { "name": "DrownedConversionTime", "type": "number", "label": "Ertrinkungszeit", "min": -1, "default": -1 }
+    ]
+  },
+  {
+    "id": "elder_guardian",
+    "name": "Großer Wächter",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Großer Wächter",
+    "specificFields": []
+  },
+  {
+    "id": "ender_dragon",
+    "name": "Enderdrache (hostil)",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Enderdrache",
+    "specificFields": []
+  },
+  {
+    "id": "endermite",
+    "name": "Endermite",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Endermite",
+    "specificFields": [
+      { "name": "Lifetime", "type": "number", "label": "Lebenszeit", "min": 0, "default": 2400 },
+      { "name": "PlayerSpawned", "type": "checkbox", "label": "Von Spieler gespawnt" }
+    ]
+  },
+  {
+    "id": "evoker",
+    "name": "Magier",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Magier",
+    "specificFields": []
+  },
+  {
+    "id": "ghast",
+    "name": "Ghast",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Ghast",
+    "specificFields": [
+      { "name": "ExplosionPower", "type": "number", "label": "Explosionsstärke", "min": 0, "max": 127, "default": 1 }
+    ]
+  },
+  {
+    "id": "giant",
+    "name": "Riese",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Riese",
+    "specificFields": []
+  },
+  {
+    "id": "guardian",
+    "name": "Wächter",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Wächter",
+    "specificFields": []
+  },
+  {
+    "id": "hoglin",
+    "name": "Hoglin",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Hoglin",
+    "specificFields": [
+      { "name": "CannotBeHunted", "type": "checkbox", "label": "Nicht jagdbar" },
+      { "name": "Hunting", "type": "checkbox", "label": "Jagend" },
+      { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "husk",
+    "name": "Wüstenzombie",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Wüstenzombie",
+    "specificFields": [
+      { "name": "CanBreakDoors", "type": "checkbox", "label": "Kann Türen zerstören" },
+      { "name": "ZombieConversionTime", "type": "number", "label": "Konvertierungszeit", "min": -1, "default": -1 }
+    ]
+  },
+  {
+    "id": "illusioner",
+    "name": "Illusionist",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Illusionist",
+    "specificFields": []
+  },
+  {
+    "id": "magma_cube",
+    "name": "Magmawürfel",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Magmawürfel",
+    "specificFields": [
+      { "name": "Size", "type": "number", "label": "Größe", "min": 1, "max": 127, "default": 1 }
+    ]
+  },
+  {
+    "id": "phantom",
+    "name": "Phantom",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Phantom",
+    "specificFields": [
+      { "name": "Size", "type": "number", "label": "Größe", "min": 0, "max": 127, "default": 0 }
+    ]
+  },
+  {
+    "id": "pillager",
+    "name": "Plünderer",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Plünderer",
+    "specificFields": [
+      { "name": "PatrolLeader", "type": "checkbox", "label": "Patrouillenführer" },
+      { "name": "PatrolTarget", "type": "text", "label": "Patrouillenziel (Position)" },
+      { "name": "PatrolBound", "type": "checkbox", "label": "Patrouillengebunden" }
+    ]
+  },
+  {
+    "id": "ravager",
+    "name": "Verwüster",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Verwüster",
+    "specificFields": [
+      { "name": "AttackTick", "type": "number", "label": "Angriffs-Tick", "min": 0, "default": 0 },
+      { "name": "Stunned", "type": "checkbox", "label": "Betäubt" },
+      { "name": "RoarTick", "type": "number", "label": "Brüll-Tick", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "shulker",
+    "name": "Shulker",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Shulker",
+    "specificFields": [
+      { "name": "AttachFace", "type": "number", "label": "Anbaufläche (0-5)", "min": 0, "max": 5, "default": 1 },
+      { "name": "Color", "type": "number", "label": "Farbe (0-15)", "min": 0, "max": 15, "default": 16 }
+    ]
+  },
+  {
+    "id": "silverfish",
+    "name": "Silberfisch",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Silberfisch",
+    "specificFields": []
+  },
+  {
+    "id": "skeleton",
+    "name": "Skelett",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Skelett",
+    "specificFields": [
+      { "name": "StrayConversionTime", "type": "number", "label": "Eiswanderer-Konvertierung", "min": -1, "default": -1 }
+    ]
+  },
+  {
+    "id": "slime",
+    "name": "Schleim",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Schleim",
+    "specificFields": [
+      { "name": "Size", "type": "number", "label": "Größe", "min": 1, "max": 127, "default": 1 }
+    ]
+  },
+  {
+    "id": "stray",
+    "name": "Eiswanderer",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Eiswanderer",
+    "specificFields": []
+  },
+  {
+    "id": "vex",
+    "name": "Plagegeist",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Plagegeist",
+    "specificFields": [
+      { "name": "BoundX", "type": "number", "label": "Gebunden X", "min": -30000000, "max": 30000000, "default": 0 },
+      { "name": "BoundY", "type": "number", "label": "Gebunden Y", "min": -30000000, "max": 30000000, "default": 0 },
+      { "name": "BoundZ", "type": "number", "label": "Gebunden Z", "min": -30000000, "max": 30000000, "default": 0 },
+      { "name": "LifeTicks", "type": "number", "label": "Lebens-Ticks", "min": 0, "default": 40 }
+    ]
+  },
+  {
+    "id": "vindicator",
+    "name": "Diener",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Diener",
+    "specificFields": [
+      { "name": "Johnny", "type": "checkbox", "label": "Johnny-Modus" }
+    ]
+  },
+  {
+    "id": "witch",
+    "name": "Hexe",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Hexe",
+    "specificFields": []
+  },
+  {
+    "id": "wither_skeleton",
+    "name": "Witherskelett",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Witherskelett",
+    "specificFields": []
+  },
+  {
+    "id": "zoglin",
+    "name": "Zoglin",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Zoglin",
+    "specificFields": [
+      { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 },
+      { "name": "IsBaby", "type": "checkbox", "label": "Baby" }
+    ]
+  },
+  {
+    "id": "zombie",
+    "name": "Zombie",
+    "category": "hostile",
+    "supportsTrades": false,
+    "defaultName": "Zombie",
+    "specificFields": [
+      { "name": "CanBreakDoors", "type": "checkbox", "label": "Kann Türen zerstören" },
+      { "name": "DrownedConversionTime", "type": "number", "label": "Ertrinkungszeit", "min": -1, "default": -1 },
+      { "name": "IsBaby", "type": "checkbox", "label": "Baby" }
+    ]
+  },
+  {
+    "id": "zombie_villager",
+    "name": "Zombie-Dorfbewohner",
+    "category": "hostile",
+    "supportsTrades": true,
+    "defaultName": "Zombie-Dorfbewohner",
+    "specificFields": [
+      { "name": "Profession", "type": "select", "label": "Beruf", "options": ["none","armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] },
+      { "name": "Level", "type": "number", "label": "Level", "min": 1, "max": 5, "default": 5 },
+      { "name": "Type", "type": "select", "label": "Biom-Typ", "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] },
+      { "name": "ConversionTime", "type": "number", "label": "Konvertierungszeit", "min": -1, "default": -1 },
+      { "name": "Converter", "type": "text", "label": "Konverter (UUID)" }
+    ]
+  }
+]

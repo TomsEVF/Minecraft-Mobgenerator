@@ -1,0 +1,30 @@
+[
+  {
+    "id": "ender_dragon",
+    "name": "Enderdrache",
+    "category": "boss",
+    "supportsTrades": false,
+    "defaultName": "Enderdrache",
+    "specificFields": [
+      { "name": "DragonPhase", "type": "number", "label": "Phase (0-9)", "min": 0, "max": 9, "default": 0 }
+    ]
+  },
+  {
+    "id": "wither",
+    "name": "Wither",
+    "category": "boss",
+    "supportsTrades": false,
+    "defaultName": "Wither",
+    "specificFields": [
+      { "name": "Invul", "type": "number", "label": "Unverwundbarkeit", "min": 0, "max": 220, "default": 0 }
+    ]
+  },
+  {
+    "id": "giant",
+    "name": "Riese",
+    "category": "boss",
+    "supportsTrades": false,
+    "defaultName": "Riese",
+    "specificFields": []
+  }
+]

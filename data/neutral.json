@@ -1,15 +1,159 @@
 [
   {
-    "id": "creeper",
-    "name": "Creeper",
+    "id": "bee",
+    "name": "Biene (neutral)",
     "category": "neutral",
     "supportsTrades": false,
-    "defaultName": "Creeper",
+    "defaultName": "Biene",
     "specificFields": [
-      { "name": "charged", "type": "checkbox", "label": "Geladen" },
-      { "name": "ExplosionRadius", "type": "number", "label": "Explosionsradius", "min": 0, "max": 100, "default": 3 },
-      { "name": "Fuse", "type": "number", "label": "Zündzeit", "min": 0, "max": 100, "default": 30 },
-      { "name": "ignited", "type": "checkbox", "label": "Gezündet" }
+      { "name": "Anger", "type": "number", "label": "Wut", "min": 0, "default": 0 },
+      { "name": "HasStung", "type": "checkbox", "label": "Hat gestochen" }
+    ]
+  },
+  {
+    "id": "cave_spider",
+    "name": "Höhlenspinne",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Höhlenspinne",
+    "specificFields": []
+  },
+  {
+    "id": "dolphin",
+    "name": "Delfin",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Delfin",
+    "specificFields": [
+      { "name": "TreasurePos", "type": "text", "label": "Schatz-Position" },
+      { "name": "GotFish", "type": "checkbox", "label": "Hat Fisch" }
+    ]
+  },
+  {
+    "id": "enderman",
+    "name": "Enderman",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Enderman",
+    "specificFields": [
+      { "name": "carriedBlockState", "type": "text", "label": "Getragener Block (State)" },
+      { "name": "carriedBlock", "type": "text", "label": "Getragener Block (alt)" }
+    ]
+  },
+  {
+    "id": "fox",
+    "name": "Fuchs (neutral)",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Fuchs",
+    "specificFields": [
+      { "name": "Trusting", "type": "checkbox", "label": "Vertrauend" }
+    ]
+  },
+  {
+    "id": "goat",
+    "name": "Ziege (neutral)",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Ziege",
+    "specificFields": [
+      { "name": "IsScreamingGoat", "type": "checkbox", "label": "Schrei-Ziege" }
+    ]
+  },
+  {
+    "id": "iron_golem",
+    "name": "Eisengolem",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Eisengolem",
+    "specificFields": [
+      { "name": "PlayerCreated", "type": "checkbox", "label": "Von Spieler erstellt" },
+      { "name": "Angry", "type": "checkbox", "label": "Wütend" }
+    ]
+  },
+  {
+    "id": "llama",
+    "name": "Lama (neutral)",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Lama",
+    "specificFields": [
+      { "name": "Strength", "type": "number", "label": "Stärke", "min": 1, "max": 5, "default": 1 }
+    ]
+  },
+  {
+    "id": "panda",
+    "name": "Panda (neutral)",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Panda",
+    "specificFields": [
+      { "name": "MainGene", "type": "select", "label": "Hauptgen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] }
+    ]
+  },
+  {
+    "id": "piglin",
+    "name": "Piglin",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Piglin",
+    "specificFields": [
+      { "name": "CannotHunt", "type": "checkbox", "label": "Kann nicht jagen" },
+      { "name": "Inventory", "type": "text", "label": "Inventar (NBT)" },
+      { "name": "IsBaby", "type": "checkbox", "label": "Baby" },
+      { "name": "IsImmuneToZombification", "type": "checkbox", "label": "Immun gegen Verzombifizierung" },
+      { "name": "TimeInOverworld", "type": "number", "label": "Zeit in Oberwelt", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "piglin_brute",
+    "name": "Piglin-Berserker",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Piglin-Berserker",
+    "specificFields": [
+      { "name": "IsImmuneToZombification", "type": "checkbox", "label": "Immun gegen Verzombifizierung" },
+      { "name": "TimeInOverworld", "type": "number", "label": "Zeit in Oberwelt", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "polar_bear",
+    "name": "Eisbär",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Eisbär",
+    "specificFields": [
+      { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "spider",
+    "name": "Spinne",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Spinne",
+    "specificFields": []
+  },
+  {
+    "id": "wolf",
+    "name": "Wolf (wild)",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Wolf",
+    "specificFields": [
+      { "name": "Angry", "type": "checkbox", "label": "Wütend" }
+    ]
+  },
+  {
+    "id": "zombified_piglin",
+    "name": "Verzauberter Zombiepiglin",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Zombiepiglin",
+    "specificFields": [
+      { "name": "Anger", "type": "number", "label": "Wut", "min": 0, "default": 0 },
+      { "name": "HurtBy", "type": "text", "label": "Verletzt von (UUID)" },
+      { "name": "IsBaby", "type": "checkbox", "label": "Baby" }
     ]
   }
 ]

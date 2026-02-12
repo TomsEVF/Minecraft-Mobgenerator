@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Mob Generator · Modular</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🎮</span>
+                <h1>Mob<spawn>Generator</h1>
+            </div>
+            <div class="version">1.20+ · NBT Commander</div>
+        </header>
+
+        <!-- Mob-Auswahl -->
+        <div class="mob-selector">
+            <label for="mob-select">Mob auswählen</label>
+            <select id="mob-select" class="mob-dropdown"></select>
+        </div>
+
+        <!-- Hauptlayout mit Tabs -->
+        <div class="main-layout">
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="basic">📋 Basis</button>
+                <button class="tab-btn" data-tab="attributes">📊 Attribute</button>
+                <button class="tab-btn" data-tab="equipment">⚔️ Ausrüstung</button>
+                <button class="tab-btn" data-tab="behavior">🧠 Verhalten</button>
+                <button class="tab-btn" data-tab="trades">🛒 Trades</button>
+                <button class="tab-btn" data-tab="advanced">⚙️ Erweitert</button>
+            </nav>
+
+            <div class="tab-content">
+                <!-- BASIC -->
+                <div id="tab-basic" class="tab-pane active">
+                    <h2>Basiseigenschaften</h2>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label>🏷️ Name</label>
+                            <input type="text" id="name" value="Mob" placeholder="z.B. 'Wächter'">
+                        </div>
+                        <div class="form-field">
+                            <label>🎨 Namensfarbe</label>
+                            <div class="color-row">
+                                <input type="color" id="nameColor" value="#FFFFFF">
+                                <input type="text" id="nameColorHex" value="#FFFFFF" placeholder="#FFFFFF">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>❤️ Leben</label>
+                            <input type="number" id="health" min="1" max="1024" value="20">
+                        </div>
+                        <div class="form-field">
+                            <label>🔄 Rotation (Yaw)</label>
+                            <input type="number" id="rotation" min="-180" max="180" value="0">
+                        </div>
+                        <div class="form-field">
+                            <label>📐 Blickwinkel (Pitch)</label>
+                            <input type="number" id="pitch" min="-90" max="90" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATTRIBUTES -->
+                <div id="tab-attributes" class="tab-pane">
+                    <h2>Attribute (Modifikatoren)</h2>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label>⚡ Bewegungstempo</label>
+                            <input type="number" id="speed" min="0" max="10" step="0.1" value="0.25">
+                        </div>
+                        <div class="form-field">
+                            <label>🛡️ Rüstung</label>
+                            <input type="number" id="armor" min="0" max="30" value="0">
+                        </div>
+                        <div class="form-field">
+                            <label>⚔️ Angriffsschaden</label>
+                            <input type="number" id="attackDamage" min="0" max="100" value="0">
+                        </div>
+                        <div class="form-field">
+                            <label>🏹 Folge-Distanz</label>
+                            <input type="number" id="followRange" min="0" max="64" value="16">
+                        </div>
+                        <div class="form-field">
+                            <label>🦘 Sprungkraft</label>
+                            <input type="number" id="jumpStrength" min="0" max="10" step="0.1" value="0.42">
+                        </div>
+                    </div>
+                    <p class="hint">Nur von bestimmten Mobs unterstützt.</p>
+                </div>
+
+                <!-- EQUIPMENT -->
+                <div id="tab-equipment" class="tab-pane">
+                    <h2>Ausrüstung & Hand</h2>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label>🪖 Helm</label>
+                            <input type="text" id="helmet" placeholder="minecraft:iron_helmet">
+                        </div>
+                        <div class="form-field">
+                            <label>🦺 Brustplatte</label>
+                            <input type="text" id="chestplate" placeholder="minecraft:diamond_chestplate">
+                        </div>
+                        <div class="form-field">
+                            <label>👖 Hose</label>
+                            <input type="text" id="leggings" placeholder="minecraft:chainmail_leggings">
+                        </div>
+                        <div class="form-field">
+                            <label>👟 Schuhe</label>
+                            <input type="text" id="boots" placeholder="minecraft:golden_boots">
+                        </div>
+                        <div class="form-field">
+                            <label>🖐️ Haupt-Hand</label>
+                            <input type="text" id="mainhand" placeholder="minecraft:iron_sword">
+                        </div>
+                        <div class="form-field">
+                            <label>🖖 Neben-Hand</label>
+                            <input type="text" id="offhand" placeholder="minecraft:shield">
+                        </div>
+                        <div class="form-field">
+                            <label>📉 Drop-Chance (0–1)</label>
+                            <input type="number" id="handDropChance" min="0" max="1" step="0.1" value="0.085">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BEHAVIOR (dynamisch) -->
+                <div id="tab-behavior" class="tab-pane">
+                    <h2>Verhalten & Spezial-Optionen</h2>
+                    <div id="mob-specific-options"></div>
+                </div>
+
+                <!-- TRADES (dynamisch) -->
+                <div id="tab-trades" class="tab-pane">
+                    <h2>Handelsangebote</h2>
+                    <div id="trade-container"></div>
+                </div>
+
+                <!-- ADVANCED -->
+                <div id="tab-advanced" class="tab-pane">
+                    <h2>Erweiterte NBT-Felder</h2>
+                    <div class="form-grid">
+                        <div class="form-field checkbox">
+                            <input type="checkbox" id="persistent">
+                            <label for="persistent">💫 Persistent (nicht despawnen)</label>
+                        </div>
+                        <div class="form-field checkbox">
+                            <input type="checkbox" id="silent">
+                            <label for="silent">🤫 Stumm (keine Sounds)</label>
+                        </div>
+                        <div class="form-field checkbox">
+                            <input type="checkbox" id="invulnerable">
+                            <label for="invulnerable">🛡️ Unverwundbar</label>
+                        </div>
+                        <div class="form-field">
+                            <label>⌨️ Benutzerdefinierte NBT</label>
+                            <textarea id="customNBT" rows="4" placeholder='z.B. "NoAI":1b, "Glowing":1b …'></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label>📦 Syntax-Version</label>
+                            <select id="syntaxVersion">
+                                <option value="1.20.5">1.20.5+ (modern)</option>
+                                <option value="1.19">1.19 – 1.20.4</option>
+                                <option value="1.16">1.16 – 1.18</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Command Panel -->
+        <div class="command-panel">
+            <div class="command-header">
+                <h3>📋 Generierter Befehl</h3>
+                <div class="command-actions">
+                    <button id="generateBtn" class="btn primary">⚡ Generieren</button>
+                    <button id="copyBtn" class="btn secondary">📋 Kopieren</button>
+                </div>
+            </div>
+            <div class="command-output">
+                <textarea id="commandOutput" readonly rows="5" placeholder="/summon …"></textarea>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Minecraft Mob Generator · Vollständig modular · Daten aus JSON</p>
+        </footer>
+    </div>
+
+    <!-- Haupt-Modul (ES6) -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "passive": "data/passive.json",
+  "neutral": "data/neutral.json",
+  "hostile": "data/hostile.json",
+  "boss": "data/boss.json"
+}

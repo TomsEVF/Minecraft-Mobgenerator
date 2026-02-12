@@ -1,0 +1,427 @@
+[
+  {
+    "id": "villager",
+    "name": "Dorfbewohner",
+    "category": "passive",
+    "supportsTrades": true,
+    "defaultName": "Dorfbewohner",
+    "specificFields": [
+      { "name": "profession", "type": "select", "label": "Beruf", "options": ["none","armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] },
+      { "name": "level", "type": "number", "label": "Level", "min": 1, "max": 5, "default": 5 },
+      { "name": "type", "type": "select", "label": "Biom-Typ", "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] },
+      { "name": "experience", "type": "number", "label": "Erfahrung", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "wandering_trader",
+    "name": "Fahrender Händler",
+    "category": "passive",
+    "supportsTrades": true,
+    "defaultName": "Händler",
+    "specificFields": [
+      { "name": "DespawnDelay", "type": "number", "label": "Despawn-Verzögerung", "min": 0, "max": 999999, "default": 24000 }
+    ]
+  },
+  {
+    "id": "axolotl",
+    "name": "Axolotl",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Axolotl",
+    "specificFields": [
+      { "name": "Variant", "type": "select", "label": "Variante", "options": ["lucy","wild","gold","cyan","blue"] },
+      { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 },
+      { "name": "AgeLock", "type": "checkbox", "label": "Alter gesperrt" }
+    ]
+  },
+  {
+    "id": "bee",
+    "name": "Biene",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Biene",
+    "specificFields": [
+      { "name": "Anger", "type": "number", "label": "Wut-Level", "min": 0, "default": 0 },
+      { "name": "CannotEnterHiveTicks", "type": "number", "label": "Stock-Sperre", "min": 0, "default": 0 },
+      { "name": "FlowerPos", "type": "text", "label": "Blumen-Position (JSON)" },
+      { "name": "HasNectar", "type": "checkbox", "label": "Hat Nektar" },
+      { "name": "HasStung", "type": "checkbox", "label": "Hat gestochen" }
+    ]
+  },
+  {
+    "id": "cat",
+    "name": "Katze",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Katze",
+    "specificFields": [
+      { "name": "CollarColor", "type": "number", "label": "Halsbandfarbe (0-15)", "min": 0, "max": 15, "default": 14 },
+      { "name": "variant", "type": "select", "label": "Rasse", "options": ["tabby","black","red","siamese","british","calico","persian","ragdoll","white","jellie","all_black"] },
+      { "name": "Owner", "type": "text", "label": "Besitzer-UUID" },
+      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" }
+    ]
+  },
+  {
+    "id": "chicken",
+    "name": "Huhn",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Huhn",
+    "specificFields": [
+      { "name": "EggLayTime", "type": "number", "label": "Eierlege-Zeit", "min": 0, "max": 24000, "default": 6000 },
+      { "name": "IsChickenJockey", "type": "checkbox", "label": "Huhn-Reiter" }
+    ]
+  },
+  {
+    "id": "cow",
+    "name": "Kuh",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Kuh",
+    "specificFields": []
+  },
+  {
+    "id": "donkey",
+    "name": "Esel",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Esel",
+    "specificFields": [
+      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" },
+      { "name": "Items", "type": "text", "label": "Inventar (NBT-Liste)" },
+      { "name": "Temper", "type": "number", "label": "Temperament", "min": 0, "max": 100, "default": 0 }
+    ]
+  },
+  {
+    "id": "fox",
+    "name": "Fuchs",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Fuchs",
+    "specificFields": [
+      { "name": "FoxType", "type": "select", "label": "Art", "options": ["red","snow"] },
+      { "name": "Crouching", "type": "checkbox", "label": "Hockend" },
+      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" },
+      { "name": "Sleeping", "type": "checkbox", "label": "Schlafend" }
+    ]
+  },
+  {
+    "id": "horse",
+    "name": "Pferd",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Pferd",
+    "specificFields": [
+      { "name": "Variant", "type": "number", "label": "Farbe & Muster (0-1023)", "min": 0, "max": 1023, "default": 0 },
+      { "name": "ArmorItem", "type": "text", "label": "Pferderüstung" },
+      { "name": "SaddleItem", "type": "text", "label": "Sattel" },
+      { "name": "Temper", "type": "number", "label": "Temperament", "min": 0, "max": 100, "default": 0 },
+      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" }
+    ]
+  },
+  {
+    "id": "llama",
+    "name": "Lama",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Lama",
+    "specificFields": [
+      { "name": "CarpetColor", "type": "number", "label": "Teppichfarbe (0-15)", "min": 0, "max": 15, "default": -1 },
+      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" },
+      { "name": "DecorItem", "type": "text", "label": "Deko-Item" },
+      { "name": "Strength", "type": "number", "label": "Stärke (1-5)", "min": 1, "max": 5, "default": 1 },
+      { "name": "Variant", "type": "number", "label": "Farbe (0-3)", "min": 0, "max": 3, "default": 0 }
+    ]
+  },
+  {
+    "id": "mooshroom",
+    "name": "Mooshroom",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Mooshroom",
+    "specificFields": [
+      { "name": "Type", "type": "select", "label": "Art", "options": ["red","brown"] }
+    ]
+  },
+  {
+    "id": "mule",
+    "name": "Maultier",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Maultier",
+    "specificFields": [
+      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" },
+      { "name": "Items", "type": "text", "label": "Inventar (NBT-Liste)" },
+      { "name": "Temper", "type": "number", "label": "Temperament", "min": 0, "max": 100, "default": 0 }
+    ]
+  },
+  {
+    "id": "ocelot",
+    "name": "Ozelot",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Ozelot",
+    "specificFields": [
+      { "name": "Trusting", "type": "checkbox", "label": "Vertrauend" }
+    ]
+  },
+  {
+    "id": "panda",
+    "name": "Panda",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Panda",
+    "specificFields": [
+      { "name": "MainGene", "type": "select", "label": "Hauptgen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] },
+      { "name": "HiddenGene", "type": "select", "label": "Verstecktes Gen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] },
+      { "name": "PandaFlags", "type": "number", "label": "Flags (0-3)", "min": 0, "max": 3, "default": 0 }
+    ]
+  },
+  {
+    "id": "parrot",
+    "name": "Papagei",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Papagei",
+    "specificFields": [
+      { "name": "Variant", "type": "number", "label": "Farbe (0-4)", "min": 0, "max": 4, "default": 0 },
+      { "name": "Owner", "type": "text", "label": "Besitzer-UUID" },
+      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" }
+    ]
+  },
+  {
+    "id": "pig",
+    "name": "Schwein",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schwein",
+    "specificFields": [
+      { "name": "Saddle", "type": "checkbox", "label": "Mit Sattel" },
+      { "name": "BoostTimeMax", "type": "number", "label": "Boost max", "min": 0, "default": 0 },
+      { "name": "CurrentBoostTime", "type": "number", "label": "Boost aktuell", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "rabbit",
+    "name": "Hase",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Hase",
+    "specificFields": [
+      { "name": "RabbitType", "type": "number", "label": "Art (0-5)", "min": 0, "max": 5, "default": 0 },
+      { "name": "MoreCarrotTicks", "type": "number", "label": "Karotten-Ticks", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "sheep",
+    "name": "Schaf",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schaf",
+    "specificFields": [
+      { "name": "Color", "type": "number", "label": "Farbe (0-15)", "min": 0, "max": 15, "default": 0 },
+      { "name": "Sheared", "type": "checkbox", "label": "Geschoren" }
+    ]
+  },
+  {
+    "id": "skeleton_horse",
+    "name": "Skelettpferd",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Skelettpferd",
+    "specificFields": [
+      { "name": "SkeletonTrap", "type": "checkbox", "label": "Skelettfalle" },
+      { "name": "SkeletonTrapTime", "type": "number", "label": "Fallen-Zeit", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "strider",
+    "name": "Schreiter",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schreiter",
+    "specificFields": [
+      { "name": "Saddle", "type": "checkbox", "label": "Mit Sattel" },
+      { "name": "BoostTimeMax", "type": "number", "label": "Boost max", "min": 0, "default": 0 },
+      { "name": "CurrentBoostTime", "type": "number", "label": "Boost aktuell", "min": 0, "default": 0 },
+      { "name": "ShakeTime", "type": "number", "label": "Schüttel-Zeit", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "turtle",
+    "name": "Schildkröte",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schildkröte",
+    "specificFields": [
+      { "name": "HasEgg", "type": "checkbox", "label": "Hat Ei" },
+      { "name": "HomePos", "type": "text", "label": "Heimat-Position (JSON)" },
+      { "name": "TravelPos", "type": "text", "label": "Reise-Position (JSON)" },
+      { "name": "EggLayTime", "type": "number", "label": "Eierlege-Zeit", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "wolf",
+    "name": "Wolf",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Wolf",
+    "specificFields": [
+      { "name": "CollarColor", "type": "number", "label": "Halsbandfarbe (0-15)", "min": 0, "max": 15, "default": 14 },
+      { "name": "Angry", "type": "checkbox", "label": "Wütend" },
+      { "name": "Owner", "type": "text", "label": "Besitzer-UUID" },
+      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" }
+    ]
+  },
+  {
+    "id": "zombie_horse",
+    "name": "Zombiepferd",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Zombiepferd",
+    "specificFields": [
+      { "name": "Temper", "type": "number", "label": "Temperament", "min": 0, "max": 100, "default": 0 }
+    ]
+  },
+  {
+    "id": "allay",
+    "name": "Allay",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Allay",
+    "specificFields": [
+      { "name": "DuplicationCooldown", "type": "number", "label": "Duplikations-Cooldown", "min": 0, "default": 0 },
+      { "name": "CanDuplicate", "type": "checkbox", "label": "Kann duplizieren" }
+    ]
+  },
+  {
+    "id": "armadillo",
+    "name": "Gürteltier",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Gürteltier",
+    "specificFields": [
+      { "name": "State", "type": "number", "label": "Zustand", "min": 0, "max": 2, "default": 0 }
+    ]
+  },
+  {
+    "id": "camel",
+    "name": "Kamel",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Kamel",
+    "specificFields": [
+      { "name": "LastPoseTick", "type": "number", "label": "Letzte Pose", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "frog",
+    "name": "Frosch",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Frosch",
+    "specificFields": [
+      { "name": "variant", "type": "select", "label": "Variante", "options": ["temperate","warm","cold"] }
+    ]
+  },
+  {
+    "id": "glow_squid",
+    "name": "Leuchttintenfisch",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Leuchttintenfisch",
+    "specificFields": [
+      { "name": "DarkTicksRemaining", "type": "number", "label": "Dunkel-Ticks", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "goat",
+    "name": "Ziege",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Ziege",
+    "specificFields": [
+      { "name": "IsScreamingGoat", "type": "checkbox", "label": "Schrei-Ziege" },
+      { "name": "HasLeftHorn", "type": "checkbox", "label": "Hat linkes Horn" },
+      { "name": "HasRightHorn", "type": "checkbox", "label": "Hat rechtes Horn" }
+    ]
+  },
+  {
+    "id": "pufferfish",
+    "name": "Kugelfisch",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Kugelfisch",
+    "specificFields": [
+      { "name": "PuffState", "type": "number", "label": "Aufblas-Stufe", "min": 0, "max": 2, "default": 0 }
+    ]
+  },
+  {
+    "id": "salmon",
+    "name": "Lachs",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Lachs",
+    "specificFields": []
+  },
+  {
+    "id": "sniffer",
+    "name": "Schnüffler",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schnüffler",
+    "specificFields": [
+      { "name": "State", "type": "number", "label": "Zustand", "min": 0, "max": 2, "default": 0 },
+      { "name": "DropSeedAtTick", "type": "number", "label": "Samen fallen lassen (Tick)", "min": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "snow_golem",
+    "name": "Schneegolem",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Schneegolem",
+    "specificFields": [
+      { "name": "Pumpkin", "type": "checkbox", "label": "Mit Kürbis" }
+    ]
+  },
+  {
+    "id": "squid",
+    "name": "Tintenfisch",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Tintenfisch",
+    "specificFields": []
+  },
+  {
+    "id": "tadpole",
+    "name": "Kaulquappe",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Kaulquappe",
+    "specificFields": [
+      { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 }
+    ]
+  },
+  {
+    "id": "trader_llama",
+    "name": "Händler-Lama",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Händler-Lama",
+    "specificFields": [
+      { "name": "CarpetColor", "type": "number", "label": "Teppichfarbe", "min": 0, "max": 15, "default": -1 },
+      { "name": "Strength", "type": "number", "label": "Stärke", "min": 1, "max": 5, "default": 1 }
+    ]
+  },
+  {
+    "id": "tropical_fish",
+    "name": "Tropenfisch",
+    "category": "passive",
+    "supportsTrades": false,
+    "defaultName": "Tropenfisch",
+    "specificFields": [
+      { "name": "Variant", "type": "number", "label": "Variante", "min": 0, "max": 16777215, "default": 0 }
+    ]
+  }
+]

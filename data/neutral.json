@@ -1,0 +1,15 @@
+[
+  {
+    "id": "creeper",
+    "name": "Creeper",
+    "category": "neutral",
+    "supportsTrades": false,
+    "defaultName": "Creeper",
+    "specificFields": [
+      { "name": "charged", "type": "checkbox", "label": "Geladen" },
+      { "name": "ExplosionRadius", "type": "number", "label": "Explosionsradius", "min": 0, "max": 100, "default": 3 },
+      { "name": "Fuse", "type": "number", "label": "Zündzeit", "min": 0, "max": 100, "default": 30 },
+      { "name": "ignited", "type": "checkbox", "label": "Gezündet" }
+    ]
+  }
+]

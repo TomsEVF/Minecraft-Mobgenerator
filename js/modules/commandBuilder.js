@@ -14,8 +14,12 @@ export function buildCommand(mob, data) {
     // ----- Health -----
     nbtParts.push(`Health:${basic.health}f`);
 
-    // ----- Rotation -----
-    nbtParts.push(`Rotation:[${basic.rotation}f,${basic.pitch}f]`);
+    // ----- Rotation NUR, wenn NoAI AKTIV ist -----
+    const noai = advanced.noai || false;
+    if (noai) {
+        nbtParts.push(`Rotation:[${basic.rotation}f,${basic.pitch}f]`);
+        nbtParts.push('NoAI:1b');
+    }
 
     // ----- Attribute -----
     const attrList = [];

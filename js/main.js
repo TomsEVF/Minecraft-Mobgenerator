@@ -15,6 +15,7 @@ window.appState = {
 async function initApp() {
     // 1. Mob-Daten laden
     await loadAllMobs();
+    await loadItems();
 
     // 2. Tabs initialisieren
     initTabs();
@@ -26,6 +27,9 @@ async function initApp() {
         updateUIForMob();
         generateCommand();
     });
+
+    setupNoAIBehavior();
+
 
     // 4. Start-Mob setzen
     const defaultMob = mobDatabase['villager'] ? 'villager' : Object.keys(mobDatabase)[0];
@@ -42,6 +46,44 @@ async function initApp() {
 
     // 7. Live-Update auf allen Inputs
     attachLiveListeners();
+
+
+    // 🧠 NoAI steuert Rotationseingaben (aktiv nur bei NoAI)
+    function setupNoAIBehavior() {
+        const noaiCheckbox = document.getElementById('noai');
+        const rotationInput = document.getElementById('rotation');
+        const pitchInput = document.getElementById('pitch');
+        
+        if (!noaiCheckbox || !rotationInput || !pitchInput) return;
+
+        // Initial: NoAI aus → Felder deaktiviert, keine Klasse
+        rotationInput.disabled = true;
+        pitchInput.disabled = true;
+        rotationInput.classList.remove('rotation-field');
+        pitchInput.classList.remove('rotation-field');
+
+        function toggleRotationFields() {
+            const enabled = noaiCheckbox.checked;
+            
+            // Aktiv/Deaktiviert umschalten
+            rotationInput.disabled = !enabled;
+            pitchInput.disabled = !enabled;
+            
+            // Klasse nur hinzufügen, wenn enabled (schwarzer Hintergrund)
+            if (enabled) {
+                rotationInput.classList.add('rotation-field');
+                pitchInput.classList.add('rotation-field');
+            } else {
+                rotationInput.classList.remove('rotation-field');
+                pitchInput.classList.remove('rotation-field');
+            }
+        }
+
+        noaiCheckbox.addEventListener('change', toggleRotationFields);
+    }
+
+    // Diese Funktion in initApp() aufrufen
+    setupNoAIBehavior();
 
     // 8. Ersten Befehl generieren
     generateCommand();
@@ -133,6 +175,7 @@ function collectAdvancedValues() {
         persistent: document.getElementById('persistent')?.checked || false,
         silent: document.getElementById('silent')?.checked || false,
         invulnerable: document.getElementById('invulnerable')?.checked || false,
+        noai: document.getElementById('noai')?.checked || false,
         customNBT: document.getElementById('customNBT')?.value,
         syntaxVersion: document.getElementById('syntaxVersion')?.value || '1.20.5'
     };

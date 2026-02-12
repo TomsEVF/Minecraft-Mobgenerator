@@ -192,6 +192,19 @@ body {
     padding-bottom: 12px;
 }
 
+/* --- Rotations-Felder (NoAI aktiv) --- */
+.rotation-field {
+    background-color: #F8FAFC !important;   /* Tiefschwarz */
+    color: #000000 !important;
+    border: 1px solid #E3E8EF !important;
+}
+
+.rotation-field:disabled {
+    background-color: #2a2a2a !important;   /* Dunkelgrau wenn deaktiviert */
+    opacity: 1;
+    color: #cccccc;
+}
+
 /* Formulare */
 .form-grid {
     display: grid;
@@ -369,6 +382,18 @@ body {
     font-size: 14px;
     line-height: 1.6;
     resize: vertical;
+}
+
+/* --- Standard deaktivierte Inputs (alle) --- */
+input:disabled,
+select:disabled,
+textarea:disabled {
+    background-color: #2a2a2a;
+    color: #a0a0a0;
+    cursor: not-allowed;
+    opacity: 1;
+    border: 3px solid #6b6b6b;
+    border-style: inset;
 }
 
 /* Footer */

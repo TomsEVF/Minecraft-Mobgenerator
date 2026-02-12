@@ -1,10 +1,13 @@
-// Trade-Manager – komplette Handels-UI inkl. buyB und Legacy-Support
+// Trade-Manager – komplette Handels-UI mit flexiblen Items
+
+import { createItemDatalist, createItemInput, itemList } from './itemDatabase.js';
 
 let globalMaxUses = 999999;
 let globalXP = 2;
 let globalPriceMultiplier = 0.1;
+let datalistCounter = 0;
 
-export function initTradeUI(supportsTrades) {
+export async function initTradeUI(supportsTrades) {
     const container = document.getElementById('trade-container');
     container.innerHTML = '';
 
@@ -13,9 +16,14 @@ export function initTradeUI(supportsTrades) {
         return;
     }
 
+    // Stelle sicher, dass Items geladen sind
+    if (itemList.length === 0) {
+        await import('./itemDatabase.js').then(mod => mod.loadItems());
+    }
+
     container.innerHTML = generateTradeLayout();
     attachTradeListeners();
-    addTrade(false); // Einen Standard-Trade hinzufügen
+    addTrade(false); // Standard-Trade
 }
 
 function generateTradeLayout() {
@@ -49,15 +57,12 @@ function attachTradeListeners() {
     document.getElementById('addTradeBtn')?.addEventListener('click', () => addTrade(false));
     document.getElementById('addTwoItemTradeBtn')?.addEventListener('click', () => addTrade(true));
 
-    // Entfernen-Buttons (Event-Delegation)
     document.getElementById('tradeList')?.addEventListener('click', (e) => {
         if (e.target.classList.contains('remove-trade')) {
             e.target.closest('.trade-item').remove();
-            // Command-Update wird über Live-Listener ausgelöst
         }
     });
 
-    // Globale Werte speichern
     document.getElementById('globalMaxUses')?.addEventListener('input', (e) => globalMaxUses = e.target.value);
     document.getElementById('globalTradeXP')?.addEventListener('input', (e) => globalXP = e.target.value);
     document.getElementById('globalPriceMultiplier')?.addEventListener('input', (e) => globalPriceMultiplier = e.target.value);
@@ -71,6 +76,17 @@ export function addTrade(twoItem = false) {
     tradeItem.className = 'trade-item';
     tradeItem.style = 'background: #f9fafb; padding: 16px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #e2e8f0;';
 
+    // Eindeutige Datalist-IDs für dieses Trade-Item
+    const buyDatalistId = `items-buy-${datalistCounter++}`;
+    const sellDatalistId = `items-sell-${datalistCounter++}`;
+    const buyBDatalistId = twoItem ? `items-buyB-${datalistCounter++}` : null;
+
+    // Datalists erzeugen
+    const buyDatalist = createItemDatalist(buyDatalistId);
+    const sellDatalist = createItemDatalist(sellDatalistId);
+    const buyBDatalist = twoItem ? createItemDatalist(buyBDatalistId) : null;
+
+    // HTML aufbauen
     let html = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
             <span style="font-weight: 600;">🛍️ Trade</span>
@@ -78,17 +94,14 @@ export function addTrade(twoItem = false) {
         </div>
         <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px;">
             <div>
-                <label style="font-size: 12px;">💰 Smaragde</label>
-                <input type="number" class="trade-emerald" value="1" min="1" max="64" style="width:100%;">
+                <label style="font-size: 12px;">💰 Menge (Buy)</label>
+                <input type="number" class="trade-buy-count" value="1" min="1" max="64" style="width:100%;">
             </div>
             <div>
-                <label style="font-size: 12px;">🪄 Item ID</label>
-                <input type="text" class="trade-item" value="minecraft:diamond" style="width:100%;">
+                <label style="font-size: 12px;">🪄 Item (Buy)</label>
+                <input type="text" class="trade-buy-item" value="minecraft:emerald" placeholder="minecraft:item" list="${buyDatalistId}" style="width:100%;">
             </div>
-            <div>
-                <label style="font-size: 12px;">📦 Menge</label>
-                <input type="number" class="trade-count" value="1" min="1" max="64" style="width:100%;">
-            </div>
+            <div></div>
         </div>
     `;
 
@@ -98,12 +111,12 @@ export function addTrade(twoItem = false) {
                 <h5 style="font-size: 14px; margin-bottom: 12px; color: #6b21a8;">➕ Zweites Eingabe-Item (buyB)</h5>
                 <div style="display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px;">
                     <div>
-                        <label style="font-size: 12px;">💰 Item 2 ID</label>
-                        <input type="text" class="trade-itemB" value="minecraft:iron_ingot" style="width:100%;">
+                        <label style="font-size: 12px;">💰 Menge (BuyB)</label>
+                        <input type="number" class="trade-buyB-count" value="1" min="1" max="64" style="width:100%;">
                     </div>
                     <div>
-                        <label style="font-size: 12px;">📦 Menge</label>
-                        <input type="number" class="trade-countB" value="1" min="1" max="64" style="width:100%;">
+                        <label style="font-size: 12px;">🪄 Item (BuyB)</label>
+                        <input type="text" class="trade-buyB-item" value="minecraft:iron_ingot" placeholder="minecraft:item" list="${buyBDatalistId}" style="width:100%;">
                     </div>
                     <div></div>
                 </div>
@@ -112,6 +125,17 @@ export function addTrade(twoItem = false) {
     }
 
     html += `
+        <div style="margin-top: 16px; display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px;">
+            <div>
+                <label style="font-size: 12px;">📦 Menge (Sell)</label>
+                <input type="number" class="trade-sell-count" value="1" min="1" max="64" style="width:100%;">
+            </div>
+            <div>
+                <label style="font-size: 12px;">🪄 Item (Sell)</label>
+                <input type="text" class="trade-sell-item" value="minecraft:diamond" placeholder="minecraft:item" list="${sellDatalistId}" style="width:100%;">
+            </div>
+            <div></div>
+        </div>
         <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;">
             <div>
                 <label style="font-size: 12px;">📊 Max Nutzungen</label>
@@ -129,10 +153,15 @@ export function addTrade(twoItem = false) {
     `;
 
     tradeItem.innerHTML = html;
+
+    // Datalists hinzufügen
+    tradeItem.appendChild(buyDatalist);
+    tradeItem.appendChild(sellDatalist);
+    if (buyBDatalist) tradeItem.appendChild(buyBDatalist);
+
     list.appendChild(tradeItem);
 }
 
-// Sammle alle Trades und formatiere sie als NBT-Recipes
 export function getTradeRecipes() {
     const version = document.getElementById('syntaxVersion')?.value || '1.20.5';
     const useModern = version >= '1.20.5';
@@ -145,32 +174,39 @@ export function getTradeRecipes() {
     const recipes = [];
 
     tradeItems.forEach(item => {
-        const emerald = item.querySelector('.trade-emerald')?.value || '1';
-        const tradeItem = item.querySelector('.trade-item')?.value || 'minecraft:diamond';
-        const count = item.querySelector('.trade-count')?.value || '1';
+        // Buy
+        const buyItem = item.querySelector('.trade-buy-item')?.value || 'minecraft:emerald';
+        const buyCount = item.querySelector('.trade-buy-count')?.value || '1';
+        
+        // Sell
+        const sellItem = item.querySelector('.trade-sell-item')?.value || 'minecraft:diamond';
+        const sellCount = item.querySelector('.trade-sell-count')?.value || '1';
+
+        // Optional buyB
+        let buyB = '';
+        const buyBItem = item.querySelector('.trade-buyB-item')?.value;
+        const buyBCount = item.querySelector('.trade-buyB-count')?.value;
+        if (buyBItem && buyBCount) {
+            if (useModern) {
+                buyB = `,buyB:{id:"${buyBItem}",count:${buyBCount}}`;
+            } else {
+                buyB = `,buyB:{id:"${buyBItem}",Count:${buyBCount}b}`;
+            }
+        }
 
         const maxUses = item.querySelector('.trade-maxUses')?.value || globalMaxUses;
         const xp = item.querySelector('.trade-xp')?.value || globalXP;
         const priceMultiplier = item.querySelector('.trade-priceMultiplier')?.value || globalMultiplier;
 
-        // buy
-        let buy;
-        if (useModern) buy = `{id:"minecraft:emerald",count:${emerald}}`;
-        else buy = `{id:"minecraft:emerald",Count:${emerald}b}`;
-
-        // buyB (optional)
-        let buyB = '';
-        const itemB = item.querySelector('.trade-itemB')?.value;
-        const countB = item.querySelector('.trade-countB')?.value;
-        if (itemB && countB) {
-            if (useModern) buyB = `,buyB:{id:"${itemB}",count:${countB}}`;
-            else buyB = `,buyB:{id:"${itemB}",Count:${countB}b}`;
+        // buy und sell mit korrekter Syntax
+        let buy, sell;
+        if (useModern) {
+            buy = `{id:"${buyItem}",count:${buyCount}}`;
+            sell = `{id:"${sellItem}",count:${sellCount}}`;
+        } else {
+            buy = `{id:"${buyItem}",Count:${buyCount}b}`;
+            sell = `{id:"${sellItem}",Count:${sellCount}b}`;
         }
-
-        // sell
-        let sell;
-        if (useModern) sell = `{id:"${tradeItem}",count:${count}}`;
-        else sell = `{id:"${tradeItem}",Count:${count}b}`;
 
         recipes.push(`{maxUses:${maxUses},buy:${buy}${buyB},sell:${sell},xp:${xp},priceMultiplier:${priceMultiplier}f}`);
     });

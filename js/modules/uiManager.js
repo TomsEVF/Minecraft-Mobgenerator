@@ -1,6 +1,23 @@
-// UI-Manager: Tabs, Mob-Dropdown, dynamische Felder
+// uiManager.js – korrigiert (keine doppelten Deklarationen)
+import { mobDatabase, mobCategories } from './mobDatabase.js';
 
-import { mobDatabase, mobCategories, getMobById } from './mobDatabase.js';
+// Berufe-Übersetzung (Englisch → Deutsch)
+const professionTranslations = {
+    'armorer': 'Panzer Schmied',
+    'butcher': 'Fleischer',
+    'cartographer': 'Kartograf',
+    'cleric': 'Geistlicher',
+    'farmer': 'Bauer',
+    'fisherman': 'Fischer',
+    'fletcher': 'Pfeilmacher',
+    'leatherworker': 'Gerber',
+    'librarian': 'Bibliothekar',
+    'mason': 'Steinmetz',
+    'nitwit': 'Nichtsnutz',
+    'shepherd': 'Schäfer',
+    'toolsmith': 'Werkzeugschmied',
+    'weaponsmith': 'Waffenschmied'
+};
 
 export function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -60,13 +77,13 @@ export function renderSpecificFields(mob) {
     const fieldsHtml = mob.specificFields.map(field => renderField(field)).join('');
     container.innerHTML = `<div class="form-grid">${fieldsHtml}</div>`;
 
-    // Aktivierungszustand anwenden
     const enabled = document.getElementById('enableBehavior')?.checked || false;
     container.querySelectorAll('.mob-specific').forEach(el => {
         el.disabled = !enabled;
     });
 }
 
+// EINMALIGE Funktionsdeklaration (kein let/const davor)
 function renderField(field) {
     const { name, type, label, min, max, step, default: defaultValue, options } = field;
 
@@ -78,81 +95,6 @@ function renderField(field) {
             </div>
         `;
     } else if (type === 'select' && options) {
-        const opts = options.map(opt => `<option value="${opt}" ${defaultValue === opt ? 'selected' : ''}>${opt}</option>`).join('');
-        return `
-            <div class="form-field">
-                <label>${label}</label>
-                <select id="${name}" class="mob-specific">
-                    <option value="none">Keine</option>
-                    ${opts}
-                </select>
-            </div>
-        `;
-    } else {
-        const minAttr = min !== undefined ? `min="${min}"` : '';
-        const maxAttr = max !== undefined ? `max="${max}"` : '';
-        const stepAttr = step !== undefined ? `step="${step}"` : '';
-        const valueAttr = defaultValue !== undefined ? `value="${defaultValue}"` : 'value="0"';
-        return `
-            <div class="form-field">
-                <label>${label}</label>
-                <input type="number" id="${name}" class="mob-specific" ${minAttr} ${maxAttr} ${stepAttr} ${valueAttr}>
-            </div>
-        `;
-    }
-}
-
-export function getSpecificFieldValues() {
-    const enabled = document.getElementById('enableBehavior')?.checked || false;
-    if (!enabled) return {};
-
-    const values = {};
-    document.querySelectorAll('#mob-specific-options .mob-specific').forEach(input => {
-        const id = input.id;
-        if (!id) return;
-        if (input.type === 'checkbox') {
-            values[id] = input.checked ? '1b' : '0b';
-        } else if (input.type === 'number') {
-            values[id] = input.value; // als String, wird später als Zahl interpretiert
-        } else if (input.tagName === 'SELECT') {
-            values[id] = input.value !== 'none' ? `"${input.value}"` : null;
-        }
-    });
-    return values;
-}
-
-// uiManager.js (Auszug – nur die renderField-Funktion wird angepasst)
-
-// Berufe-Übersetzung (Englisch → Deutsch)
-const professionTranslations = {
-    'armorer': 'Panzer Schmied',
-    'butcher': 'Fleischer',
-    'cartographer': 'Kartograf',
-    'cleric': 'Geistlicher',
-    'farmer': 'Bauer',
-    'fisherman': 'Fischer',
-    'fletcher': 'Pfeilmacher',
-    'leatherworker': 'Gerber',
-    'librarian': 'Bibliothekar',
-    'mason': 'Steinmetz',
-    'nitwit': 'Nichtsnutz',
-    'shepherd': 'Schäfer',
-    'toolsmith': 'Werkzeugschmied',
-    'weaponsmith': 'Waffenschmied'
-};
-
-function renderField(field) {
-    const { name, type, label, min, max, step, default: defaultValue, options } = field;
-
-    if (type === 'checkbox') {
-        return `
-            <div class="form-field checkbox">
-                <input type="checkbox" id="${name}" class="mob-specific" ${defaultValue ? 'checked' : ''}>
-                <label for="${name}">${label}</label>
-            </div>
-        `;
-    } else if (type === 'select' && options) {
-        // Übersetze die Optionen, falls es sich um Berufe handelt (Name === 'Profession')
         let optionList = options;
         if (name === 'Profession') {
             optionList = options.map(opt => ({
@@ -185,4 +127,23 @@ function renderField(field) {
             </div>
         `;
     }
+}
+
+export function getSpecificFieldValues() {
+    const enabled = document.getElementById('enableBehavior')?.checked || false;
+    if (!enabled) return {};
+
+    const values = {};
+    document.querySelectorAll('#mob-specific-options .mob-specific').forEach(input => {
+        const id = input.id;
+        if (!id) return;
+        if (input.type === 'checkbox') {
+            values[id] = input.checked ? '1b' : '0b';
+        } else if (input.type === 'number') {
+            values[id] = input.value;
+        } else if (input.tagName === 'SELECT') {
+            values[id] = input.value !== 'none' ? `"${input.value}"` : null;
+        }
+    });
+    return values;
 }

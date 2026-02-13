@@ -3,7 +3,7 @@
 Ein moderner, modularer Web-Generator für `/summon`-Befehle in Minecraft (1.21.1).  
 Wähle einen Mob aus, passe unzählige NBT-Eigenschaften an – von Ausrüstung über Attribute bis hin zu komplexen Handelsangeboten – und erhalte sofort einen einsatzbereiten Befehl.
 
-> 🎮 **Live-Demo**: [[](https://tomsevf.github.io/Minecraft-Mobgenerator/)]  
+> 🎮 **Live-Demo**: [[https://tomsevf.github.io/Minecraft-Mobgenerator/](https://tomsevf.github.io/Minecraft-Mobgenerator/)]  
 > 📦 **Version**: 1.0.0 – kompatibel mit Minecraft **1.21.1** (und älter über Syntax‑Option)
 
 ---
@@ -67,7 +67,7 @@ mob-generator/
 
 1. **Repository klonen**  
    ```bash
-   git clone https://github.com/deinname/minecraft-mob-generator.git
+   git clone https://github.com/tomsevf.github.io/Minecraft-Mobgenerator
    cd minecraft-mob-generator
    ```
 

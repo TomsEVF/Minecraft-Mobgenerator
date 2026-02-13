@@ -1,5 +1,5 @@
-// main.js – vollständig, mit Event-Delegation
-import { loadAllMobs, setCurrentMob, mobDatabase } from './modules/mobDatabase.js';
+// main.js – alle Abhängigkeiten korrekt importiert
+import { loadAllMobs, setCurrentMob, getCurrentMob, mobDatabase } from './modules/mobDatabase.js';
 import { loadItems } from './modules/itemDatabase.js';
 import { initTabs, populateMobDropdown, renderSpecificFields, getSpecificFieldValues } from './modules/uiManager.js';
 import { initTradeUI, getTradeRecipes } from './modules/tradeManager.js';
@@ -9,10 +9,15 @@ import { setupCopyButton } from './modules/copyHelper.js';
 window.appState = { currentMobId: 'villager' };
 
 async function initApp() {
+    console.log('📦 Lade Daten...');
+
     initTabs();
+
+    // Daten laden
     await loadAllMobs();
     await loadItems();
 
+    // Dropdown befüllen (nachdem Mobs geladen)
     populateMobDropdown((mobId) => {
         window.appState.currentMobId = mobId;
         setCurrentMob(mobId);
@@ -20,27 +25,34 @@ async function initApp() {
         generateCommand();
     });
 
+    // Standard-Mob setzen (falls vorhanden)
     const defaultMob = mobDatabase['villager'] ? 'villager' : Object.keys(mobDatabase)[0];
     if (defaultMob) {
         window.appState.currentMobId = defaultMob;
         setCurrentMob(defaultMob);
-        document.getElementById('mob-select').value = defaultMob;
+        const select = document.getElementById('mob-select');
+        if (select) select.value = defaultMob;
         updateUIForMob();
     }
 
-    document.getElementById('generateBtn').addEventListener('click', generateCommand);
+    // Buttons
+    document.getElementById('generateBtn')?.addEventListener('click', generateCommand);
     setupCopyButton('copyBtn', 'commandOutput');
 
-    // Live-Generierung bei allen Eingaben
-    document.querySelector('.main-layout').addEventListener('input', generateCommand);
-    document.querySelector('.main-layout').addEventListener('change', generateCommand);
+    // Live-Generierung bei allen Eingaben (Event-Delegation)
+    document.querySelector('.main-layout')?.addEventListener('input', generateCommand);
+    document.querySelector('.main-layout')?.addEventListener('change', generateCommand);
 
+    // UI-Komponenten initialisieren
     setupNoAIBehavior();
     setupTabEnabling();
     setupBehaviorToggle();
     setupColorPickerSync();
 
+    // Ersten Befehl generieren
     generateCommand();
+
+    console.log('✅ App initialisiert');
 }
 
 // ------------------------------------------------------------
@@ -50,23 +62,31 @@ function setupTabEnabling() {
     setupToggle('enableEquipment', '#tab-equipment input', true);
     setupToggle('enableAdvanced', '#advanced-grid input, #advanced-grid select, #advanced-grid textarea');
 }
+
 function setupToggle(id, selector, defaultChecked = false) {
     const cb = document.getElementById(id);
     if (!cb) return;
     if (defaultChecked) cb.checked = true;
-    const toggle = () => {
-        document.querySelectorAll(selector).forEach(el => el.disabled = !cb.checked);
-    };
-    cb.addEventListener('change', toggle);
-    toggle();
+
+    function toggleFields() {
+        const enabled = cb.checked;
+        document.querySelectorAll(selector).forEach(el => el.disabled = !enabled);
+    }
+
+    cb.addEventListener('change', toggleFields);
+    toggleFields();
 }
+
 function setupBehaviorToggle() {
     const cb = document.getElementById('enableBehavior');
     if (!cb) return;
-    const toggle = () => {
-        document.querySelectorAll('#mob-specific-options .mob-specific').forEach(el => el.disabled = !cb.checked);
-    };
-    cb.addEventListener('change', toggle);
+
+    function toggleBehaviorFields() {
+        const enabled = cb.checked;
+        document.querySelectorAll('#mob-specific-options .mob-specific').forEach(el => el.disabled = !enabled);
+    }
+
+    cb.addEventListener('change', toggleBehaviorFields);
 }
 
 // NoAI + Rotation
@@ -75,7 +95,8 @@ function setupNoAIBehavior() {
     const rot = document.getElementById('rotation');
     const pitch = document.getElementById('pitch');
     if (!noai || !rot || !pitch) return;
-    const toggle = () => {
+
+    function toggleRotationFields() {
         const enabled = noai.checked;
         rot.disabled = !enabled;
         pitch.disabled = !enabled;
@@ -86,9 +107,10 @@ function setupNoAIBehavior() {
             rot.classList.remove('rotation-field');
             pitch.classList.remove('rotation-field');
         }
-    };
-    noai.addEventListener('change', toggle);
-    toggle();
+    }
+
+    noai.addEventListener('change', toggleRotationFields);
+    toggleRotationFields();
 }
 
 // Farbsync
@@ -96,6 +118,7 @@ function setupColorPickerSync() {
     const picker = document.getElementById('nameColor');
     const hex = document.getElementById('nameColorHex');
     if (!picker || !hex) return;
+
     picker.addEventListener('input', () => hex.value = picker.value);
     hex.addEventListener('input', () => {
         if (/^#[0-9A-F]{6}$/i.test(hex.value)) picker.value = hex.value;
@@ -107,6 +130,7 @@ function setupColorPickerSync() {
 function updateUIForMob() {
     const mob = mobDatabase[window.appState.currentMobId];
     if (!mob) return;
+
     renderSpecificFields(mob);
     initTradeUI(mob.supportsTrades || false);
     setupNoAIBehavior(); // NoAI-Zustand neu setzen
@@ -122,6 +146,7 @@ function collectBasicValues() {
         pitch: parseFloat(document.getElementById('pitch')?.value) || 0
     };
 }
+
 function collectAttributeValues() {
     if (!document.getElementById('enableAttributes')?.checked) return {};
     return {
@@ -132,6 +157,7 @@ function collectAttributeValues() {
         jumpStrength: document.getElementById('jumpStrength')?.value
     };
 }
+
 function collectEquipmentValues() {
     if (!document.getElementById('enableEquipment')?.checked) return {};
     return {
@@ -144,6 +170,7 @@ function collectEquipmentValues() {
         dropChance: document.getElementById('handDropChance')?.value || '0.085'
     };
 }
+
 function collectAdvancedValues() {
     const enabled = document.getElementById('enableAdvanced')?.checked || false;
     return {
@@ -159,6 +186,7 @@ function collectAdvancedValues() {
 function generateCommand() {
     const mob = mobDatabase[window.appState.currentMobId];
     if (!mob) return;
+
     const basic = collectBasicValues();
     const attributes = collectAttributeValues();
     const equipment = collectEquipmentValues();

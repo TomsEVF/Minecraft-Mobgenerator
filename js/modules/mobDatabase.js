@@ -1,6 +1,8 @@
-// mobDatabase.js – mit Fallback
+// mobDatabase.js – mit Fallback und korrekter Deklaration von currentMobId
 export let mobDatabase = {};
 export let mobCategories = {};
+
+let currentMobId = 'villager'; // <-- diese Zeile war möglicherweise gelöscht
 
 const MOB_REGISTER_URL = 'data/mobs.json';
 
@@ -49,7 +51,6 @@ export async function loadAllMobs() {
         console.log(`✅ ${Object.keys(mobDatabase).length} Mobs geladen.`);
     } catch (error) {
         console.error('❌ Fehler beim Laden – verwende Fallback-Mobs:', error);
-        // Fallback initialisieren
         mobDatabase = { ...FALLBACK_MOBS };
         mobCategories = {
             passive: ['villager'],

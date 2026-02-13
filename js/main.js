@@ -1,26 +1,18 @@
-// Hauptmodul – koordiniert Daten laden, UI bauen, Event-Listener
-
-import { loadAllMobs, getCurrentMob, setCurrentMob, mobDatabase } from './modules/mobDatabase.js';
+// main.js – vollständig, mit Event-Delegation
+import { loadAllMobs, setCurrentMob, mobDatabase } from './modules/mobDatabase.js';
+import { loadItems } from './modules/itemDatabase.js';
 import { initTabs, populateMobDropdown, renderSpecificFields, getSpecificFieldValues } from './modules/uiManager.js';
 import { initTradeUI, getTradeRecipes } from './modules/tradeManager.js';
 import { buildCommand } from './modules/commandBuilder.js';
 import { setupCopyButton } from './modules/copyHelper.js';
 
-// Globale App-Zustandsvariable (für einfachen Zugriff in anderen Modulen)
-window.appState = {
-    currentMobId: 'villager'
-};
+window.appState = { currentMobId: 'villager' };
 
-// Initialisierung
 async function initApp() {
-    // 1. Mob-Daten laden
+    initTabs();
     await loadAllMobs();
     await loadItems();
 
-    // 2. Tabs initialisieren
-    initTabs();
-
-    // 3. Dropdown füllen
     populateMobDropdown((mobId) => {
         window.appState.currentMobId = mobId;
         setCurrentMob(mobId);
@@ -28,116 +20,99 @@ async function initApp() {
         generateCommand();
     });
 
-    setupNoAIBehavior();
-
-
-    // 4. Start-Mob setzen
     const defaultMob = mobDatabase['villager'] ? 'villager' : Object.keys(mobDatabase)[0];
-    window.appState.currentMobId = defaultMob;
-    setCurrentMob(defaultMob);
-    document.getElementById('mob-select').value = defaultMob;
+    if (defaultMob) {
+        window.appState.currentMobId = defaultMob;
+        setCurrentMob(defaultMob);
+        document.getElementById('mob-select').value = defaultMob;
+        updateUIForMob();
+    }
 
-    // 5. UI für den Start-Mob rendern
-    updateUIForMob();
-
-    // 6. Buttons
     document.getElementById('generateBtn').addEventListener('click', generateCommand);
     setupCopyButton('copyBtn', 'commandOutput');
 
-    // 7. Live-Update auf allen Inputs
-    attachLiveListeners();
+    // Live-Generierung bei allen Eingaben
+    document.querySelector('.main-layout').addEventListener('input', generateCommand);
+    document.querySelector('.main-layout').addEventListener('change', generateCommand);
 
-
-    // 🧠 NoAI steuert Rotationseingaben (aktiv nur bei NoAI)
-    function setupNoAIBehavior() {
-        const noaiCheckbox = document.getElementById('noai');
-        const rotationInput = document.getElementById('rotation');
-        const pitchInput = document.getElementById('pitch');
-        
-        if (!noaiCheckbox || !rotationInput || !pitchInput) return;
-
-        // Initial: NoAI aus → Felder deaktiviert, keine Klasse
-        rotationInput.disabled = true;
-        pitchInput.disabled = true;
-        rotationInput.classList.remove('rotation-field');
-        pitchInput.classList.remove('rotation-field');
-
-        function toggleRotationFields() {
-            const enabled = noaiCheckbox.checked;
-            
-            // Aktiv/Deaktiviert umschalten
-            rotationInput.disabled = !enabled;
-            pitchInput.disabled = !enabled;
-            
-            // Klasse nur hinzufügen, wenn enabled (schwarzer Hintergrund)
-            if (enabled) {
-                rotationInput.classList.add('rotation-field');
-                pitchInput.classList.add('rotation-field');
-            } else {
-                rotationInput.classList.remove('rotation-field');
-                pitchInput.classList.remove('rotation-field');
-            }
-        }
-
-        noaiCheckbox.addEventListener('change', toggleRotationFields);
-    }
-
-    // Diese Funktion in initApp() aufrufen
     setupNoAIBehavior();
+    setupTabEnabling();
+    setupBehaviorToggle();
+    setupColorPickerSync();
 
-    // 8. Ersten Befehl generieren
     generateCommand();
 }
 
-// Aktualisiert Behavior- und Trade-Tab basierend auf aktuellem Mob
+// ------------------------------------------------------------
+// Aktivierungs-Checkboxen
+function setupTabEnabling() {
+    setupToggle('enableAttributes', '#tab-attributes input, #tab-attributes select');
+    setupToggle('enableEquipment', '#tab-equipment input', true);
+    setupToggle('enableAdvanced', '#advanced-grid input, #advanced-grid select, #advanced-grid textarea');
+}
+function setupToggle(id, selector, defaultChecked = false) {
+    const cb = document.getElementById(id);
+    if (!cb) return;
+    if (defaultChecked) cb.checked = true;
+    const toggle = () => {
+        document.querySelectorAll(selector).forEach(el => el.disabled = !cb.checked);
+    };
+    cb.addEventListener('change', toggle);
+    toggle();
+}
+function setupBehaviorToggle() {
+    const cb = document.getElementById('enableBehavior');
+    if (!cb) return;
+    const toggle = () => {
+        document.querySelectorAll('#mob-specific-options .mob-specific').forEach(el => el.disabled = !cb.checked);
+    };
+    cb.addEventListener('change', toggle);
+}
+
+// NoAI + Rotation
+function setupNoAIBehavior() {
+    const noai = document.getElementById('noai');
+    const rot = document.getElementById('rotation');
+    const pitch = document.getElementById('pitch');
+    if (!noai || !rot || !pitch) return;
+    const toggle = () => {
+        const enabled = noai.checked;
+        rot.disabled = !enabled;
+        pitch.disabled = !enabled;
+        if (enabled) {
+            rot.classList.add('rotation-field');
+            pitch.classList.add('rotation-field');
+        } else {
+            rot.classList.remove('rotation-field');
+            pitch.classList.remove('rotation-field');
+        }
+    };
+    noai.addEventListener('change', toggle);
+    toggle();
+}
+
+// Farbsync
+function setupColorPickerSync() {
+    const picker = document.getElementById('nameColor');
+    const hex = document.getElementById('nameColorHex');
+    if (!picker || !hex) return;
+    picker.addEventListener('input', () => hex.value = picker.value);
+    hex.addEventListener('input', () => {
+        if (/^#[0-9A-F]{6}$/i.test(hex.value)) picker.value = hex.value;
+    });
+    hex.value = picker.value;
+}
+
+// UI bei Mob-Wechsel
 function updateUIForMob() {
     const mob = mobDatabase[window.appState.currentMobId];
     if (!mob) return;
-
-    // Spezifische Felder rendern
     renderSpecificFields(mob);
-
-    // Trade-UI rendern, falls unterstützt
     initTradeUI(mob.supportsTrades || false);
+    setupNoAIBehavior(); // NoAI-Zustand neu setzen
 }
 
-// Live-Listener für alle Eingabefelder
-function attachLiveListeners() {
-    const inputs = document.querySelectorAll('input, select, textarea');
-    inputs.forEach(el => {
-        el.removeEventListener('input', generateCommand);
-        el.removeEventListener('change', generateCommand);
-        el.addEventListener('input', generateCommand);
-        el.addEventListener('change', generateCommand);
-    });
-}
-
-// Command generieren (Wrapper)
-function generateCommand() {
-    const mob = mobDatabase[window.appState.currentMobId];
-    if (!mob) return;
-
-    // Sammle Werte aus allen Tabs
-    const basic = collectBasicValues();
-    const attributes = collectAttributeValues();
-    const equipment = collectEquipmentValues();
-    const advanced = collectAdvancedValues();
-    const specific = getSpecificFieldValues();
-    const trades = mob.supportsTrades ? getTradeRecipes() : [];
-
-    const command = buildCommand(mob, {
-        basic,
-        attributes,
-        equipment,
-        advanced,
-        specific,
-        trades
-    });
-
-    document.getElementById('commandOutput').value = command;
-}
-
-// Hilfsfunktionen zum Einsammeln der UI-Werte
+// Werte sammeln
 function collectBasicValues() {
     return {
         name: document.getElementById('name')?.value || '',
@@ -147,8 +122,8 @@ function collectBasicValues() {
         pitch: parseFloat(document.getElementById('pitch')?.value) || 0
     };
 }
-
 function collectAttributeValues() {
+    if (!document.getElementById('enableAttributes')?.checked) return {};
     return {
         speed: document.getElementById('speed')?.value,
         armor: document.getElementById('armor')?.value,
@@ -157,8 +132,8 @@ function collectAttributeValues() {
         jumpStrength: document.getElementById('jumpStrength')?.value
     };
 }
-
 function collectEquipmentValues() {
+    if (!document.getElementById('enableEquipment')?.checked) return {};
     return {
         helmet: document.getElementById('helmet')?.value,
         chestplate: document.getElementById('chestplate')?.value,
@@ -166,19 +141,33 @@ function collectEquipmentValues() {
         boots: document.getElementById('boots')?.value,
         mainhand: document.getElementById('mainhand')?.value,
         offhand: document.getElementById('offhand')?.value,
-        dropChance: parseFloat(document.getElementById('handDropChance')?.value) || 0.085
+        dropChance: document.getElementById('handDropChance')?.value || '0.085'
+    };
+}
+function collectAdvancedValues() {
+    const enabled = document.getElementById('enableAdvanced')?.checked || false;
+    return {
+        persistent: enabled && document.getElementById('persistent')?.checked,
+        silent: enabled && document.getElementById('silent')?.checked,
+        invulnerable: enabled && document.getElementById('invulnerable')?.checked,
+        noai: enabled && document.getElementById('noai')?.checked,
+        customNBT: enabled ? document.getElementById('customNBT')?.value : ''
     };
 }
 
-function collectAdvancedValues() {
-    return {
-        persistent: document.getElementById('persistent')?.checked || false,
-        silent: document.getElementById('silent')?.checked || false,
-        invulnerable: document.getElementById('invulnerable')?.checked || false,
-        noai: document.getElementById('noai')?.checked || false,
-        customNBT: document.getElementById('customNBT')?.value,
-        syntaxVersion: document.getElementById('syntaxVersion')?.value || '1.20.5'
-    };
+// Befehl generieren
+function generateCommand() {
+    const mob = mobDatabase[window.appState.currentMobId];
+    if (!mob) return;
+    const basic = collectBasicValues();
+    const attributes = collectAttributeValues();
+    const equipment = collectEquipmentValues();
+    const advanced = collectAdvancedValues();
+    const specific = getSpecificFieldValues();
+    const trades = mob.supportsTrades ? getTradeRecipes() : [];
+
+    const command = buildCommand(mob, { basic, attributes, equipment, advanced, specific, trades });
+    document.getElementById('commandOutput').value = command;
 }
 
 // Start

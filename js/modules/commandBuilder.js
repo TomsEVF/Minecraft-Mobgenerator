@@ -1,70 +1,84 @@
-// Command-Builder – erzeugt aus den gesammelten Werten den /summon-Befehl
-
+// commandBuilder.js – 1.21.1 NBT, immer gültiger Beruf & Level ≥2
 export function buildCommand(mob, data) {
     const { basic, attributes, equipment, advanced, specific, trades } = data;
-    const useModern = advanced.syntaxVersion >= '1.20.5';
+    const parts = [];
 
-    const nbtParts = [];
-
-    // ----- Name -----
-    if (basic.name) {
-        nbtParts.push(`CustomName:'{"text":"${basic.name}","color":"${basic.nameColor}"}'`);
+    // Name
+    if (basic.name && basic.name.trim() !== '') {
+        parts.push(`CustomName:'{"text":"${basic.name}","color":"${basic.nameColor}"}'`);
     }
 
-    // ----- Health -----
-    nbtParts.push(`Health:${basic.health}f`);
+    // Health
+    if (basic.health !== 20) parts.push(`Health:${basic.health}f`);
 
-    // ----- Rotation NUR, wenn NoAI AKTIV ist -----
-    const noai = advanced.noai || false;
-    if (noai) {
-        nbtParts.push(`Rotation:[${basic.rotation}f,${basic.pitch}f]`);
-        nbtParts.push('NoAI:1b');
+    // NoAI und Rotation (nur wenn NoAI aktiv)
+    if (advanced.noai) {
+        parts.push(`NoAI:1b`);
+        const rot = isNaN(basic.rotation) ? 0 : basic.rotation;
+        const pitch = isNaN(basic.pitch) ? 0 : basic.pitch;
+        parts.push(`Rotation:[${rot}f,${pitch}f]`);
     }
 
-    // ----- Attribute -----
-    const attrList = [];
-    if (attributes.speed) attrList.push(`{Name:"generic.movement_speed",Base:${attributes.speed}f}`);
-    if (attributes.armor) attrList.push(`{Name:"generic.armor",Base:${attributes.armor}f}`);
-    if (attributes.attackDamage) attrList.push(`{Name:"generic.attack_damage",Base:${attributes.attackDamage}f}`);
-    if (attributes.followRange) attrList.push(`{Name:"generic.follow_range",Base:${attributes.followRange}f}`);
-    if (attributes.jumpStrength) attrList.push(`{Name:"horse.jump_strength",Base:${attributes.jumpStrength}f}`);
-    if (attrList.length) nbtParts.push(`Attributes:[${attrList.join(',')}]`);
+    // Invulnerable, Persistent, Silent
+    if (advanced.invulnerable) parts.push('Invulnerable:1b');
+    if (advanced.persistent) parts.push('PersistenceRequired:1b');
+    if (advanced.silent) parts.push('Silent:1b');
 
-    // ----- Ausrüstung -----
-    const armorItems = [];
-    if (equipment.helmet) armorItems.push(`{id:"${equipment.helmet}",Count:1b}`);
-    if (equipment.chestplate) armorItems.push(`{id:"${equipment.chestplate}",Count:1b}`);
-    if (equipment.leggings) armorItems.push(`{id:"${equipment.leggings}",Count:1b}`);
-    if (equipment.boots) armorItems.push(`{id:"${equipment.boots}",Count:1b}`);
-    if (armorItems.length) nbtParts.push(`ArmorItems:[${armorItems.join(',')}]`);
+    // Attribute
+    const attr = [];
+    if (attributes.speed) attr.push(`{Name:"generic.movement_speed",Base:${attributes.speed}f}`);
+    if (attributes.armor) attr.push(`{Name:"generic.armor",Base:${attributes.armor}f}`);
+    if (attributes.attackDamage) attr.push(`{Name:"generic.attack_damage",Base:${attributes.attackDamage}f}`);
+    if (attributes.followRange) attr.push(`{Name:"generic.follow_range",Base:${attributes.followRange}f}`);
+    if (attributes.jumpStrength) attr.push(`{Name:"horse.jump_strength",Base:${attributes.jumpStrength}f}`);
+    if (attr.length) parts.push(`Attributes:[${attr.join(',')}]`);
 
-    const handItems = [];
-    if (equipment.mainhand) handItems.push(`{id:"${equipment.mainhand}",Count:1b}`);
-    if (equipment.offhand) handItems.push(`{id:"${equipment.offhand}",Count:1b}`);
-    if (handItems.length) nbtParts.push(`HandItems:[${handItems.join(',')}]`);
+    // Ausrüstung
+    const armor = [equipment.boots, equipment.leggings, equipment.chestplate, equipment.helmet];
+    const armorItems = armor.map(item => item && item.trim() ? `{id:"${item}",Count:1b}` : '{}');
+    if (armorItems.some(v => v !== '{}')) parts.push(`ArmorItems:[${armorItems.join(',')}]`);
 
-    // ----- Advanced Flags -----
-    if (advanced.persistent) nbtParts.push('PersistenceRequired:1b');
-    if (advanced.silent) nbtParts.push('Silent:1b');
-    if (advanced.invulnerable) nbtParts.push('Invulnerable:1b');
+    const hand = [equipment.mainhand, equipment.offhand];
+    const handItems = hand.map(item => item && item.trim() ? `{id:"${item}",Count:1b}` : '{}');
+    if (handItems.some(v => v !== '{}')) parts.push(`HandItems:[${handItems.join(',')}]`);
 
-    // ----- Mob-spezifische Felder -----
-    Object.entries(specific).forEach(([key, value]) => {
-        if (value !== null && value !== '') {
-            nbtParts.push(`${key}:${value}`);
+    const drop = parseFloat(equipment.dropChance);
+    if (!isNaN(drop) && drop !== 0.085) {
+        parts.push(`ArmorDropChances:[${Array(4).fill(drop).join('f,')}f]`);
+        parts.push(`HandDropChances:[${Array(2).fill(drop).join('f,')}f]`);
+    }
+
+    // 🏆 VillagerData – IMMER mit gültigem Beruf und Level ≥2
+    if (mob.id === 'villager' || mob.id === 'zombie_villager') {
+        // Beruf: falls nicht gesetzt (Behavior-Tab inaktiv) oder ungültig, nehmen wir 'mason'
+        let profession = specific.Profession ? specific.Profession.replace(/"/g, '') : 'mason';
+        // Entferne 'none' falls doch irgendwoher kommend
+        if (profession === 'none') profession = 'mason';
+        
+        // Level: falls nicht gesetzt, nimm 2; falls kleiner 2, setze auf 2
+        let level = specific.Level ? parseInt(specific.Level) : 2;
+        if (level < 2) level = 2;
+        
+        const type = specific.Type ? specific.Type.replace(/"/g, '') : 'plains';
+
+        parts.push(`VillagerData:{level:${level},profession:"minecraft:${profession}",type:"minecraft:${type}"}`);
+    }
+
+    // Andere spezifische Felder (außer Profession, Level, Type)
+    Object.entries(specific).forEach(([key, val]) => {
+        if (key !== 'Profession' && key !== 'Level' && key !== 'Type' && val && val !== '0' && val !== '0b') {
+            parts.push(`${key}:${val}`);
         }
     });
 
-    // ----- Trades -----
-    if (trades.length > 0) {
-        nbtParts.push(`Offers:{Recipes:[${trades.join(',')}]}`);
-    }
+    // Trades
+    if (trades.length) parts.push(`Offers:{Recipes:[${trades.join(',')}]}`);
 
-    // ----- Custom NBT -----
-    if (advanced.customNBT) {
-        nbtParts.push(advanced.customNBT);
-    }
+    // Custom NBT
+    if (advanced.customNBT?.trim()) parts.push(advanced.customNBT);
 
-    const nbtString = nbtParts.join(',');
-    return `/summon ${mob.id} ~ ~1 ~ {${nbtString}}`;
+    const nbt = parts.join(',');
+    const command = `/summon ${mob.id} ~ ~ ~ {${nbt}}`;
+    console.log('🔍 GENERATED COMMAND:', command);
+    return command;
 }

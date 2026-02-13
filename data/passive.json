@@ -6,10 +6,33 @@
     "supportsTrades": true,
     "defaultName": "Dorfbewohner",
     "specificFields": [
-      { "name": "profession", "type": "select", "label": "Beruf", "options": ["none","armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] },
-      { "name": "level", "type": "number", "label": "Level", "min": 1, "max": 5, "default": 5 },
-      { "name": "type", "type": "select", "label": "Biom-Typ", "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] },
-      { "name": "experience", "type": "number", "label": "Erfahrung", "min": 0, "default": 0 }
+      { 
+        "name": "Profession", 
+        "type": "select", 
+        "label": "Beruf", 
+        "options": ["armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] 
+      },
+      { 
+        "name": "Level", 
+        "type": "number", 
+        "label": "Level", 
+        "min": 2, 
+        "max": 5, 
+        "default": 5 
+      },
+      { 
+        "name": "Type", 
+        "type": "select", 
+        "label": "Biom-Typ", 
+        "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] 
+      },
+      { 
+        "name": "Experience", 
+        "type": "number", 
+        "label": "Erfahrung", 
+        "min": 0, 
+        "default": 0 
+      }
     ]
   },
   {
@@ -32,20 +55,6 @@
       { "name": "Variant", "type": "select", "label": "Variante", "options": ["lucy","wild","gold","cyan","blue"] },
       { "name": "Age", "type": "number", "label": "Alter", "min": -24000, "max": 0, "default": 0 },
       { "name": "AgeLock", "type": "checkbox", "label": "Alter gesperrt" }
-    ]
-  },
-  {
-    "id": "bee",
-    "name": "Biene",
-    "category": "passive",
-    "supportsTrades": false,
-    "defaultName": "Biene",
-    "specificFields": [
-      { "name": "Anger", "type": "number", "label": "Wut-Level", "min": 0, "default": 0 },
-      { "name": "CannotEnterHiveTicks", "type": "number", "label": "Stock-Sperre", "min": 0, "default": 0 },
-      { "name": "FlowerPos", "type": "text", "label": "Blumen-Position (JSON)" },
-      { "name": "HasNectar", "type": "checkbox", "label": "Hat Nektar" },
-      { "name": "HasStung", "type": "checkbox", "label": "Hat gestochen" }
     ]
   },
   {
@@ -93,19 +102,6 @@
     ]
   },
   {
-    "id": "fox",
-    "name": "Fuchs",
-    "category": "passive",
-    "supportsTrades": false,
-    "defaultName": "Fuchs",
-    "specificFields": [
-      { "name": "FoxType", "type": "select", "label": "Art", "options": ["red","snow"] },
-      { "name": "Crouching", "type": "checkbox", "label": "Hockend" },
-      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" },
-      { "name": "Sleeping", "type": "checkbox", "label": "Schlafend" }
-    ]
-  },
-  {
     "id": "horse",
     "name": "Pferd",
     "category": "passive",
@@ -117,20 +113,6 @@
       { "name": "SaddleItem", "type": "text", "label": "Sattel" },
       { "name": "Temper", "type": "number", "label": "Temperament", "min": 0, "max": 100, "default": 0 },
       { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" }
-    ]
-  },
-  {
-    "id": "llama",
-    "name": "Lama",
-    "category": "passive",
-    "supportsTrades": false,
-    "defaultName": "Lama",
-    "specificFields": [
-      { "name": "CarpetColor", "type": "number", "label": "Teppichfarbe (0-15)", "min": 0, "max": 15, "default": -1 },
-      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" },
-      { "name": "DecorItem", "type": "text", "label": "Deko-Item" },
-      { "name": "Strength", "type": "number", "label": "Stärke (1-5)", "min": 1, "max": 5, "default": 1 },
-      { "name": "Variant", "type": "number", "label": "Farbe (0-3)", "min": 0, "max": 3, "default": 0 }
     ]
   },
   {
@@ -163,18 +145,6 @@
     "defaultName": "Ozelot",
     "specificFields": [
       { "name": "Trusting", "type": "checkbox", "label": "Vertrauend" }
-    ]
-  },
-  {
-    "id": "panda",
-    "name": "Panda",
-    "category": "passive",
-    "supportsTrades": false,
-    "defaultName": "Panda",
-    "specificFields": [
-      { "name": "MainGene", "type": "select", "label": "Hauptgen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] },
-      { "name": "HiddenGene", "type": "select", "label": "Verstecktes Gen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] },
-      { "name": "PandaFlags", "type": "number", "label": "Flags (0-3)", "min": 0, "max": 3, "default": 0 }
     ]
   },
   {

@@ -1,5 +1,3 @@
-// Copy-Button mit visuellem Feedback
-
 export function setupCopyButton(buttonId, outputId) {
     const btn = document.getElementById(buttonId);
     const output = document.getElementById(outputId);
@@ -12,7 +10,8 @@ export function setupCopyButton(buttonId, outputId) {
         } catch {
             output.select();
             document.execCommand('copy');
-            alert('In Zwischenablage kopiert!');
+            btn.textContent = '✅ Kopiert!';
+            setTimeout(() => { btn.textContent = '📋 Kopieren'; }, 2000);
         }
     });
 }

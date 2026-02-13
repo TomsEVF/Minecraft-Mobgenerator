@@ -10,7 +10,6 @@ export async function loadItems() {
         console.log(`✅ ${itemList.length} Items geladen.`);
     } catch (error) {
         console.warn('⚠️ Konnte items.json nicht laden, verwende Fallback-Items.', error);
-        // Fallback-Items (minimal)
         itemList = [
             'minecraft:emerald',
             'minecraft:diamond',
@@ -22,20 +21,16 @@ export async function loadItems() {
     }
 }
 
-// Generiert ein <datalist> mit allen Items
 export function createItemDatalist(datalistId) {
     const datalist = document.createElement('datalist');
     datalist.id = datalistId;
-    
     itemList.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
         datalist.appendChild(option);
     });
-    
     return datalist;
 }
-
 // Erzeugt ein Input-Feld mit zugehörigem Datalist
 export function createItemInput(name, value = 'minecraft:emerald', datalistId, placeholder = 'minecraft:item') {
     const input = document.createElement('input');

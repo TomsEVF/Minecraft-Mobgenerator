@@ -30,10 +30,10 @@
     "supportsTrades": false,
     "defaultName": "Creeper",
     "specificFields": [
-      { "name": "charged", "type": "checkbox", "label": "Geladen" },
+      { "name": "Charged", "type": "checkbox", "label": "Geladen" },
       { "name": "ExplosionRadius", "type": "number", "label": "Explosionsradius", "min": 0, "max": 100, "default": 3 },
       { "name": "Fuse", "type": "number", "label": "Zündzeit", "min": 0, "max": 100, "default": 30 },
-      { "name": "ignited", "type": "checkbox", "label": "Gezündet" }
+      { "name": "Ignited", "type": "checkbox", "label": "Gezündet" }
     ]
   },
   {
@@ -53,14 +53,6 @@
     "category": "hostile",
     "supportsTrades": false,
     "defaultName": "Großer Wächter",
-    "specificFields": []
-  },
-  {
-    "id": "ender_dragon",
-    "name": "Enderdrache (hostil)",
-    "category": "hostile",
-    "supportsTrades": false,
-    "defaultName": "Enderdrache",
     "specificFields": []
   },
   {
@@ -91,14 +83,6 @@
     "specificFields": [
       { "name": "ExplosionPower", "type": "number", "label": "Explosionsstärke", "min": 0, "max": 127, "default": 1 }
     ]
-  },
-  {
-    "id": "giant",
-    "name": "Riese",
-    "category": "hostile",
-    "supportsTrades": false,
-    "defaultName": "Riese",
-    "specificFields": []
   },
   {
     "id": "guardian",
@@ -292,18 +276,45 @@
       { "name": "IsBaby", "type": "checkbox", "label": "Baby" }
     ]
   },
-  {
+    {
     "id": "zombie_villager",
     "name": "Zombie-Dorfbewohner",
     "category": "hostile",
     "supportsTrades": true,
     "defaultName": "Zombie-Dorfbewohner",
     "specificFields": [
-      { "name": "Profession", "type": "select", "label": "Beruf", "options": ["none","armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] },
-      { "name": "Level", "type": "number", "label": "Level", "min": 1, "max": 5, "default": 5 },
-      { "name": "Type", "type": "select", "label": "Biom-Typ", "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] },
-      { "name": "ConversionTime", "type": "number", "label": "Konvertierungszeit", "min": -1, "default": -1 },
-      { "name": "Converter", "type": "text", "label": "Konverter (UUID)" }
+      { 
+        "name": "Profession", 
+        "type": "select", 
+        "label": "Beruf", 
+        "options": ["armorer","butcher","cartographer","cleric","farmer","fisherman","fletcher","leatherworker","librarian","mason","nitwit","shepherd","toolsmith","weaponsmith"] 
+      },
+      { 
+        "name": "Level", 
+        "type": "number", 
+        "label": "Level", 
+        "min": 2, 
+        "max": 5, 
+        "default": 5 
+      },
+      { 
+        "name": "Type", 
+        "type": "select", 
+        "label": "Biom-Typ", 
+        "options": ["desert","jungle","plains","savanna","snow","swamp","taiga"] 
+      },
+      { 
+        "name": "ConversionTime", 
+        "type": "number", 
+        "label": "Konvertierungszeit", 
+        "min": -1, 
+        "default": -1 
+      },
+      { 
+        "name": "Converter", 
+        "type": "text", 
+        "label": "Konverter (UUID)" 
+      }
     ]
   }
 ]

@@ -1,13 +1,16 @@
 [
   {
     "id": "bee",
-    "name": "Biene (neutral)",
+    "name": "Biene",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Biene",
     "specificFields": [
       { "name": "Anger", "type": "number", "label": "Wut", "min": 0, "default": 0 },
-      { "name": "HasStung", "type": "checkbox", "label": "Hat gestochen" }
+      { "name": "HasStung", "type": "checkbox", "label": "Hat gestochen" },
+      { "name": "CannotEnterHiveTicks", "type": "number", "label": "Stock-Sperre", "min": 0, "default": 0 },
+      { "name": "FlowerPos", "type": "text", "label": "Blumen-Position (JSON)" },
+      { "name": "HasNectar", "type": "checkbox", "label": "Hat Nektar" }
     ]
   },
   {
@@ -36,23 +39,27 @@
     "supportsTrades": false,
     "defaultName": "Enderman",
     "specificFields": [
-      { "name": "carriedBlockState", "type": "text", "label": "Getragener Block (State)" },
-      { "name": "carriedBlock", "type": "text", "label": "Getragener Block (alt)" }
+      { "name": "CarriedBlockState", "type": "text", "label": "Getragener Block (State)" },
+      { "name": "CarriedBlock", "type": "text", "label": "Getragener Block (alt)" }
     ]
   },
   {
     "id": "fox",
-    "name": "Fuchs (neutral)",
+    "name": "Fuchs",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Fuchs",
     "specificFields": [
-      { "name": "Trusting", "type": "checkbox", "label": "Vertrauend" }
+      { "name": "Trusting", "type": "checkbox", "label": "Vertrauend" },
+      { "name": "FoxType", "type": "select", "label": "Art", "options": ["red","snow"] },
+      { "name": "Crouching", "type": "checkbox", "label": "Hockend" },
+      { "name": "Sitting", "type": "checkbox", "label": "Sitzend" },
+      { "name": "Sleeping", "type": "checkbox", "label": "Schlafend" }
     ]
   },
   {
     "id": "goat",
-    "name": "Ziege (neutral)",
+    "name": "Ziege",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Ziege",
@@ -73,22 +80,27 @@
   },
   {
     "id": "llama",
-    "name": "Lama (neutral)",
+    "name": "Lama",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Lama",
     "specificFields": [
-      { "name": "Strength", "type": "number", "label": "Stärke", "min": 1, "max": 5, "default": 1 }
+      { "name": "Strength", "type": "number", "label": "Stärke", "min": 1, "max": 5, "default": 1 },
+      { "name": "CarpetColor", "type": "number", "label": "Teppichfarbe (0-15)", "min": 0, "max": 15, "default": -1 },
+      { "name": "ChestedHorse", "type": "checkbox", "label": "Mit Kiste" },
+      { "name": "DecorItem", "type": "text", "label": "Deko-Item" },
+      { "name": "Variant", "type": "number", "label": "Farbe (0-3)", "min": 0, "max": 3, "default": 0 }
     ]
   },
   {
     "id": "panda",
-    "name": "Panda (neutral)",
+    "name": "Panda",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Panda",
     "specificFields": [
-      { "name": "MainGene", "type": "select", "label": "Hauptgen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] }
+      { "name": "MainGene", "type": "select", "label": "Hauptgen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] },
+      { "name": "HiddenGene", "type": "select", "label": "Verstecktes Gen", "options": ["normal","lazy","worried","playful","brown","weak","aggressive"] }
     ]
   },
   {
@@ -146,7 +158,7 @@
   },
   {
     "id": "zombified_piglin",
-    "name": "Verzauberter Zombiepiglin",
+    "name": "Zombiepiglin",
     "category": "neutral",
     "supportsTrades": false,
     "defaultName": "Zombiepiglin",

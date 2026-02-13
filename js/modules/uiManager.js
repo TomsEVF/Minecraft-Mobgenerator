@@ -2,7 +2,6 @@
 
 import { mobDatabase, mobCategories, getMobById } from './mobDatabase.js';
 
-// Tabs aktivierbar machen
 export function initTabs() {
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
@@ -16,7 +15,6 @@ export function initTabs() {
     });
 }
 
-// Mob-Dropdown befüllen
 export function populateMobDropdown(onChangeCallback) {
     const select = document.getElementById('mob-select');
     select.innerHTML = '';
@@ -29,7 +27,7 @@ export function populateMobDropdown(onChangeCallback) {
     ];
 
     categories.forEach(cat => {
-        if (mobCategories[cat.id] && mobCategories[cat.id].length) {
+        if (mobCategories[cat.id]?.length) {
             const group = document.createElement('optgroup');
             group.label = cat.name;
             mobCategories[cat.id].forEach(mobId => {
@@ -50,33 +48,37 @@ export function populateMobDropdown(onChangeCallback) {
     });
 }
 
-// Spezifische Felder für einen Mob im Behavior-Tab rendern
 export function renderSpecificFields(mob) {
     const container = document.getElementById('mob-specific-options');
     container.innerHTML = '';
 
-    if (!mob.specificFields || mob.specificFields.length === 0) {
+    if (!mob.specificFields?.length) {
         container.innerHTML = '<p class="placeholder">Keine spezifischen Optionen für diesen Mob.</p>';
         return;
     }
 
     const fieldsHtml = mob.specificFields.map(field => renderField(field)).join('');
     container.innerHTML = `<div class="form-grid">${fieldsHtml}</div>`;
+
+    // Aktivierungszustand anwenden
+    const enabled = document.getElementById('enableBehavior')?.checked || false;
+    container.querySelectorAll('.mob-specific').forEach(el => {
+        el.disabled = !enabled;
+    });
 }
 
-// Ein einzelnes Feld basierend auf seiner Definition rendern
 function renderField(field) {
     const { name, type, label, min, max, step, default: defaultValue, options } = field;
 
     if (type === 'checkbox') {
         return `
             <div class="form-field checkbox">
-                <input type="checkbox" id="${name}" class="mob-specific">
+                <input type="checkbox" id="${name}" class="mob-specific" ${defaultValue ? 'checked' : ''}>
                 <label for="${name}">${label}</label>
             </div>
         `;
     } else if (type === 'select' && options) {
-        const opts = options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        const opts = options.map(opt => `<option value="${opt}" ${defaultValue === opt ? 'selected' : ''}>${opt}</option>`).join('');
         return `
             <div class="form-field">
                 <label>${label}</label>
@@ -90,29 +92,97 @@ function renderField(field) {
         const minAttr = min !== undefined ? `min="${min}"` : '';
         const maxAttr = max !== undefined ? `max="${max}"` : '';
         const stepAttr = step !== undefined ? `step="${step}"` : '';
-        const defaultValueAttr = defaultValue !== undefined ? `value="${defaultValue}"` : 'value="0"';
+        const valueAttr = defaultValue !== undefined ? `value="${defaultValue}"` : 'value="0"';
         return `
             <div class="form-field">
                 <label>${label}</label>
-                <input type="number" id="${name}" class="mob-specific" ${minAttr} ${maxAttr} ${stepAttr} ${defaultValueAttr}>
+                <input type="number" id="${name}" class="mob-specific" ${minAttr} ${maxAttr} ${stepAttr} ${valueAttr}>
             </div>
         `;
     }
 }
 
-// Werte aller spezifischen Felder auslesen
 export function getSpecificFieldValues() {
+    const enabled = document.getElementById('enableBehavior')?.checked || false;
+    if (!enabled) return {};
+
     const values = {};
-    document.querySelectorAll('.mob-specific').forEach(input => {
+    document.querySelectorAll('#mob-specific-options .mob-specific').forEach(input => {
         const id = input.id;
         if (!id) return;
         if (input.type === 'checkbox') {
             values[id] = input.checked ? '1b' : '0b';
         } else if (input.type === 'number') {
-            values[id] = input.value;
+            values[id] = input.value; // als String, wird später als Zahl interpretiert
         } else if (input.tagName === 'SELECT') {
             values[id] = input.value !== 'none' ? `"${input.value}"` : null;
         }
     });
     return values;
+}
+
+// uiManager.js (Auszug – nur die renderField-Funktion wird angepasst)
+
+// Berufe-Übersetzung (Englisch → Deutsch)
+const professionTranslations = {
+    'armorer': 'Panzer Schmied',
+    'butcher': 'Fleischer',
+    'cartographer': 'Kartograf',
+    'cleric': 'Geistlicher',
+    'farmer': 'Bauer',
+    'fisherman': 'Fischer',
+    'fletcher': 'Pfeilmacher',
+    'leatherworker': 'Gerber',
+    'librarian': 'Bibliothekar',
+    'mason': 'Steinmetz',
+    'nitwit': 'Nichtsnutz',
+    'shepherd': 'Schäfer',
+    'toolsmith': 'Werkzeugschmied',
+    'weaponsmith': 'Waffenschmied'
+};
+
+function renderField(field) {
+    const { name, type, label, min, max, step, default: defaultValue, options } = field;
+
+    if (type === 'checkbox') {
+        return `
+            <div class="form-field checkbox">
+                <input type="checkbox" id="${name}" class="mob-specific" ${defaultValue ? 'checked' : ''}>
+                <label for="${name}">${label}</label>
+            </div>
+        `;
+    } else if (type === 'select' && options) {
+        // Übersetze die Optionen, falls es sich um Berufe handelt (Name === 'Profession')
+        let optionList = options;
+        if (name === 'Profession') {
+            optionList = options.map(opt => ({
+                value: opt,
+                label: professionTranslations[opt] || opt
+            }));
+        } else {
+            optionList = options.map(opt => ({ value: opt, label: opt }));
+        }
+        const opts = optionList.map(opt => 
+            `<option value="${opt.value}" ${defaultValue === opt.value ? 'selected' : ''}>${opt.label}</option>`
+        ).join('');
+        return `
+            <div class="form-field">
+                <label>${label}</label>
+                <select id="${name}" class="mob-specific">
+                    ${opts}
+                </select>
+            </div>
+        `;
+    } else {
+        const minAttr = min !== undefined ? `min="${min}"` : '';
+        const maxAttr = max !== undefined ? `max="${max}"` : '';
+        const stepAttr = step !== undefined ? `step="${step}"` : '';
+        const valueAttr = defaultValue !== undefined ? `value="${defaultValue}"` : 'value="0"';
+        return `
+            <div class="form-field">
+                <label>${label}</label>
+                <input type="number" id="${name}" class="mob-specific" ${minAttr} ${maxAttr} ${stepAttr} ${valueAttr}>
+            </div>
+        `;
+    }
 }

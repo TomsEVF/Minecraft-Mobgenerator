@@ -3,157 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="format-detection" content="telephone=no">
-    <title>Minecraft Mob Generator · 1.21.1 NBT</title>
+    <title>Minecraft Tools · Loot-Tables & Mob-Generator</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app">
-        <header class="header">
-            <div class="logo">
-                <span class="logo-icon">🎮</span>
-                <h1>Mob<span class="logo-accent">Generator</span></h1>
-            </div>
-            <div class="version">1.21.1 · NBT Commander</div>
-        </header>
-
-        <div class="mob-selector">
-            <label for="mob-select">Mob auswählen</label>
-            <select id="mob-select" class="mob-dropdown"></select>
-        </div>
-
-        <div class="main-layout">
-            <nav class="tab-nav">
-                <button class="tab-btn active" data-tab="basic">📋 Basis</button>
-                <button class="tab-btn" data-tab="attributes">📊 Attribute</button>
-                <button class="tab-btn" data-tab="equipment">⚔️ Ausrüstung</button>
-                <button class="tab-btn" data-tab="behavior">🧠 Verhalten</button>
-                <button class="tab-btn" data-tab="trades">🛒 Trades</button>
-                <button class="tab-btn" data-tab="advanced">⚙️ Erweitert</button>
-            </nav>
-
-            <div class="tab-content">
-                <!-- Basic -->
-                <div id="tab-basic" class="tab-pane active">
-                    <h2>Basiseigenschaften</h2>
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <label>🏷️ Name</label>
-                            <input type="text" id="name" value="" placeholder="z.B. 'Wächter'">
-                        </div>
-                        <div class="form-field">
-                            <label>🎨 Namensfarbe</label>
-                            <div class="color-row">
-                                <input type="color" id="nameColor" value="#FFFFFF">
-                                <input type="text" id="nameColorHex" value="#FFFFFF" placeholder="#FFFFFF">
-                            </div>
-                        </div>
-                        <div class="form-field">
-                            <label>❤️ Leben</label>
-                            <input type="number" id="health" min="1" max="1024" value="20">
-                        </div>
-                        <div class="form-field">
-                            <label>🔄 Rotation (Yaw)</label>
-                            <input type="number" id="rotation" min="-180" max="180" value="0">
-                        </div>
-                        <div class="form-field">
-                            <label>📐 Blickwinkel (Pitch)</label>
-                            <input type="number" id="pitch" min="-90" max="90" value="0">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Attributes (unverändert) -->
-                <div id="tab-attributes" class="tab-pane">
-                    <h2>Attribute</h2>
-                    <div class="enable-section">
-                        <input type="checkbox" id="enableAttributes" class="enable-checkbox">
-                        <label for="enableAttributes">🔓 Attribute aktivieren</label>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-field"><label>⚡ Bewegungstempo</label><input type="number" id="speed" min="0" max="10" step="0.1" value="0.25"></div>
-                        <div class="form-field"><label>🛡️ Rüstung</label><input type="number" id="armor" min="0" max="30" value="0"></div>
-                        <div class="form-field"><label>⚔️ Angriffsschaden</label><input type="number" id="attackDamage" min="0" max="100" value="0"></div>
-                        <div class="form-field"><label>🏹 Folge-Distanz</label><input type="number" id="followRange" min="0" max="64" value="16"></div>
-                        <div class="form-field"><label>🦘 Sprungkraft</label><input type="number" id="jumpStrength" min="0" max="10" step="0.1" value="0.42"></div>
-                    </div>
-                </div>
-
-                <!-- Equipment -->
-                <div id="tab-equipment" class="tab-pane">
-                    <h2>Ausrüstung</h2>
-                    <div class="enable-section">
-                        <input type="checkbox" id="enableEquipment" class="enable-checkbox" checked>
-                        <label for="enableEquipment">🔓 Ausrüstung aktivieren</label>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-field"><label>🪖 Helm</label><input type="text" id="helmet" placeholder="minecraft:iron_helmet"></div>
-                        <div class="form-field"><label>🦺 Brustplatte</label><input type="text" id="chestplate" placeholder="minecraft:diamond_chestplate"></div>
-                        <div class="form-field"><label>👖 Hose</label><input type="text" id="leggings" placeholder="minecraft:chainmail_leggings"></div>
-                        <div class="form-field"><label>👟 Schuhe</label><input type="text" id="boots" placeholder="minecraft:golden_boots"></div>
-                        <div class="form-field"><label>🖐️ Haupt-Hand</label><input type="text" id="mainhand" placeholder="minecraft:iron_sword"></div>
-                        <div class="form-field"><label>🖖 Neben-Hand</label><input type="text" id="offhand" placeholder="minecraft:shield"></div>
-                        <div class="form-field"><label>📉 Drop-Chance (0–1)</label><input type="number" id="handDropChance" min="0" max="1" step="0.01" value="0.085"></div>
-                    </div>
-                </div>
-
-                <!-- Behavior (dynamisch) -->
-                <div id="tab-behavior" class="tab-pane">
-                    <h2>Verhalten & Spezial-Optionen</h2>
-                    <div class="enable-section">
-                        <input type="checkbox" id="enableBehavior" class="enable-checkbox">
-                        <label for="enableBehavior">🔓 Spezifische Optionen aktivieren</label>
-                    </div>
-                    <div id="mob-specific-options"></div>
-                </div>
-
-                <!-- Trades -->
-                <div id="tab-trades" class="tab-pane">
-                    <h2>Handelsangebote</h2>
-                    <div id="trade-container" class="trade-container"></div>
-                </div>
-
-                <!-- Advanced -->
-                <div id="tab-advanced" class="tab-pane">
-                    <h2>Erweiterte NBT-Felder</h2>
-                    <div class="enable-section">
-                        <input type="checkbox" id="enableAdvanced" class="enable-checkbox">
-                        <label for="enableAdvanced">🔓 Erweiterte Optionen aktivieren</label>
-                    </div>
-                    <div class="form-grid" id="advanced-grid">
-                        <div class="form-field checkbox"><input type="checkbox" id="persistent"><label for="persistent">💫 Persistent</label></div>
-                        <div class="form-field checkbox"><input type="checkbox" id="silent"><label for="silent">🤫 Stumm</label></div>
-                        <div class="form-field checkbox"><input type="checkbox" id="invulnerable"><label for="invulnerable">🛡️ Unverwundbar</label></div>
-                        <div class="form-field checkbox"><input type="checkbox" id="noai"><label for="noai">🧠 Keine KI (NoAI)</label></div>
-                        <div class="form-field"><label>⌨️ Benutzerdefinierte NBT</label><textarea id="customNBT" rows="4" placeholder='z.B. "Glowing":1b'></textarea></div>
-                    </div>
-                </div>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-icon" id="brand-icon"></span>
+            <div>
+                <h1>Minecraft<span>Tools</span></h1>
+                <div class="brand-sub" id="brand-sub"></div>
             </div>
         </div>
+        <nav class="tabs" role="tablist">
+            <button class="tab" role="tab" data-view="loot" id="tab-loot"><span class="tab-icon" id="tab-icon-loot"></span>Loot-Tables</button>
+            <button class="tab" role="tab" data-view="mob" id="tab-mob"><span class="tab-icon" id="tab-icon-mob"></span>Mob-Generator</button>
+        </nav>
+        <div class="top-actions">
+            <button class="btn btn-guide" id="btn-guide" title="Schritt-für-Schritt-Anleitung öffnen">📖 Anleitung</button>
+            <span class="check-wrap explain-switch" id="explain-wrap">
+                <label class="check" title="Kurze Erklärtexte in der Oberfläche ein- oder ausblenden"><input type="checkbox" id="explain-toggle" checked> Erklärungen</label>
+            </span>
+            <label class="fmt-select" title="Deine Minecraft-Version – gilt für beide Bereiche">
+                <span>Version</span>
+                <select id="version"></select>
+            </label>
+        </div>
+    </header>
 
-        <div class="command-panel">
-            <div class="command-header">
-                <h3>📋 Generierter Befehl</h3>
-                <div class="command-actions">
-                    <button id="generateBtn" class="btn primary">⚡ Generieren</button>
-                    <button id="copyBtn" class="btn secondary">📋 Kopieren</button>
-                </div>
-            </div>
-            <div class="command-output">
-                <textarea id="commandOutput" readonly rows="5" placeholder="/summon …"></textarea>
+    <!-- ============ Loot-Tables ============ -->
+    <section class="view" id="view-loot">
+        <div class="toolbar">
+            <div class="toolbar-title">Loot-Table bauen</div>
+            <div class="toolbar-actions">
+                <button class="btn" id="btn-new" title="Neue, leere Loot-Table beginnen">Neu</button>
+                <button class="btn" id="btn-load" title="Gespeichertes Projekt öffnen">Projekt laden</button>
+                <button class="btn" id="btn-save" title="Projekt zum späteren Weiterbearbeiten speichern">Projekt speichern</button>
+                <input type="file" id="file-load" accept=".json,application/json" hidden>
+                <button class="btn btn-accent" id="btn-sim" title="Loot testweise auswürfeln">Testwurf</button>
+                <button class="btn btn-primary" id="btn-download">JSON herunterladen</button>
             </div>
         </div>
+        <main class="layout">
+            <aside class="panel settings" id="settings"></aside>
 
-        <footer class="footer">
-            <p>Minecraft Mob Generator · 1.21.1 NBT · Korrekte Villager-Trades</p>
-        </footer>
-    </div>
+            <section class="pools-area">
+                <div id="pools"></div>
+                <button class="add-pool" id="btn-add-pool">+ Pool hinzufügen</button>
+            </section>
 
-    <script type="module" src="js/main.js"></script>
+            <aside class="panel output loot-output">
+                <div class="output-head">
+                    <h2>Ausgabe</h2>
+                    <div class="output-actions">
+                        <button class="btn btn-small" id="btn-copy">Kopieren</button>
+                    </div>
+                </div>
+                <div class="out-path" id="out-path"></div>
+                <ul class="warnings" id="warnings"></ul>
+                <pre class="json" id="json"></pre>
+            </aside>
+        </main>
+    </section>
+
+    <!-- ============ Mob-Generator ============ -->
+    <section class="view" id="view-mob" hidden>
+        <div class="toolbar">
+            <div class="toolbar-title">Mob erstellen</div>
+            <div class="toolbar-actions">
+                <button class="btn" id="mob-new" title="Alle Einstellungen dieses Mobs zurücksetzen">Neu</button>
+                <button class="btn" id="mob-load" title="Gespeicherten Mob öffnen">Mob laden</button>
+                <button class="btn" id="mob-save" title="Mob als Datei speichern">Mob speichern</button>
+                <input type="file" id="mob-file" accept=".json,application/json" hidden>
+                <button class="btn btn-primary" id="mob-copy">Befehl kopieren</button>
+            </div>
+        </div>
+        <main class="layout mob-layout">
+            <aside class="panel mob-list" id="mob-list"></aside>
+            <section class="mob-editor" id="mob-editor"></section>
+            <aside class="panel output mob-output" id="mob-output"></aside>
+        </main>
+    </section>
+
+    <div id="modal-root"></div>
+    <div class="toast" id="toast"></div>
+
+    <script src="js/mcdata.js"></script>
+    <script src="js/mobdata.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/help.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/mob.js"></script>
 </body>
 </html>

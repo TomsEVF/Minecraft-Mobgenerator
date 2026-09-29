@@ -1,132 +1,85 @@
-# 🧱 Minecraft Mob Spawn Command Generator
+# Minecraft Tools – Loot-Tables & Mob-Generator
 
-Ein moderner, modularer Web-Generator für `/summon`-Befehle in Minecraft (1.21.1).  
-Wähle einen Mob aus, passe unzählige NBT-Eigenschaften an – von Ausrüstung über Attribute bis hin zu komplexen Handelsangeboten – und erhalte sofort einen einsatzbereiten Befehl.
+Zwei Werkzeuge für Minecraft-Server in einer Web-App:
 
-> 🎮 **Live-Demo**: [[https://tomsevf.github.io/Minecraft-Mobgenerator/](https://tomsevf.github.io/Minecraft-Mobgenerator/)]  
-> 📦 **Version**: 1.0.0 – kompatibel mit Minecraft **1.21.1** (und älter über Syntax‑Option)
+- **Loot-Tables**: eigene Beute für Truhen, Mobs, Blöcke, Angeln, Regale … grafisch bauen und als Datapack-JSON herunterladen
+- **Mob-Generator**: eigene Mobs erstellen – als `/summon`-Befehl, Spawn-Ei, Spawner oder `.mcfunction`
 
----
+Reines HTML/CSS/JavaScript, kein Build-Schritt und kein Server nötig: einfach `index.html` im Browser öffnen
+(funktioniert auch per Doppelklick und auf GitHub Pages).
 
-## ✨ Features
+> 🎮 **Live**: [tomsevf.github.io/Minecraft-Mobgenerator](https://tomsevf.github.io/Minecraft-Mobgenerator/)
 
-- **Über 80 Mobs** – unterteilt in *Passiv, Neutral, Aggressiv, Boss*  
-- **Vollständige NBT-Kontrolle** über übersichtliche Tabs:
-  - 📋 **Basis** – Name, Farbe, Leben, Rotation (nur bei NoAI)
-  - 📊 **Attribute** – Bewegung, Rüstung, Angriff, Sprungkraft
-  - ⚔️ **Ausrüstung** – Helm, Brustplatte, Hose, Schuhe, beide Hände + Drop‑Chance
-  - 🧠 **Verhalten** – mob‑spezifische Felder (z.B. `Charged` beim Creeper, `Variant` beim Axolotl)
-  - 🛒 **Trades** – flexible Handelsangebote mit bis zu zwei Eingabe‑Items, individuellen Nutzungen, XP und Preis‑Multiplikator
-  - ⚙️ **Erweitert** – NoAI, Invulnerable, Silent, Persistent, benutzerdefiniertes NBT
-- **Live‑Generierung** – jeder Tastendruck aktualisiert den Befehl sofort
-- **Intelligente Aktivierung** – jeder Tab (außer Basis) hat eine Checkbox – nur aktivierte Werte landen im Befehl
-- **Moderne NBT‑Syntax** – `Count:1b` für Villager‑Trades und Ausrüstung, exakt wie in Minecraft 1.21.1 benötigt
-- **Villager‑Unterstützung** – Berufe (deutsch übersetzt), Level (min. 2), Biom‑Typ – das Handelsmenü öffnet sich garantiert, auch mit NoAI
-- **Umfangreiche Item‑Datenbank** – über 200 Items als Vorschlag (Datalist), eigene Eingaben möglich
-- **Responsive Design** – funktioniert auf Desktop, Tablet und Smartphone
+## Unterstützte Versionen
 
----
+**Minecraft 1.21 bis 26.3** – jede Version einzeln wählbar. Die gewählte Version gilt für beide Bereiche:
 
-## 🧩 Technologie‑Stack
+- Es erscheinen nur Items, Mobs, Biome, Strukturen, Verzauberungen, Tränke und Mob-Optionen, die es in dieser Version gibt
+  (z. B. der Glücksghast erst ab 1.21.6, der Kupfergolem ab 1.21.9, der Nautilus ab 1.21.11).
+- Loot-Tables werden im Format der Version geschrieben (Änderungen bei 1.21.4, 26.1, 26.2 und 26.3).
+- Mob-Befehle nutzen die Schreibweise der Version, z. B. `equipment:{…}` ab 1.21.5 statt `ArmorItems`/`HandItems`,
+  Textkomponenten als Objekt statt JSON-Text, Attribute ohne `generic.`-Präfix ab 1.21.2.
+- Die passende `pack.mcmeta` (inkl. `min_format`/`max_format` ab 1.21.9) wird angezeigt.
 
-- **HTML5** – semantisches Grundgerüst
-- **CSS3** – modernes, klares Design (kein Minecraft‑Klischee)
-- **JavaScript (ES6‑Module)** – vollständig modularisiert
-- **JSON** – alle Mob‑Daten, Items und Kategorien werden aus externen Dateien geladen
+## Mob-Generator
 
----
+- **92 Mobs** mit Spawn-Ei-Bildern, gefiltert nach Version und Kategorie
+- **Alle Optionen jedes Mobs** kommen aus den offiziellen NBT-Schemas ([SpyglassMC/vanilla-mcdoc](https://github.com/SpyglassMC/vanilla-mcdoc)) –
+  z. B. Beruf und Stufe beim Dorfbewohner, Varianten und Stimmen bei Katze/Wolf/Schwein, Gene beim Panda, Muster beim Tropenfisch,
+  Explosionsradius beim Creeper, Körperhaltung beim Rüstungsständer
+- Name (Farbe, fett), Leben, Baby, Größe, Blickrichtung, KI, Unverwundbarkeit, Despawn, Tags …
+- **Ausrüstung mit Item-Bildern**: Rüstung, Waffen, Körper-Slot (Pferderüstung, Wolfsrüstung, Teppich, Geschirr, Nautilusrüstung)
+  und Sattel – jeweils mit Verzauberungen, Namen, Beschreibung, Farbe, Rüstungsbesatz, Haltbarkeit und Drop-Chance
+- Attribute, Effekte, Handelsangebote, Reiter/Reittier, eigenes NBT
+- **Drops**: eigene Loot-Table aus dem Loot-Bereich verknüpfen, Drops eines anderen Mobs oder gar keine
 
-## 📁 Projektstruktur
+## Loot-Tables
 
-```
-mob-generator/
-├── index.html
-├── css/
-│   └── style.css
-├── js/
-│   ├── main.js                 # Einstiegspunkt, Koordination
-│   └── modules/
-│       ├── mobDatabase.js       # Lädt Mobs aus JSON
-│       ├── itemDatabase.js      # Lädt Items für Datalists
-│       ├── uiManager.js         # Tabs, Dropdown, dynamische Felder
-│       ├── tradeManager.js      # Komplette Trade‑UI
-│       ├── commandBuilder.js    # Baut NBT‑Befehl
-│       └── copyHelper.js        # Copy‑Button mit Feedback
-└── data/
-    ├── mobs.json                # Register (Kategorie → Datei)
-    ├── passive.json
-    ├── neutral.json
-    ├── hostile.json
-    ├── boss.json
-    └── items.json                # ~200 Items
-```
+- Alle Items mit Bildern, deutschen Namen und Suche
+- Pools, Gewichte mit Live-Prozentanzeige, Mengen, „Nichts“-Einträge, Item-Tags, verschachtelte Loot-Tables
+- Verzauberungen, Namen, Lore, Haltbarkeit, Tränke, Seltenheit, Glanz, Custom Model Data
+- 21 Umgebungsbedingungen (Wetter, Tageszeit, Biom, Struktur, Höhe, Werkzeug, Plünderung, Scoreboard …), umkehrbar, UND/ODER
+- Testwurf mit Statistik, Vanilla-Vorlagen der gewählten Version, Import vorhandener Loot-Tables
+- Regale, Item-Rahmen und Deko-Töpfe per `/loot`-Befehl füllen
 
----
+## Erklärungen
 
-## 🚀 Installation & Nutzung
+Eine Schritt-für-Schritt-Anleitung (öffnet sich beim ersten Start), „?“-Knöpfe mit Beispielen an jeder Einstellung
+und kurze Erklärtexte, die sich oben mit „Erklärungen“ ausblenden lassen.
 
-1. **Repository klonen**  
-   ```bash
-   git clone https://github.com/tomsevf.github.io/Minecraft-Mobgenerator
-   cd minecraft-mob-generator
-   ```
+## Getestet mit echten Servern
 
-2. **Lokalen Server starten** (erforderlich, weil JSON‑Dateien per `fetch` geladen werden)  
-   - **Python**: `python -m http.server 8000` → [http://localhost:8000](http://localhost:8000)  
-   - **Node.js**: `npx http-server` → [http://localhost:8080](http://localhost:8080)  
-   - **VS Code Live Server**: Rechtsklick auf `index.html` → „Open with Live Server“
+Die erzeugten Befehle und Loot-Tables wurden automatisiert auf echten Minecraft-Servern
+(1.21.1, 1.21.4, 1.21.5, 1.21.11, 26.1.2 und 26.3) geprüft: Jeder Mob wurde mit allen Optionen beschworen, danach wurden
+die Daten im Spiel ausgelesen und verglichen. Spawn-Ei und Spawner wurden ebenfalls ausgeführt, alle Loot-Tables geladen.
 
-3. **Im Browser öffnen** und loslegen!
+## Daten aktualisieren (neue Minecraft-Version)
 
-> ⚠️ **Hinweis**: Die App funktioniert **nicht** direkt per Doppelklick auf die HTML‑Datei (CORS‑Fehler). Ein lokaler Server ist zwingend erforderlich.
+Alle Minecraft-Daten stecken in `js/mcdata.js` und `js/mobdata.js`. Sie werden erzeugt mit:
 
----
-
-## 🛠️ Konfiguration & Erweiterung
-
-- **Neue Mobs hinzufügen** – einfach in die entsprechende JSON‑Datei (`passive.json`, `hostile.json` usw.) eintragen.  
-  Format siehe vorhandene Einträge (Feldnamen **UpperCamelCase** wie in Minecraft‑NBT).
-- **Neue Items** – in `data/items.json` ergänzen.
-- **CSS‑Anpassungen** – alle Styles zentral in `css/style.css` (keine Inline‑Styles im JS).
-
----
-
-## 📝 Beispiele
-
-### Einfacher Zombie mit Rüstung
-```
-/summon zombie ~ ~ ~ {ArmorItems:[{id:"minecraft:iron_boots",Count:1b},{id:"minecraft:iron_leggings",Count:1b},{id:"minecraft:iron_chestplate",Count:1b},{id:"minecraft:iron_helmet",Count:1b}]}
+```bash
+python3 tools/gen_data.py
 ```
 
-### Villager mit NoAI, Rotation und Trades (Menü öffnet sich)
-```
-/summon villager ~ ~ ~ {NoAI:1b,Rotation:[90f,0f],Invulnerable:1b,VillagerData:{level:5,profession:"minecraft:mason",type:"minecraft:plains"},Offers:{Recipes:[{maxUses:999999,buy:{id:"minecraft:emerald",Count:1b},sell:{id:"minecraft:diamond",Count:1b}}]}}
-```
+Für eine neue Version diese in der Liste `VERSIONS` oben in `tools/gen_data.py` ergänzen. Das Skript lädt die Daten von
+[misode/mcmeta](https://github.com/misode/mcmeta), die NBT-Schemas von SpyglassMC und die deutsche Sprachdatei von Mojang
+(Zwischenspeicher im System-Temp-Ordner) und braucht nur Python 3 und `curl`.
 
----
+## Dateien
 
-## 🤝 Mitwirken
+| Datei | Inhalt |
+|---|---|
+| `index.html` | Seitenstruktur mit beiden Bereichen |
+| `css/style.css` | Design |
+| `js/app.js` | Loot-Tables, gemeinsame Bausteine (Item-Auswahl, Bilder, Versionen) |
+| `js/mob.js` | Mob-Generator |
+| `js/export.js` | Loot-Table → JSON (alle Formate) |
+| `js/help.js` | Erklärtexte, „?“-Popover, Anleitung |
+| `js/mcdata.js`, `js/mobdata.js` | Minecraft-Daten (generiert) |
+| `tools/` | Daten-Generator und mcdoc-Parser |
 
-Beiträge sind willkommen!  
-- Forke das Projekt  
-- Erstelle einen Feature‑Branch (`git checkout -b feature/neues-feature`)  
-- Committe deine Änderungen (`git commit -am 'Add new feature'`)  
-- Pushe in den Branch (`git push origin feature/neues-feature`)  
-- Erstelle einen Pull Request
+Bilder: gerenderte Icons von [mc.nerothe.com](https://mc.nerothe.com), sonst die offiziellen Texturen aus misode/mcmeta.
 
----
+## Lizenz
 
-## 📄 Lizenz
-
-Dieses Projekt steht unter der **MIT‑Lizenz**
-
----
-
-## 🙏 Danksagung
-
-- Inspiriert von unzähligen Minecraft‑Command‑Generatoren, aber mit dem Ziel, **technisch korrekt, modular und erweiterbar** zu sein.
-- Besonderer Dank an die Minecraft‑Community für die detaillierte Dokumentation der NBT‑Strukturen.
-
----
-
-**Viel Spaß beim Erstellen eigener Mobs!** 🎮
+MIT

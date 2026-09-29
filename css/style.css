@@ -1077,3 +1077,43 @@ details.box > summary .info-btn, .esec > summary .info-btn { margin-left: 4px; }
 
 .gen-grid .gen-wide { grid-column: 1 / -1; }
 .mob-pick span, .pick span { overflow-wrap: anywhere; hyphens: auto; max-width: 100%; }
+
+/* Gemeißeltes Bücherregal */
+.shelf-callout { display: flex; align-items: center; gap: 10px; padding: 10px; margin-bottom: 12px; border: 1px solid #7a6526; border-radius: var(--radius-s); background: rgba(242, 193, 78, .06); }
+.shelf-callout .mc-icon { width: 32px; height: 32px; }
+.shelf-builder { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 720px) { .shelf-builder { grid-template-columns: 1fr; } }
+.shelf-block {
+    display: flex; flex-direction: column; gap: 10px; padding: 14px;
+    background: #6b4a2b; border-radius: 6px;
+    box-shadow: inset 0 0 0 6px #4a311b, inset 0 0 0 9px #8a6238;
+}
+.shelf-row-books { display: flex; gap: 8px; padding: 6px; background: #2e1f12; border-radius: 3px; box-shadow: inset 0 3px 6px rgba(0, 0, 0, .6); }
+.shelf-slot { width: 64px; height: 64px; background: #3b2917; box-shadow: none; position: relative; }
+.shelf-slot:hover { background: #4d3620; }
+.shelf-slot.sel { outline: 3px solid var(--accent); }
+.shelf-slot .plus { color: #b79a73; font-size: 24px; }
+.shelf-slot .slot-no { position: absolute; left: 4px; top: 2px; font-size: 10px; color: #b79a73; }
+.shelf-edit { min-width: 0; }
+
+/* Liste „Meine Loot-Tables“ */
+.library { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.library-head { display: flex; align-items: center; gap: 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-2); font-weight: 600; margin-bottom: 10px; }
+.library-list { display: flex; flex-direction: column; gap: 4px; max-height: 280px; overflow: auto; margin-bottom: 8px; }
+.lib-item { display: flex; align-items: center; gap: 8px; padding: 7px 6px 7px 8px; border: 1px solid transparent; border-radius: var(--radius-s); background: var(--bg-2); cursor: pointer; }
+.lib-item:hover { border-color: var(--line-2); }
+.lib-item.on { border-color: var(--accent); background: rgba(95, 191, 74, .1); }
+.lib-item .mc-icon { width: 24px; height: 24px; }
+.lib-item .icon-btn { width: 26px; height: 26px; font-size: 13px; opacity: .6; }
+.lib-item:hover .icon-btn { opacity: 1; }
+.lib-text { flex: 1; min-width: 0; }
+.lib-name { font-weight: 600; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lib-sub { font-size: 11px; color: var(--text-3); }
+.lib-link { font-size: 11px; color: var(--gold); }
+.lib-add { width: 100%; }
+
+/* Mehrere Befehle nacheinander (z. B. Truhe füllen) */
+.cmd-steps { display: flex; flex-direction: column; gap: 8px; }
+.cmd-step { display: flex; align-items: flex-start; gap: 8px; }
+.cmd-step .step-no { margin-top: 10px; margin-right: 0; }
+.cmd-step pre { flex: 1; margin: 0; }

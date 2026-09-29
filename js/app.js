@@ -25,52 +25,52 @@ const ASSETS = `https://raw.githubusercontent.com/misode/mcmeta/${D.version}-ass
 const vanillaDataUrl = () => `https://raw.githubusercontent.com/misode/mcmeta/${state.version}-data/data/minecraft/loot_table`;
 
 const TABLE_TYPES = [
-    { id: 'chest', label: 'Truhe / Behälter', icon: 'chest', folder: 'chests', ctx: ['origin', 'this'],
-      desc: 'Inhalt von Truhen, Fässern, Spendern usw. Wird beim ersten Öffnen erzeugt.' },
-    { id: 'display', label: 'Regal / Rahmen / Topf', icon: 'oak_shelf', folder: 'display', ctx: ['origin', 'this'],
-      desc: 'Füllt Regale (3 Plätze), Item-Rahmen und Deko-Töpfe per Befehl. Wird als Truhen-Loot-Table exportiert.' },
-    { id: 'entity', label: 'Mob-Drops', icon: 'zombie_head', folder: 'entities', ctx: ['origin', 'this', 'mob', 'attacker', 'player_kill'],
-      desc: 'Was ein Mob beim Tod fallen lässt. Plünderung, "von Spieler getötet" usw. verfügbar.' },
-    { id: 'block', label: 'Block-Drops', icon: 'diamond_pickaxe', folder: 'blocks', ctx: ['origin', 'tool', 'explosion'],
-      desc: 'Was ein Block beim Abbauen droppt. Behutsamkeit, Glück, Explosionen verfügbar.' },
-    { id: 'fishing', label: 'Angeln', icon: 'fishing_rod', folder: 'gameplay/fishing', ctx: ['origin', 'this', 'tool', 'hook'],
-      desc: 'Beute beim Angeln (ersetzt z. B. minecraft:gameplay/fishing).' },
-    { id: 'archaeology', label: 'Archäologie', icon: 'brush', folder: 'archaeology', ctx: ['origin', 'this', 'tool'],
-      desc: 'Beute aus verdächtigem Sand/Kies beim Abpinseln.' },
-    { id: 'gift', label: 'Geschenk', icon: 'rabbit_foot', folder: 'gameplay', ctx: ['origin', 'this'],
-      desc: 'Geschenke von Katzen oder Dorfbewohnern (Held des Dorfes).' },
-    { id: 'barter', label: 'Piglin-Handel', icon: 'gold_ingot', folder: 'gameplay', ctx: ['this'],
-      desc: 'Was Piglins für Gold hergeben.' },
-    { id: 'shearing', label: 'Scheren', icon: 'shears', folder: 'shearing', ctx: ['origin', 'this', 'tool'],
-      desc: 'Drops beim Scheren von Schafen, Mooshrooms usw.' },
-    { id: 'equipment', label: 'Mob-Ausrüstung', icon: 'iron_chestplate', folder: 'equipment', ctx: ['origin', 'this'],
-      desc: 'Ausrüstung, mit der Mobs (z. B. aus Trial Spawnern) erscheinen.' },
-    { id: 'generic', label: 'Generisch / Befehl', icon: 'command_block', folder: '', ctx: ['origin', 'this', 'mob', 'attacker', 'player_kill', 'tool', 'explosion', 'hook'],
-      desc: 'Für /loot-Befehle und eigene Zwecke. Alle Bedingungen erlaubt, aber nicht jede ist überall sinnvoll.' }
+    { id: 'chest', label: tr('Truhe / Behälter'), icon: 'chest', folder: 'chests', ctx: ['origin', 'this'],
+      desc: tr('Inhalt von Truhen, Fässern, Spendern usw. Wird beim ersten Öffnen erzeugt.') },
+    { id: 'display', label: tr('Regal / Rahmen / Topf'), icon: 'oak_shelf', folder: 'display', ctx: ['origin', 'this'],
+      desc: tr('Füllt Regale (3 Plätze), gemeißelte Bücherregale (6 Bücher), Item-Rahmen und Deko-Töpfe per Befehl. Wird als Truhen-Loot-Table exportiert.') },
+    { id: 'entity', label: tr('Mob-Drops'), icon: 'zombie_head', folder: 'entities', ctx: ['origin', 'this', 'mob', 'attacker', 'player_kill'],
+      desc: tr('Was ein Mob beim Tod fallen lässt. Plünderung, "von Spieler getötet" usw. verfügbar.') },
+    { id: 'block', label: tr('Block-Drops'), icon: 'diamond_pickaxe', folder: 'blocks', ctx: ['origin', 'tool', 'explosion'],
+      desc: tr('Was ein Block beim Abbauen droppt. Behutsamkeit, Glück, Explosionen verfügbar.') },
+    { id: 'fishing', label: tr('Angeln'), icon: 'fishing_rod', folder: 'gameplay/fishing', ctx: ['origin', 'this', 'tool', 'hook'],
+      desc: tr('Beute beim Angeln (ersetzt z. B. minecraft:gameplay/fishing).') },
+    { id: 'archaeology', label: tr('Archäologie'), icon: 'brush', folder: 'archaeology', ctx: ['origin', 'this', 'tool'],
+      desc: tr('Beute aus verdächtigem Sand/Kies beim Abpinseln.') },
+    { id: 'gift', label: tr('Geschenk'), icon: 'rabbit_foot', folder: 'gameplay', ctx: ['origin', 'this'],
+      desc: tr('Geschenke von Katzen oder Dorfbewohnern (Held des Dorfes).') },
+    { id: 'barter', label: tr('Piglin-Handel'), icon: 'gold_ingot', folder: 'gameplay', ctx: ['this'],
+      desc: tr('Was Piglins für Gold hergeben.') },
+    { id: 'shearing', label: tr('Scheren'), icon: 'shears', folder: 'shearing', ctx: ['origin', 'this', 'tool'],
+      desc: tr('Drops beim Scheren von Schafen, Mooshrooms usw.') },
+    { id: 'equipment', label: tr('Mob-Ausrüstung'), icon: 'iron_chestplate', folder: 'equipment', ctx: ['origin', 'this'],
+      desc: tr('Ausrüstung, mit der Mobs (z. B. aus Trial Spawnern) erscheinen.') },
+    { id: 'generic', label: tr('Generisch / Befehl'), icon: 'command_block', folder: '', ctx: ['origin', 'this', 'mob', 'attacker', 'player_kill', 'tool', 'explosion', 'hook'],
+      desc: tr('Für /loot-Befehle und eigene Zwecke. Alle Bedingungen erlaubt, aber nicht jede ist überall sinnvoll.') }
 ];
 const TYPE_BY_ID = new Map(TABLE_TYPES.map(t => [t.id, t]));
 // Typen, die es nur in Vanilla gibt – beim Import auf etwas Passendes abbilden
 const TYPE_ALIASES = { block_interact: 'block', entity_interact: 'shearing', vault: 'chest' };
 
 const COLORS = [
-    ['', 'Standard', null], ['white', 'Weiß', '#FFFFFF'], ['gray', 'Grau', '#AAAAAA'], ['dark_gray', 'Dunkelgrau', '#555555'],
-    ['black', 'Schwarz', '#000000'], ['yellow', 'Gelb', '#FFFF55'], ['gold', 'Gold', '#FFAA00'], ['red', 'Rot', '#FF5555'],
-    ['dark_red', 'Dunkelrot', '#AA0000'], ['green', 'Grün', '#55FF55'], ['dark_green', 'Dunkelgrün', '#00AA00'],
-    ['aqua', 'Türkis', '#55FFFF'], ['dark_aqua', 'Dunkeltürkis', '#00AAAA'], ['blue', 'Blau', '#5555FF'],
-    ['dark_blue', 'Dunkelblau', '#0000AA'], ['light_purple', 'Hellviolett', '#FF55FF'], ['dark_purple', 'Violett', '#AA00AA']
+    ['', tr('Standard'), null], ['white', tr('Weiß'), '#FFFFFF'], ['gray', tr('Grau'), '#AAAAAA'], ['dark_gray', tr('Dunkelgrau'), '#555555'],
+    ['black', tr('Schwarz'), '#000000'], ['yellow', tr('Gelb'), '#FFFF55'], ['gold', tr('Gold'), '#FFAA00'], ['red', tr('Rot'), '#FF5555'],
+    ['dark_red', tr('Dunkelrot'), '#AA0000'], ['green', tr('Grün'), '#55FF55'], ['dark_green', tr('Dunkelgrün'), '#00AA00'],
+    ['aqua', tr('Türkis'), '#55FFFF'], ['dark_aqua', tr('Dunkeltürkis'), '#00AAAA'], ['blue', tr('Blau'), '#5555FF'],
+    ['dark_blue', tr('Dunkelblau'), '#0000AA'], ['light_purple', tr('Hellviolett'), '#FF55FF'], ['dark_purple', tr('Violett'), '#AA00AA']
 ];
 const COLOR_HEX = Object.fromEntries(COLORS.filter(c => c[2]).map(c => [c[0], c[2]]));
 const RARITY_COLOR = ['#FFFFFF', '#FFFF55', '#55FFFF', '#FF55FF'];
-const RARITIES = [['', 'Standard'], ['common', 'Gewöhnlich (weiß)'], ['uncommon', 'Ungewöhnlich (gelb)'], ['rare', 'Selten (türkis)'], ['epic', 'Episch (violett)']];
+const RARITIES = [['', tr('Standard')], ['common', tr('Gewöhnlich (weiß)')], ['uncommon', tr('Ungewöhnlich (gelb)')], ['rare', tr('Selten (türkis)')], ['epic', tr('Episch (violett)')]];
 
 const ENCH_TAGS = [
-    ['on_random_loot', 'Alle normalen (wie Dungeon-Truhen)'],
-    ['in_enchanting_table', 'Wie am Zaubertisch'],
-    ['non_treasure', 'Alle außer Schatz-Verzauberungen'],
-    ['treasure', 'Nur Schatz-Verzauberungen'],
-    ['tradeable', 'Wie beim Dorfbewohner-Handel'],
-    ['curse', 'Nur Flüche'],
-    ['', 'Wirklich alle (inkl. Schatz & Flüche)']
+    ['on_random_loot', tr('Alle normalen (wie Dungeon-Truhen)')],
+    ['in_enchanting_table', tr('Wie am Zaubertisch')],
+    ['non_treasure', tr('Alle außer Schatz-Verzauberungen')],
+    ['treasure', tr('Nur Schatz-Verzauberungen')],
+    ['tradeable', tr('Wie beim Dorfbewohner-Handel')],
+    ['curse', tr('Nur Flüche')],
+    ['', tr('Wirklich alle (inkl. Schatz & Flüche)')]
 ];
 
 /* ---------- Minecraft-Versionen ----------
@@ -79,7 +79,7 @@ const ENCH_TAGS = [
  */
 const VERSIONS = D.versions;
 const versionIndex = (id = state.version) => Math.max(0, VERSIONS.findIndex(v => v.id === id));
-const versionLabel = (id = state.version) => 'Minecraft ' + id;
+const versionLabel = (id = state.version) => tr('Minecraft ') + id;
 
 function availIn(kind, id, vi = versionIndex()) {
     const a = D.avail[kind]?.[strip(id)];
@@ -90,8 +90,8 @@ function missingIn(kind, id) {
     const a = D.avail[kind]?.[strip(id)];
     if (!a) return null;
     const vi = versionIndex();
-    if (vi < a[0]) return 'erst ab ' + VERSIONS[a[0]].id;
-    if (vi > a[1]) return 'nur bis ' + VERSIONS[a[1]].id;
+    if (vi < a[0]) return tr('erst ab ') + VERSIONS[a[0]].id;
+    if (vi > a[1]) return tr('nur bis ') + VERSIONS[a[1]].id;
     return null;
 }
 // [id, label]-Listen auf die gewählte Version filtern
@@ -108,7 +108,7 @@ function setVersion(id) {
     state.fmt = VERSIONS[versionIndex(id)].loot;
 }
 
-function packMcmeta(description = 'Meine Datapack-Inhalte') {
+function packMcmeta(description = tr('Meine Datapack-Inhalte')) {
     const v = VERSIONS[versionIndex()];
     const pack = { description };
     pack.pack_format = v.pack;
@@ -199,7 +199,7 @@ async function copyText(txt) {
         document.execCommand('copy');
         ta.remove();
     }
-    toast('In die Zwischenablage kopiert');
+    toast(tr('In die Zwischenablage kopiert'));
 }
 
 /* =====================================================================
@@ -310,7 +310,8 @@ function newPool() {
 }
 
 function newTable() {
-    return { namespace: 'meinserver', path: 'chests/meine_truhe', type: 'chest', randomSequence: true, pools: [newPool()] };
+    return {
+        id: uid(), namespace: tr('meinserver'), path: tr('chests/meine_truhe'), type: 'chest', randomSequence: true, pools: [newPool()] };
 }
 
 // Fehlende Felder (z. B. aus älteren Speicherständen) mit Standardwerten auffüllen
@@ -335,6 +336,7 @@ function hydrate(table) {
         return pool;
     });
     if (!TYPE_BY_ID.has(t.type)) t.type = 'generic';
+    if (!table?.id) t.id = uid();
     return t;
 }
 
@@ -343,16 +345,20 @@ function hydrateCond(c) {
     return { id: c.id || uid(), type: c.type, invert: !!c.invert, p: def ? withDefaults(def.def(), c.p || {}) : (c.p || {}) };
 }
 
-let state = { version: VERSIONS[VERSIONS.length - 1].id, fmt: 'modern', table: null };
+/* Alle Loot-Tables des Projekts liegen in state.tables; bearbeitet wird immer die mit der ID state.current.
+ * (Früher gab es nur eine Loot-Table in state.table – alte Speicherstände werden beim Laden übernommen.) */
+let state = { version: VERSIONS[VERSIONS.length - 1].id, fmt: 'modern', tables: [], current: null };
 let recent = [];
 
 function loadState() {
     try {
         const s = JSON.parse(localStorage.getItem('lootbuilder.state') || 'null');
-        if (s && s.table) state = { ...state, table: hydrate(s.table) };
+        if (s && Array.isArray(s.tables)) state = { ...state, tables: s.tables.map(hydrate), current: s.current };
+        else if (s && s.table) state = { ...state, tables: [hydrate(s.table)] };
         setVersion(s?.version || FMT_TO_VERSION[s?.fmt] || state.version);
     } catch { /* kaputter Speicherstand */ }
-    if (!state.table) state.table = newTable();
+    if (!state.tables.length) state.tables.push(newTable());
+    if (!state.tables.some(t => t.id === state.current)) state.current = state.tables[0].id;
     if (!state.fmt) setVersion(state.version);
     try { recent = JSON.parse(localStorage.getItem('lootbuilder.recent') || '[]'); } catch { recent = []; }
 }
@@ -366,7 +372,40 @@ function rememberItem(id) {
     try { localStorage.setItem('lootbuilder.recent', JSON.stringify(recent)); } catch { /* egal */ }
 }
 
-const T = () => state.table;
+const T = () => state.tables.find(t => t.id === state.current) || state.tables[0];
+const tableById = id => state.tables.find(t => t.id === id);
+const tableId = t => `${t.namespace}:${t.path}`;
+
+// Neue Loot-Table ins Projekt aufnehmen und öffnen (mit freiem Pfad, falls es ihn schon gibt)
+function addTable(table, select = true) {
+    table = hydrate(table);
+    table.id = uid();
+    const base = table.path;
+    for (let n = 2; state.tables.some(t => tableId(t) === tableId(table)); n++) table.path = `${base}_${n}`;
+    state.tables.push(table);
+    if (select) state.current = table.id;
+    saveState();
+    return table;
+}
+function selectTable(id) {
+    if (!tableById(id)) return;
+    state.current = id;
+    saveState();
+    renderSettings();
+    refresh();
+}
+function removeTable(id) {
+    const t = tableById(id);
+    if (!t) return;
+    const filled = t.pools.some(p => p.entries.length);
+    if (filled && !confirm(tr`Loot-Table „${tableId(t)}“ wirklich löschen?`)) return;
+    state.tables = state.tables.filter(x => x.id !== id);
+    if (!state.tables.length) state.tables.push(newTable());
+    if (state.current === id) state.current = state.tables[0].id;
+    saveState();
+    renderSettings();
+    refresh();
+}
 const ctxOf = () => TYPE_BY_ID.get(T().type)?.ctx || [];
 
 const updateOutputSoon = debounce(updateOutput, 60);
@@ -429,7 +468,7 @@ function checkInput(obj, key, label, opts = {}) {
 function rangeInput(obj, opts = {}) {
     return h('div', { class: 'range-input' },
         numInput(obj, 'min', { ...opts, width: opts.width || 76 }),
-        h('span', null, 'bis'),
+        h('span', null, tr('bis')),
         numInput(obj, 'max', { ...opts, width: opts.width || 76 }),
         opts.suffix ? h('span', null, opts.suffix) : null);
 }
@@ -460,7 +499,7 @@ function colorInput(obj, key, ch) {
             ch();
         }
     }, COLORS.map(([v, l, hex]) => h('option', { value: v, style: hex ? `color:${hex}` : null }, l)),
-        h('option', { value: '#custom' }, 'Eigene Farbe…'));
+        h('option', { value: '#custom' }, tr('Eigene Farbe…')));
     picker.hidden = !isCustom(obj[key]);
     return h('div', { class: 'row' }, sel, picker);
 }
@@ -470,7 +509,7 @@ function chipList(list, options, opts = {}) {
     const listId = 'dl-' + uid();
     const wrap = h('div', { style: 'display:flex;flex-direction:column;gap:6px;min-width:260px;flex:1' });
     const chips = h('div', { class: 'chips' });
-    const input = h('input', { type: 'text', list: listId, placeholder: opts.placeholder || 'Suchen oder ID eingeben…', spellcheck: 'false' });
+    const input = h('input', { type: 'text', list: listId, placeholder: opts.placeholder || tr('Suchen oder ID eingeben…'), spellcheck: 'false' });
     const dl = h('datalist', { id: listId }, [...options].map(([id, label]) => h('option', { value: id }, label)));
     const add = () => {
         let v = input.value.trim().toLowerCase();
@@ -488,8 +527,8 @@ function chipList(list, options, opts = {}) {
     const draw = () => chips.replaceChildren(...list.map((v, i) => h('span', { class: 'chip' },
         opts.icons ? (v.startsWith('#') ? (ITEM_TAGS.get(v.slice(1)) ? icon(ITEM_TAGS.get(v.slice(1))) : specialIcon('#')) : icon(v)) : null,
         options.get(v) || v,
-        h('button', { type: 'button', title: 'Entfernen', onclick: () => { list.splice(i, 1); draw(); (opts.ch || changed)(); } }, '×'))),
-        ...(list.length ? [] : [h('span', { class: 'muted', style: 'font-size:12px' }, opts.emptyText || 'Noch nichts ausgewählt')]));
+        h('button', { type: 'button', title: tr('Entfernen'), onclick: () => { list.splice(i, 1); draw(); (opts.ch || changed)(); } }, '×'))),
+        ...(list.length ? [] : [h('span', { class: 'muted', style: 'font-size:12px' }, opts.emptyText || tr('Noch nichts ausgewählt'))]));
     draw();
     wrap.append(chips, h('div', { class: 'row' }, input, opts.extraButton || null), dl);
     return wrap;
@@ -512,7 +551,7 @@ function openModal({ title, iconEl, wide, body, foot, onClose }) {
     document.addEventListener('keydown', onKey);
     back.addEventListener('mousedown', e => { if (e.target === back) close(); });
     const modal = h('div', { class: 'modal' + (wide ? ' wide' : '') },
-        h('div', { class: 'modal-head' }, titleEl, h('button', { class: 'icon-btn', title: 'Schließen (Esc)', onclick: close }, '✕')),
+        h('div', { class: 'modal-head' }, titleEl, h('button', { class: 'icon-btn', title: tr('Schließen (Esc)'), onclick: close }, '✕')),
         bodyEl,
         foot ? h('div', { class: 'modal-foot' }, foot) : null);
     back.append(modal);
@@ -524,87 +563,87 @@ function openModal({ title, iconEl, wide, body, foot, onClose }) {
 /* =====================================================================
  * Bedingungen (Umgebungsparameter)
  * ===================================================================== */
-const SCORE_ENTITIES = [['this', 'Dieses Entity (Mob / öffnender Spieler / Angler)'], ['attacking_player', 'Spieler, der den Mob getötet hat'], ['attacker', 'Angreifer (auch Mobs)']];
+const SCORE_ENTITIES = [['this', tr('Dieses Entity (Mob / öffnender Spieler / Angler)')], ['attacking_player', tr('Spieler, der den Mob getötet hat')], ['attacker', tr('Angreifer (auch Mobs)')]];
 
 const COND_DEFS = [
-    { type: 'random_chance', group: 'Zufall', label: 'Zufallschance', ctx: null, def: () => ({ chance: 50 }),
-      render: (p, ch) => [field('Chance', h('div', { class: 'range-input' }, numInput(p, 'chance', { min: 0, max: 100, width: 90, ch }), h('span', null, '%')))],
+    { type: 'random_chance', group: tr('Zufall'), label: tr('Zufallschance'), ctx: null, def: () => ({ chance: 50 }),
+      render: (p, ch) => [field(tr('Chance'), h('div', { class: 'range-input' }, numInput(p, 'chance', { min: 0, max: 100, width: 90, ch }), h('span', null, '%')))],
       sum: p => `${p.chance} %` },
-    { type: 'random_looting', group: 'Zufall', label: 'Zufallschance + Plünderung-Bonus', ctx: 'attacker', def: () => ({ base: 5, per: 1 }),
+    { type: 'random_looting', group: tr('Zufall'), label: tr('Zufallschance + Plünderung-Bonus'), ctx: 'attacker', def: () => ({ base: 5, per: 1 }),
       render: (p, ch) => [
-          field('Ohne Plünderung', h('div', { class: 'range-input' }, numInput(p, 'base', { min: 0, max: 100, width: 80, ch }), h('span', null, '%'))),
-          field('+ pro Plünderung-Stufe', h('div', { class: 'range-input' }, numInput(p, 'per', { min: 0, max: 100, width: 80, ch }), h('span', null, '%')))
+          field(tr('Ohne Plünderung'), h('div', { class: 'range-input' }, numInput(p, 'base', { min: 0, max: 100, width: 80, ch }), h('span', null, '%'))),
+          field(tr('+ pro Plünderung-Stufe'), h('div', { class: 'range-input' }, numInput(p, 'per', { min: 0, max: 100, width: 80, ch }), h('span', null, '%')))
       ],
-      sum: p => `${p.base} % (+${p.per} %/Stufe)` },
+      sum: p => tr`${p.base} % (+${p.per} %/Stufe)` },
 
-    { type: 'weather', group: 'Welt & Umgebung', label: 'Wetter', ctx: null, def: () => ({ mode: 'rain' }),
-      render: (p, ch) => [seg(p, 'mode', [['clear', 'Klar'], ['rain', 'Regen (ohne Gewitter)'], ['thunder', 'Gewitter'], ['any_rain', 'Regen oder Gewitter']], { ch })],
-      sum: p => ({ clear: 'Klar', rain: 'Regen', thunder: 'Gewitter', any_rain: 'Regen/Gewitter' })[p.mode] },
-    { type: 'time', group: 'Welt & Umgebung', label: 'Tageszeit', ctx: null, def: () => ({ preset: 'night', min: 13000, max: 23000 }),
+    { type: 'weather', group: tr('Welt & Umgebung'), label: tr('Wetter'), ctx: null, def: () => ({ mode: 'rain' }),
+      render: (p, ch) => [seg(p, 'mode', [['clear', tr('Klar')], ['rain', tr('Regen (ohne Gewitter)')], ['thunder', tr('Gewitter')], ['any_rain', tr('Regen oder Gewitter')]], { ch })],
+      sum: p => ({ clear: tr('Klar'), rain: tr('Regen'), thunder: tr('Gewitter'), any_rain: tr('Regen/Gewitter') })[p.mode] },
+    { type: 'time', group: tr('Welt & Umgebung'), label: tr('Tageszeit'), ctx: null, def: () => ({ preset: 'night', min: 13000, max: 23000 }),
       render: (p, ch, redraw) => [
-          seg(p, 'preset', [['day', 'Tag'], ['night', 'Nacht'], ['custom', 'Eigene Zeit']], { ch, after: redraw }),
-          p.preset === 'custom' ? field('Ticks (0–24000)', rangeInput(p, { min: 0, max: 24000, step: 100, ch }),
-              '0 = 6:00 Uhr · 6000 = Mittag · 12000 = 18:00 · 18000 = Mitternacht') : null
+          seg(p, 'preset', [['day', tr('Tag')], ['night', tr('Nacht')], ['custom', tr('Eigene Zeit')]], { ch, after: redraw }),
+          p.preset === 'custom' ? field(tr('Ticks (0–24000)'), rangeInput(p, { min: 0, max: 24000, step: 100, ch }),
+              tr('0 = 6:00 Uhr · 6000 = Mittag · 12000 = 18:00 · 18000 = Mitternacht')) : null
       ],
-      sum: p => p.preset === 'day' ? 'Tag' : p.preset === 'night' ? 'Nacht' : `${p.min}–${p.max}` },
-    { type: 'biome', group: 'Welt & Umgebung', label: 'Biom', ctx: 'origin', def: () => ({ list: [] }),
-      render: (p, ch) => [chipList(p.list, new Map(inVersion('biomes', BIOMES)), { ch, placeholder: 'Biom suchen (z. B. Wüste) …' })],
+      sum: p => p.preset === 'day' ? tr('Tag') : p.preset === 'night' ? tr('Nacht') : `${p.min}–${p.max}` },
+    { type: 'biome', group: tr('Welt & Umgebung'), label: tr('Biom'), ctx: 'origin', def: () => ({ list: [] }),
+      render: (p, ch) => [chipList(p.list, new Map(inVersion('biomes', BIOMES)), { ch, placeholder: tr('Biom suchen (z. B. Wüste) …') })],
       sum: p => p.list.map(b => BIOMES.get(b) || b).join(', ') },
-    { type: 'dimension', group: 'Welt & Umgebung', label: 'Dimension', ctx: 'origin', def: () => ({ dim: 'the_nether' }),
-      render: (p, ch) => [field('Dimension', h('div', { class: 'row' },
-          selectInput(p, 'dim', [['overworld', 'Oberwelt'], ['the_nether', 'Nether'], ['the_end', 'Ende']], { ch, style: 'width:auto' })))],
-      sum: p => ({ overworld: 'Oberwelt', the_nether: 'Nether', the_end: 'Ende' })[p.dim] || p.dim },
-    { type: 'structure', group: 'Welt & Umgebung', label: 'Innerhalb einer Struktur', ctx: 'origin', def: () => ({ list: [] }),
-      render: (p, ch) => [chipList(p.list, new Map(inVersion('structures', STRUCTURES)), { ch, placeholder: 'Struktur suchen (z. B. stronghold) …' })],
+    { type: 'dimension', group: tr('Welt & Umgebung'), label: tr('Dimension'), ctx: 'origin', def: () => ({ dim: 'the_nether' }),
+      render: (p, ch) => [field(tr('Dimension'), h('div', { class: 'row' },
+          selectInput(p, 'dim', [['overworld', tr('Oberwelt')], ['the_nether', tr('Nether')], ['the_end', tr('Ende')]], { ch, style: 'width:auto' })))],
+      sum: p => ({ overworld: tr('Oberwelt'), the_nether: tr('Nether'), the_end: tr('Ende') })[p.dim] || p.dim },
+    { type: 'structure', group: tr('Welt & Umgebung'), label: tr('Innerhalb einer Struktur'), ctx: 'origin', def: () => ({ list: [] }),
+      render: (p, ch) => [chipList(p.list, new Map(inVersion('structures', STRUCTURES)), { ch, placeholder: tr('Struktur suchen (z. B. stronghold) …') })],
       sum: p => p.list.join(', ') },
-    { type: 'height', group: 'Welt & Umgebung', label: 'Höhe (Y-Koordinate)', ctx: 'origin', def: () => ({ min: -64, max: 0 }),
-      render: (p, ch) => [field('Y von … bis', rangeInput(p, { ch }), 'Leer lassen = keine Grenze')],
-      sum: p => `Y ${p.min === '' ? '…' : p.min} bis ${p.max === '' ? '…' : p.max}` },
-    { type: 'sky', group: 'Welt & Umgebung', label: 'Freier Himmel sichtbar', ctx: 'origin', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'light', group: 'Welt & Umgebung', label: 'Lichtlevel', ctx: 'origin', def: () => ({ min: 0, max: 7 }),
-      render: (p, ch) => [field('Licht von … bis (0–15)', rangeInput(p, { min: 0, max: 15, step: 1, ch }))],
+    { type: 'height', group: tr('Welt & Umgebung'), label: tr('Höhe (Y-Koordinate)'), ctx: 'origin', def: () => ({ min: -64, max: 0 }),
+      render: (p, ch) => [field(tr('Y von … bis'), rangeInput(p, { ch }), tr('Leer lassen = keine Grenze'))],
+      sum: p => tr`Y ${p.min === '' ? '…' : p.min} bis ${p.max === '' ? '…' : p.max}` },
+    { type: 'sky', group: tr('Welt & Umgebung'), label: tr('Freier Himmel sichtbar'), ctx: 'origin', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'light', group: tr('Welt & Umgebung'), label: tr('Lichtlevel'), ctx: 'origin', def: () => ({ min: 0, max: 7 }),
+      render: (p, ch) => [field(tr('Licht von … bis (0–15)'), rangeInput(p, { min: 0, max: 15, step: 1, ch }))],
       sum: p => `${p.min}–${p.max}` },
 
-    { type: 'killed_by_player', group: 'Mob', label: 'Von einem Spieler getötet', ctx: 'player_kill', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'on_fire', group: 'Mob', label: 'Mob brennt', ctx: 'mob', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'is_baby', group: 'Mob', label: 'Mob ist ein Baby', ctx: 'mob', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'killer_type', group: 'Mob', label: 'Getötet von Mob-Typ', ctx: 'attacker', def: () => ({ entity: 'wolf' }),
-      render: (p, ch) => [field('Angreifer ist', selectInput(p, 'entity', inVersion('entities', ENTITIES).sort((a, b) => a[1].localeCompare(b[1], 'de')), { ch, style: 'width:auto;min-width:220px' }))],
+    { type: 'killed_by_player', group: tr('Mob'), label: tr('Von einem Spieler getötet'), ctx: 'player_kill', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'on_fire', group: tr('Mob'), label: tr('Mob brennt'), ctx: 'mob', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'is_baby', group: tr('Mob'), label: tr('Mob ist ein Baby'), ctx: 'mob', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'killer_type', group: tr('Mob'), label: tr('Getötet von Mob-Typ'), ctx: 'attacker', def: () => ({ entity: 'wolf' }),
+      render: (p, ch) => [field(tr('Angreifer ist'), selectInput(p, 'entity', inVersion('entities', ENTITIES).sort((a, b) => a[1].localeCompare(b[1], 'de')), { ch, style: 'width:auto;min-width:220px' }))],
       sum: p => ENTITIES.get(p.entity) || p.entity },
 
-    { type: 'silk_touch', group: 'Werkzeug', label: 'Werkzeug hat Behutsamkeit', ctx: 'tool', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'tool_enchant', group: 'Werkzeug', label: 'Werkzeug hat Verzauberung', ctx: 'tool', def: () => ({ ench: 'fortune', min: 1 }),
+    { type: 'silk_touch', group: tr('Werkzeug'), label: tr('Werkzeug hat Behutsamkeit'), ctx: 'tool', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'tool_enchant', group: tr('Werkzeug'), label: tr('Werkzeug hat Verzauberung'), ctx: 'tool', def: () => ({ ench: 'fortune', min: 1 }),
       render: (p, ch) => [
-          field('Verzauberung', selectInput(p, 'ench', inVersion('enchantments', ENCH_LIST.map(e => [e.id, e.de])), { ch, style: 'width:auto;min-width:200px' })),
-          field('ab Stufe', numInput(p, 'min', { min: 1, max: 255, step: 1, width: 80, ch }))
+          field(tr('Verzauberung'), selectInput(p, 'ench', inVersion('enchantments', ENCH_LIST.map(e => [e.id, e.de])), { ch, style: 'width:auto;min-width:200px' })),
+          field(tr('ab Stufe'), numInput(p, 'min', { min: 1, max: 255, step: 1, width: 80, ch }))
       ],
       sum: p => `${enchName(p.ench)} ≥ ${roman(num(p.min, 1))}` },
-    { type: 'shears', group: 'Werkzeug', label: 'Mit einer Schere', ctx: 'tool', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'tool_item', group: 'Werkzeug', label: 'Bestimmtes Werkzeug / Item', ctx: 'tool', def: () => ({ list: [] }),
+    { type: 'shears', group: tr('Werkzeug'), label: tr('Mit einer Schere'), ctx: 'tool', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'tool_item', group: tr('Werkzeug'), label: tr('Bestimmtes Werkzeug / Item'), ctx: 'tool', def: () => ({ list: [] }),
       render: (p, ch, redraw) => [chipList(p.list, new Map([...ITEMS.values()].map(i => [i.id, i.de])), {
-          ch, icons: true, placeholder: 'Item-Name oder ID…',
+          ch, icons: true, placeholder: tr('Item-Name oder ID…'),
           extraButton: h('button', { type: 'button', class: 'btn btn-small', onclick: () => openItemPicker({
-              title: 'Werkzeug wählen', onPick: id => { if (!p.list.includes(id)) p.list.push(id); ch(); redraw(); }
-          }) }, 'Auswählen…')
+              title: tr('Werkzeug wählen'), onPick: id => { if (!p.list.includes(id)) p.list.push(id); ch(); redraw(); }
+          }) }, tr('Auswählen…'))
       })],
       sum: p => p.list.map(itemName).join(', ') },
 
-    { type: 'survives_explosion', group: 'Block', label: 'Übersteht Explosion (zufällig)', ctx: 'explosion', def: () => ({}), render: () => [], sum: () => '' },
-    { type: 'open_water', group: 'Angeln', label: 'In offenem Wasser geangelt', ctx: 'hook', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'survives_explosion', group: tr('Block'), label: tr('Übersteht Explosion (zufällig)'), ctx: 'explosion', def: () => ({}), render: () => [], sum: () => '' },
+    { type: 'open_water', group: tr('Angeln'), label: tr('In offenem Wasser geangelt'), ctx: 'hook', def: () => ({}), render: () => [], sum: () => '' },
 
-    { type: 'score', group: 'Server / Scoreboard', label: 'Scoreboard-Wert', ctx: 'this', def: () => ({ objective: '', entity: 'this', min: 1, max: '' }),
+    { type: 'score', group: tr('Server / Scoreboard'), label: tr('Scoreboard-Wert'), ctx: 'this', def: () => ({ objective: '', entity: 'this', min: 1, max: '' }),
       render: (p, ch) => [
-          field('Scoreboard-Ziel', textInput(p, 'objective', { ch, placeholder: 'z. B. level', style: 'width:160px' })),
-          field('Von wem', selectInput(p, 'entity', SCORE_ENTITIES.filter(([v]) => v === 'this' || ctxOf().includes('attacker')), { ch, style: 'width:auto' })),
-          field('Wert von … bis', rangeInput(p, { step: 1, ch }))
+          field(tr('Scoreboard-Ziel'), textInput(p, 'objective', { ch, placeholder: tr('z. B. level'), style: 'width:160px' })),
+          field(tr('Von wem'), selectInput(p, 'entity', SCORE_ENTITIES.filter(([v]) => v === 'this' || ctxOf().includes('attacker')), { ch, style: 'width:auto' })),
+          field(tr('Wert von … bis'), rangeInput(p, { step: 1, ch }))
       ],
       sum: p => `${p.objective || '?'} ${p.min === '' ? '' : '≥ ' + p.min}${p.max === '' ? '' : ' ≤ ' + p.max}` }
 ];
 const COND_BY_TYPE = new Map(COND_DEFS.map(d => [d.type, d]));
 
 const CTX_LABEL = {
-    origin: 'einen Ort', this: 'ein Entity', mob: 'einen Mob', attacker: 'einen Angreifer',
-    player_kill: 'einen Mob-Tod', tool: 'ein Werkzeug', explosion: 'einen abgebauten Block', hook: 'einen Angelhaken'
+    origin: tr('einen Ort'), this: tr('ein Entity'), mob: tr('einen Mob'), attacker: tr('einen Angreifer'),
+    player_kill: tr('einen Mob-Tod'), tool: tr('ein Werkzeug'), explosion: tr('einen abgebauten Block'), hook: tr('einen Angelhaken')
 };
 
 function condAvailable(def) {
@@ -627,10 +666,10 @@ function condEditor(owner, ch = changed) {
                 h('div', { class: 'cond-head' },
                     h('span', { class: 'title' }, c.invert ? 'NICHT: ' : '', def.label, COND_HELP[c.type] ? infoBtn(COND_HELP[c.type], def.label) : null),
                     h('span', { class: 'grp' }, def.group),
-                    checkInput(c, 'invert', 'umkehren', { ch, after: draw, help: HELP.invert, title: 'Bedingung umkehren (trifft zu, wenn sie NICHT erfüllt ist)' }),
-                    h('button', { class: 'icon-btn', title: 'Bedingung entfernen', onclick: () => { list.splice(i, 1); draw(); ch(); } }, '🗑')),
+                    checkInput(c, 'invert', tr('umkehren'), { ch, after: draw, help: HELP.invert, title: tr('Bedingung umkehren (trifft zu, wenn sie NICHT erfüllt ist)') }),
+                    h('button', { class: 'icon-btn', title: tr('Bedingung entfernen'), onclick: () => { list.splice(i, 1); draw(); ch(); } }, '🗑')),
                 body.childNodes.length ? body : null,
-                ok ? null : h('div', { class: 'cond-warn' }, `⚠ Passt nicht zum Typ „${TYPE_BY_ID.get(T().type).label}“ – dort gibt es nicht ${CTX_LABEL[def.ctx]}. Wird trotzdem exportiert.`));
+                ok ? null : h('div', { class: 'cond-warn' }, tr`⚠ Passt nicht zum Typ „${TYPE_BY_ID.get(T().type).label}“ – dort gibt es nicht ${CTX_LABEL[def.ctx]}. Wird trotzdem exportiert.`));
         });
 
         const groups = {};
@@ -643,7 +682,7 @@ function condEditor(owner, ch = changed) {
                 draw();
                 ch();
             }
-        }, h('option', { value: '' }, '+ Bedingung hinzufügen …'),
+        }, h('option', { value: '' }, tr('+ Bedingung hinzufügen …')),
             Object.entries(groups).map(([g, defs]) => h('optgroup', { label: g }, defs.map(d => h('option', {
                 value: d.type, title: (COND_HELP[d.type] || '').replace(/\*\*/g, '')
             }, d.label)))));
@@ -652,11 +691,11 @@ function condEditor(owner, ch = changed) {
         wrap.replaceChildren(...[
             ...cards,
             list.length > 1 ? h('div', { class: 'row', style: 'gap:10px;flex-wrap:wrap' },
-                h('span', { class: 'hint' }, 'Verknüpfung:'),
-                seg(owner, 'condMode', [['all', 'Alle müssen zutreffen (UND)'], ['any', 'Mindestens eine (ODER)']], { ch }),
+                h('span', { class: 'hint' }, tr('Verknüpfung:')),
+                seg(owner, 'condMode', [['all', tr('Alle müssen zutreffen (UND)')], ['any', tr('Mindestens eine (ODER)')]], { ch }),
                 infoBtn(HELP.condMode, 'UND / ODER')) : null,
             h('div', { class: 'cond-add' }, sel,
-                list.length ? null : h('span', { class: 'hint explain-inline' }, 'Ohne Bedingungen gilt es immer. Wähle eine aus der Liste, z. B. Wetter oder Biom.'))
+                list.length ? null : h('span', { class: 'hint explain-inline' }, tr('Ohne Bedingungen gilt es immer. Wähle eine aus der Liste, z. B. Wetter oder Biom.')))
         ].filter(Boolean));
     };
     draw();
@@ -682,12 +721,13 @@ function renderSettings() {
     const id = `${t.namespace}:${t.path}`;
 
     const vanillaList = 'dl-vanilla';
-    const vanillaInput = h('input', { type: 'text', list: vanillaList, placeholder: 'z. B. chests/simple_dungeon', spellcheck: 'false' });
+    const vanillaInput = h('input', { type: 'text', list: vanillaList, placeholder: tr('z. B. chests/simple_dungeon'), spellcheck: 'false' });
 
     el.replaceChildren(
-        h('h2', null, h('span', { class: 'step-no' }, '1'), 'Loot-Table'),
-        explain('Leg zuerst fest, wofür die Loot-Table gedacht ist und wie die Datei heißen soll.'),
-        h('div', { class: 'field-label', style: 'margin-bottom:6px' }, 'Wofür ist die Loot-Table?', infoBtn(HELP.type, 'Typ der Loot-Table')),
+        h('div', { id: 'library' }, libraryPanel()),
+        h('h2', null, h('span', { class: 'step-no' }, '1'), tr('Diese Loot-Table')),
+        explain(tr('Leg fest, wofür die gerade geöffnete Loot-Table gedacht ist und wie die Datei heißen soll.')),
+        h('div', { class: 'field-label', style: 'margin-bottom:6px' }, tr('Wofür ist die Loot-Table?'), infoBtn(HELP.type, tr('Typ der Loot-Table'))),
         h('div', { class: 'type-grid' }, TABLE_TYPES.map(tt => h('button', {
             type: 'button', class: 'type-card' + (tt.id === t.type ? ' on' : ''), title: tt.desc,
             onclick: () => {
@@ -701,36 +741,81 @@ function renderSettings() {
         }, icon(tt.icon, { eager: true }), tt.label))),
         h('div', { class: 'hint explain-inline', style: 'margin:-6px 0 14px' }, typeDef.desc),
 
-        field('Namespace', textInput(t, 'namespace', {
-            placeholder: 'meinserver',
+        field(tr('Namespace'), textInput(t, 'namespace', {
+            placeholder: tr('meinserver'),
             transform: v => v.toLowerCase().replace(/\s+/g, '_'),
-            ch: () => { changed(); updatePathBox(); }
-        }), validNs ? 'Name deines Datapacks bzw. Servers, nur a–z, 0–9, _ . -' : h('span', { style: 'color:var(--danger)' }, 'Nur Kleinbuchstaben, Zahlen und _ . - erlaubt'), HELP.namespace),
-        field('Pfad / Dateiname', textInput(t, 'path', {
-            placeholder: typeDef.folder ? typeDef.folder + '/meine_tabelle' : 'meine_tabelle',
+            ch: () => { changed(); updatePathBox(); renderLibrary(); }
+        }), validNs ? tr('Name deines Datapacks bzw. Servers, nur a–z, 0–9, _ . -') : h('span', { style: 'color:var(--danger)' }, tr('Nur Kleinbuchstaben, Zahlen und _ . - erlaubt')), HELP.namespace),
+        field(tr('Pfad / Dateiname'), textInput(t, 'path', {
+            placeholder: typeDef.folder ? typeDef.folder + '/' + tr('meine_tabelle') : tr('meine_tabelle'),
             transform: v => v.toLowerCase().replace(/\s+/g, '_'),
-            ch: () => { changed(); updatePathBox(); renderPoolsSoon(); }
-        }), validPath ? 'Unterordner mit / trennen, ohne .json' : h('span', { style: 'color:var(--danger)' }, 'Ungültiger Pfad (nur a–z, 0–9, _ . - /)'), HELP.path),
-        h('div', { class: 'field-label', style: 'margin-bottom:5px' }, 'Speicherort im Datapack', infoBtn(HELP.pathBox, 'Speicherort')),
+            ch: () => { changed(); updatePathBox(); renderPoolsSoon(); renderLibrary(); }
+        }), validPath ? tr('Unterordner mit / trennen, ohne .json') : h('span', { style: 'color:var(--danger)' }, tr('Ungültiger Pfad (nur a–z, 0–9, _ . - /)')), HELP.path),
+        h('div', { class: 'field-label', style: 'margin-bottom:5px' }, tr('Speicherort im Datapack'), infoBtn(HELP.pathBox, tr('Speicherort'))),
         h('div', { id: 'path-box' }),
-        h('div', { style: 'margin-top:10px' }, checkInput(t, 'randomSequence', 'Eigene Zufallssequenz (random_sequence)', {
-            title: 'Empfohlen: sorgt dafür, dass die Loot-Table ihre eigene, reproduzierbare Zufallsfolge nutzt.', help: HELP.randomSequence
+        h('div', { style: 'margin-top:10px' }, checkInput(t, 'randomSequence', tr('Eigene Zufallssequenz (random_sequence)'), {
+            title: tr('Empfohlen: sorgt dafür, dass die Loot-Table ihre eigene, reproduzierbare Zufallsfolge nutzt.'), help: HELP.randomSequence
         })),
 
         h('details', { class: 'box' },
-            h('summary', null, 'Vanilla-Loot-Table bearbeiten / ersetzen', infoBtn(HELP.vanilla, 'Vanilla-Vorlagen')),
+            h('summary', null, tr('Vanilla-Loot-Table bearbeiten / ersetzen'), infoBtn(HELP.vanilla, tr('Vanilla-Vorlagen'))),
             h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' },
-                'Lädt eine originale Loot-Table aus ' + versionLabel() + ' als Vorlage. Mit Namespace „minecraft“ und gleichem Pfad ersetzt dein Datapack das Original.'),
+                tr('Lädt eine originale Loot-Table aus ') + versionLabel() + tr(' als Vorlage. Mit Namespace „minecraft“ und gleichem Pfad ersetzt dein Datapack das Original.')),
             h('div', { class: 'row' }, vanillaInput, h('button', {
                 class: 'btn btn-small', onclick: () => loadVanilla(vanillaInput.value)
-            }, 'Laden')),
+            }, tr('Laden'))),
             h('datalist', { id: vanillaList }, [...VANILLA_TABLES.keys()].filter(k => availIn('lootTables', k)).map(k => h('option', { value: k })))),
 
         h('details', { class: 'box', open: true },
-            h('summary', null, 'So benutzt du die Datei', infoBtn(HELP.usage, 'Datapack & Befehle')),
+            h('summary', null, tr('So benutzt du die Datei'), infoBtn(HELP.usage, tr('Datapack & Befehle'))),
             usageBlock(id))
     );
     updatePathBox();
+}
+
+/* ---------- Liste „Meine Loot-Tables“ ---------- */
+function linkedMobLabel(t) {
+    if (typeof mob === 'undefined' || !mob) return null;
+    const parts = [];
+    if (mob.loot?.mode === 'library' && mob.loot.value === t.id) parts.push(tr('Drops'));
+    if (mob.chest?.mode === 'library' && mob.chest.value === t.id) parts.push(tr('Truhe'));
+    return parts.length ? tr`🧟 ${parts.join(' & ')} von ${mob.name?.text || MOB_BY_ID.get(mob.id)?.de || mob.id}` : null;
+}
+
+function libraryPanel() {
+    const cur = T();
+    return h('div', { class: 'library' },
+        h('div', { class: 'library-head' },
+            h('span', null, tr('Meine Loot-Tables')), h('span', { class: 'badge' }, state.tables.length),
+            infoBtn(HELP.library, tr('Meine Loot-Tables'))),
+        h('div', { class: 'library-list' }, state.tables.map(t => {
+            const tt = TYPE_BY_ID.get(t.type);
+            const n = t.pools.reduce((sum, p) => sum + p.entries.length, 0);
+            const link = linkedMobLabel(t);
+            return h('div', {
+                class: 'lib-item' + (t.id === cur.id ? ' on' : ''), title: tr`${tableId(t)}\nKlicken zum Öffnen`,
+                onclick: () => selectTable(t.id)
+            },
+                icon(tt?.icon || 'chest'),
+                h('div', { class: 'lib-text' },
+                    h('div', { class: 'lib-name' }, t.path || tr('(ohne Pfad)')),
+                    h('div', { class: 'lib-sub' }, `${tt?.label || t.type} · ${n} ${n === 1 ? tr('Eintrag') : tr('Einträge')}`),
+                    link ? h('div', { class: 'lib-link' }, link) : null),
+                h('button', { class: 'icon-btn', title: tr('Duplizieren'), onclick: ev => {
+                    ev.stopPropagation();
+                    const c = clone(t);
+                    delete c.id;
+                    addTable(c);
+                    renderSettings();
+                    refresh();
+                } }, '⧉'),
+                h('button', { class: 'icon-btn', title: tr('Löschen'), onclick: ev => { ev.stopPropagation(); removeTable(t.id); } }, '🗑'));
+        })),
+        h('button', { class: 'btn btn-small lib-add', onclick: () => $('#btn-new').click() }, tr('+ Neue Loot-Table')));
+}
+function renderLibrary() {
+    const el = $('#library');
+    if (el) el.replaceChildren(libraryPanel());
 }
 
 function updatePathBox() {
@@ -751,35 +836,42 @@ function usageBlock(id) {
     const t = T();
     const cmds = [];
     if (t.type === 'display') {
-        cmds.push(['Regal füllen (Koordinaten des Regals statt ~ ~ ~)', `/loot replace block ~ ~ ~ container.0 3 loot ${id}`]);
-        cmds.push(['Nächsten Item-Rahmen füllen', `/loot replace entity @e[type=item_frame,distance=..4,sort=nearest,limit=1] contents loot ${id}`]);
-        cmds.push(['Nächsten leuchtenden Item-Rahmen füllen', `/loot replace entity @e[type=glow_item_frame,distance=..4,sort=nearest,limit=1] contents loot ${id}`]);
-        cmds.push(['Deko-Topf setzen (füllt sich selbst beim Zerbrechen)', `/setblock ~ ~ ~ decorated_pot{LootTable:"${id}"}`]);
-        cmds.push(['Viele Regale: einmalig einen Marker ins Regal setzen …', `/summon marker ~ ~ ~ {Tags:["loot_regal"]}`]);
-        cmds.push(['… dann alle markierten Regale auf einmal (neu) füllen', `/execute at @e[type=marker,tag=loot_regal] run loot replace block ~ ~ ~ container.0 3 loot ${id}`]);
-        cmds.push(['Viele Rahmen: nächsten Rahmen markieren …', `/tag @e[type=item_frame,distance=..4,sort=nearest,limit=1] add loot_rahmen`]);
-        cmds.push(['… dann alle markierten Rahmen (neu) füllen', `/execute as @e[type=item_frame,tag=loot_rahmen] run loot replace entity @s contents loot ${id}`]);
+        cmds.push([tr('Regal füllen (Koordinaten des Regals statt ~ ~ ~)'), `/loot replace block ~ ~ ~ container.0 3 loot ${id}`]);
+        cmds.push([tr('Nächsten Item-Rahmen füllen'), `/loot replace entity @e[type=item_frame,distance=..4,sort=nearest,limit=1] contents loot ${id}`]);
+        cmds.push([tr('Nächsten leuchtenden Item-Rahmen füllen'), `/loot replace entity @e[type=glow_item_frame,distance=..4,sort=nearest,limit=1] contents loot ${id}`]);
+        cmds.push([tr('Deko-Topf setzen (füllt sich selbst beim Zerbrechen)'), `/setblock ~ ~ ~ decorated_pot{LootTable:"${id}"}`]);
+        cmds.push([tr('Gemeißeltes Bücherregal zufällig füllen (nur Bücher landen darin)'), `/loot replace block ~ ~ ~ container.0 6 loot ${id}`]);
+        cmds.push([tr('Viele Regale: einmalig einen Marker ins Regal setzen …'), `/summon marker ~ ~ ~ {Tags:["loot_regal"]}`]);
+        cmds.push([tr('… dann alle markierten Regale auf einmal (neu) füllen'), `/execute at @e[type=marker,tag=loot_regal] run loot replace block ~ ~ ~ container.0 3 loot ${id}`]);
+        cmds.push([tr('Viele Rahmen: nächsten Rahmen markieren …'), `/tag @e[type=item_frame,distance=..4,sort=nearest,limit=1] add loot_rahmen`]);
+        cmds.push([tr('… dann alle markierten Rahmen (neu) füllen'), `/execute as @e[type=item_frame,tag=loot_rahmen] run loot replace entity @s contents loot ${id}`]);
     }
     if (t.type === 'chest') {
-        cmds.push(['Truhe mit dieser Beute setzen', `/setblock ~ ~ ~ chest{LootTable:"${id}"}`]);
+        cmds.push([tr('Truhe mit dieser Beute setzen'), `/setblock ~ ~ ~ chest{LootTable:"${id}"}`]);
     }
     if (t.type === 'entity') {
-        cmds.push(['Mob mit diesen Drops spawnen', `/summon zombie ~ ~ ~ {DeathLootTable:"${id}"}`]);
+        cmds.push([tr('Mob mit diesen Drops spawnen'), `/summon zombie ~ ~ ~ {DeathLootTable:"${id}"}`]);
     }
-    cmds.push(['Beute direkt ins Inventar', `/loot give @s loot ${id}`]);
-    cmds.push(['Beute auf den Boden werfen', `/loot spawn ~ ~ ~ loot ${id}`]);
-    const mcmeta = packMcmeta('Meine Loot Tables');
+    cmds.push([tr('Beute direkt ins Inventar'), `/loot give @s loot ${id}`]);
+    cmds.push([tr('Beute auf den Boden werfen'), `/loot spawn ~ ~ ~ loot ${id}`]);
+    const mcmeta = packMcmeta(tr('Meine Loot Tables'));
     return h('div', null,
+        t.type === 'display' ? h('div', { class: 'shelf-callout' },
+            icon('chiseled_bookshelf', { eager: true }),
+            h('div', { style: 'flex:1' },
+                h('b', null, tr('Gemeißeltes Bücherregal')),
+                h('div', { class: 'hint' }, tr('Selbst mit bis zu 6 Büchern befüllen und als Block setzen oder als Item geben.'))),
+            h('button', { class: 'btn btn-small btn-accent', onclick: openBookshelfBuilder }, tr('📚 Bauen'))) : null,
         h('ol', { class: 'hint', style: 'padding-left:18px;margin:0 0 10px' },
-            h('li', null, 'Datapack-Ordner anlegen: ', h('span', { class: 'mono' }, 'world/datapacks/MeinPack/')),
-            h('li', null, 'Darin eine ', h('span', { class: 'mono' }, 'pack.mcmeta'), ' (siehe unten)'),
-            h('li', null, 'Die JSON unter dem angezeigten Pfad ablegen'),
-            h('li', null, 'Im Spiel ', h('span', { class: 'mono' }, '/reload'), ' ausführen')),
+            h('li', null, tr('Datapack-Ordner anlegen: '), h('span', { class: 'mono' }, 'world/datapacks/MeinPack/')),
+            h('li', null, tr('Darin eine '), h('span', { class: 'mono' }, 'pack.mcmeta'), tr(' (siehe unten)')),
+            h('li', null, tr('Die JSON unter dem angezeigten Pfad ablegen')),
+            h('li', null, tr('Im Spiel '), h('span', { class: 'mono' }, '/reload'), tr(' ausführen'))),
         h('div', { class: 'cmd-list' }, cmds.map(([label, c]) => h('div', null,
             h('div', { class: 'hint', style: 'margin-bottom:3px' }, label),
-            h('div', { class: 'cmd' }, h('code', null, c), h('button', { class: 'icon-btn', title: 'Kopieren', onclick: () => copyText(c) }, '⧉'))))),
-        h('div', { class: 'hint', style: 'margin:10px 0 3px' }, 'pack.mcmeta für ' + versionLabel()),
-        h('div', { class: 'cmd' }, h('code', { style: 'white-space:pre' }, mcmeta), h('button', { class: 'icon-btn', title: 'Kopieren', onclick: () => copyText(mcmeta) }, '⧉')));
+            h('div', { class: 'cmd' }, h('code', null, c), h('button', { class: 'icon-btn', title: tr('Kopieren'), onclick: () => copyText(c) }, '⧉'))))),
+        h('div', { class: 'hint', style: 'margin:10px 0 3px' }, tr('pack.mcmeta für ') + versionLabel()),
+        h('div', { class: 'cmd' }, h('code', { style: 'white-space:pre' }, mcmeta), h('button', { class: 'icon-btn', title: tr('Kopieren'), onclick: () => copyText(mcmeta) }, '⧉')));
 }
 
 /* =====================================================================
@@ -799,8 +891,8 @@ function countLabel(e) {
 function entryTitle(e) {
     if (e.kind === 'item') return e.customName.text || itemName(e.name);
     if (e.kind === 'tag') return '#' + strip(e.name);
-    if (e.kind === 'loot_table') return 'Loot-Table ' + e.name;
-    return 'Nichts (leerer Eintrag)';
+    if (e.kind === 'loot_table') return tr('Loot-Table ') + e.name;
+    return tr('Nichts (leerer Eintrag)');
 }
 
 function isEnchanted(e) {
@@ -839,28 +931,28 @@ function sceneInfo() {
         case 'entity': {
             const mob = ENTITIES.has(last) ? last : null;
             const egg = mob && ITEMS.has(mob + '_spawn_egg') ? mob + '_spawn_egg' : null;
-            return { ...th, icon: egg || 'zombie_head', title: mob ? `Drops von ${ENTITIES.get(mob)}` : 'Mob-Drops',
-                sub: 'Diese Items lässt der Mob beim Tod fallen.' + (mob ? '' : ' Tipp: Heißt der Pfad z. B. „entities/zombie“, erscheint hier der passende Mob.'),
-                when: 'Tod des Mobs' };
+            return { ...th, icon: egg || 'zombie_head', title: mob ? tr`Drops von ${ENTITIES.get(mob)}` : tr('Mob-Drops'),
+                sub: tr('Diese Items lässt der Mob beim Tod fallen.') + (mob ? '' : tr(' Tipp: Heißt der Pfad z. B. „entities/zombie“, erscheint hier der passende Mob.')),
+                when: tr('Tod des Mobs') };
         }
         case 'block': {
             const info = ITEMS.get(last);
             const b = info?.block ? last : null;
             const tex = b ? (info.tex && info.tex.startsWith('block/') ? info.tex : 'block/' + b) : th.tex;
-            return { ...th, tex, banner: tex, icon: b || 'diamond_pickaxe', title: b ? `Abbau-Drops: ${info.de}` : 'Block-Drops',
-                sub: 'Das droppt der Block beim Abbauen.' + (b ? '' : ' Tipp: Heißt der Pfad z. B. „blocks/diamond_ore“, erscheint hier der passende Block.'),
-                when: 'Abbauen / Explosion' };
+            return { ...th, tex, banner: tex, icon: b || 'diamond_pickaxe', title: b ? tr`Abbau-Drops: ${info.de}` : tr('Block-Drops'),
+                sub: tr('Das droppt der Block beim Abbauen.') + (b ? '' : tr(' Tipp: Heißt der Pfad z. B. „blocks/diamond_ore“, erscheint hier der passende Block.')),
+                when: tr('Abbauen / Explosion') };
         }
-        case 'chest': return { ...th, icon: 'chest', title: 'Truhen-Inhalt', sub: 'So kann die Truhe beim ersten Öffnen gefüllt sein.', when: 'Erstes Öffnen' };
-        case 'display': return { ...th, icon: 'oak_shelf', title: 'Regal, Item-Rahmen & Deko-Topf',
-            sub: 'Ein Regal hat 3 Plätze, ein Item-Rahmen zeigt nur das erste Item. Befüllt wird per Befehl (siehe links).', when: '/loot-Befehl' };
-        case 'fishing': return { ...th, icon: 'fishing_rod', title: 'Angel-Beute', sub: 'Das kann man hier aus dem Wasser ziehen.', when: 'Einholen der Angel' };
-        case 'archaeology': return { ...th, icon: 'brush', title: 'Archäologie-Fund', sub: 'Das steckt im verdächtigen Sand oder Kies.', when: 'Abpinseln' };
-        case 'gift': return { ...th, icon: 'rabbit_foot', title: 'Geschenk', sub: 'Das bringen Katzen oder Dorfbewohner als Geschenk.', when: 'Morgengeschenk' };
-        case 'barter': return { ...th, icon: 'gold_ingot', title: 'Piglin-Tauschhandel', sub: 'Das wirft ein Piglin für einen Goldbarren aus.', when: 'Gold übergeben' };
-        case 'shearing': return { ...th, icon: 'shears', title: 'Scher-Ertrag', sub: 'Das fällt beim Scheren ab.', when: 'Scheren' };
-        case 'equipment': return { ...th, icon: 'iron_chestplate', title: 'Mob-Ausrüstung', sub: 'Mit dieser Ausrüstung erscheint der Mob. Jedes Item landet im passenden Slot.', when: 'Spawn des Mobs' };
-        default: return { ...th, icon: 'command_block', title: 'Generische Loot-Table', sub: 'Für /loot-Befehle und eigene Zwecke.', when: 'Befehl' };
+        case 'chest': return { ...th, icon: 'chest', title: tr('Truhen-Inhalt'), sub: tr('So kann die Truhe beim ersten Öffnen gefüllt sein.'), when: tr('Erstes Öffnen') };
+        case 'display': return { ...th, icon: 'oak_shelf', title: tr('Regal, Bücherregal, Item-Rahmen & Deko-Topf'),
+            sub: tr('Ein Regal hat 3 Plätze, ein gemeißeltes Bücherregal 6 (nur Bücher), ein Item-Rahmen zeigt nur das erste Item. Befüllt wird per Befehl (siehe links).'), when: '/loot-Befehl' };
+        case 'fishing': return { ...th, icon: 'fishing_rod', title: tr('Angel-Beute'), sub: tr('Das kann man hier aus dem Wasser ziehen.'), when: tr('Einholen der Angel') };
+        case 'archaeology': return { ...th, icon: 'brush', title: tr('Archäologie-Fund'), sub: tr('Das steckt im verdächtigen Sand oder Kies.'), when: tr('Abpinseln') };
+        case 'gift': return { ...th, icon: 'rabbit_foot', title: tr('Geschenk'), sub: tr('Das bringen Katzen oder Dorfbewohner als Geschenk.'), when: tr('Morgengeschenk') };
+        case 'barter': return { ...th, icon: 'gold_ingot', title: tr('Piglin-Tauschhandel'), sub: tr('Das wirft ein Piglin für einen Goldbarren aus.'), when: tr('Gold übergeben') };
+        case 'shearing': return { ...th, icon: 'shears', title: tr('Scher-Ertrag'), sub: tr('Das fällt beim Scheren ab.'), when: tr('Scheren') };
+        case 'equipment': return { ...th, icon: 'iron_chestplate', title: tr('Mob-Ausrüstung'), sub: tr('Mit dieser Ausrüstung erscheint der Mob. Jedes Item landet im passenden Slot.'), when: tr('Spawn des Mobs') };
+        default: return { ...th, icon: 'command_block', title: tr('Generische Loot-Table'), sub: tr('Für /loot-Befehle und eigene Zwecke.'), when: tr('Befehl') };
     }
 }
 
@@ -869,14 +961,17 @@ function renderScene() {
     return h('div', { class: 'scene scene-' + sc.cls, style: sc.banner ? texStyle(sc.banner, 0.45) : null },
         h('div', { class: 'scene-icon' + (sc.anim ? ' bob' : '') }, icon(sc.icon, { eager: true, cls: 'big' })),
         h('div', { style: 'flex:1;min-width:0' },
-            h('h2', null, sc.title, infoBtn(HELP.scene, 'Ansicht')),
+            h('h2', null, sc.title, infoBtn(HELP.scene, tr('Ansicht'))),
             h('p', null, sc.sub)),
         h('div', { class: 'scene-meta' },
+            T().type === 'display' && typeof openBookshelfBuilder === 'function' ? h('button', {
+                class: 'btn btn-small scene-link', title: tr('Gemeißeltes Bücherregal mit eigenen Büchern bauen'), onclick: openBookshelfBuilder
+            }, tr('📚 Bücherregal bauen')) : null,
             T().type === 'entity' && typeof showView === 'function' ? h('button', {
-                class: 'btn btn-small scene-link', title: 'Diese Loot-Table als Drops für den Mob im Mob-Generator verwenden',
-                onclick: () => { mob.loot = { mode: 'current', value: '' }; saveMob(); showView('mob'); toast('Loot-Table ist jetzt mit deinem Mob verknüpft.'); }
-            }, '🧟 Für Mob verwenden') : null,
-            h('span', { class: 'badge' }, 'Auslöser: ' + sc.when),
+                class: 'btn btn-small scene-link', title: tr('Diese Loot-Table als Drops für den Mob im Mob-Generator verwenden'),
+                onclick: () => { mob.loot = { mode: 'library', value: T().id }; saveMob(); showView('mob'); toast(tr`Loot-Table ${tableId(T())} sind jetzt die Drops deines Mobs.`); }
+            }, tr('🧟 Für Mob verwenden')) : null,
+            h('span', { class: 'badge' }, tr('Auslöser: ') + sc.when),
             h('span', { class: 'badge' }, 'minecraft:' + ({ display: 'chest' }[T().type] || T().type))));
 }
 
@@ -885,11 +980,11 @@ function renderPools() {
     const t = T();
     wrap.replaceChildren(renderScene(),
         explain(h('span', { class: 'step-no' }, '2'),
-            h('span', null, h('b', null, 'Beute bauen: '), 'Jeder Pool ist ein Lostopf, aus dem pro Wurf ein Eintrag gezogen wird. Klicke auf ', h('b', null, '+'),
-                ', um Items hineinzulegen, und auf ein Item, um es einzustellen. ',
-                h('button', { class: 'link-btn', onclick: () => openGuide(1) }, 'Wie funktioniert das genau?'))),
+            h('span', null, h('b', null, tr('Beute bauen: ')), tr('Jeder Pool ist ein Lostopf, aus dem pro Wurf ein Eintrag gezogen wird. Klicke auf '), h('b', null, '+'),
+                tr(', um Items hineinzulegen, und auf ein Item, um es einzustellen. '),
+                h('button', { class: 'link-btn', onclick: () => openGuide(1) }, tr('Wie funktioniert das genau?')))),
         ...t.pools.map((pool, pi) => renderPool(pool, pi)));
-    if (!t.pools.length) wrap.append(h('div', { class: 'panel empty-note' }, 'Noch kein Pool. Ein Pool ist eine „Ziehung“: aus seinen Einträgen wird pro Wurf einer zufällig (nach Gewicht) ausgewählt.'));
+    if (!t.pools.length) wrap.append(h('div', { class: 'panel empty-note' }, tr('Noch kein Pool. Ein Pool ist eine „Ziehung“: aus seinen Einträgen wird pro Wurf einer zufällig (nach Gewicht) ausgewählt.')));
 }
 
 function renderPool(pool, pi) {
@@ -901,62 +996,62 @@ function renderPool(pool, pi) {
         const w = Math.max(1, Math.round(num(e.weight, 1)));
         const chance = tw ? (w / tw) * 100 : 0;
         const marks = [];
-        if (e.ench.mode !== 'none') marks.push(h('span', { class: 'mark ench', title: 'verzaubert' }));
-        if (e.customName.text || e.lore.some(l => l.text)) marks.push(h('span', { class: 'mark name', title: 'eigener Name / Lore' }));
-        if (e.conditions.length) marks.push(h('span', { class: 'mark cond', title: 'hat Bedingungen' }));
+        if (e.ench.mode !== 'none') marks.push(h('span', { class: 'mark ench', title: tr('verzaubert') }));
+        if (e.customName.text || e.lore.some(l => l.text)) marks.push(h('span', { class: 'mark name', title: tr('eigener Name / Lore') }));
+        if (e.conditions.length) marks.push(h('span', { class: 'mark cond', title: tr('hat Bedingungen') }));
         const cnt = countLabel(e);
         return h('div', { class: 'slot-wrap' },
             h('button', {
                 class: 'slot' + (isEnchanted(e) ? ' glint' : ''),
-                title: `${entryTitle(e)}\nGewicht ${w} → ${fmtPct(chance)} pro Wurf\nKlicken zum Bearbeiten`,
+                title: tr`${entryTitle(e)}\nGewicht ${w} → ${fmtPct(chance)} pro Wurf\nKlicken zum Bearbeiten`,
                 onclick: () => openEntryEditor(pool, e)
             }, entryIcon(e), marks.length ? h('span', { class: 'marks' }, marks) : null, cnt ? h('span', { class: 'count' }, cnt) : null),
             h('div', { class: 'slot-chance' }, fmtPct(chance)));
     });
     slots.push(h('div', { class: 'slot-wrap' },
-        h('button', { class: 'slot add', title: 'Item hinzufügen', onclick: () => addItemsToPool(pool) }, '+'),
-        h('div', { class: 'slot-chance' }, 'Item')));
-    if (!pool.entries.length) slots.push(h('div', { class: 'inv-empty explain-inline' }, '← Noch leer. Klicke auf +, um das erste Item in diesen Lostopf zu legen.'));
+        h('button', { class: 'slot add', title: tr('Item hinzufügen'), onclick: () => addItemsToPool(pool) }, '+'),
+        h('div', { class: 'slot-chance' }, tr('Item'))));
+    if (!pool.entries.length) slots.push(h('div', { class: 'inv-empty explain-inline' }, tr('← Noch leer. Klicke auf +, um das erste Item in diesen Lostopf zu legen.')));
 
     const poolCondCount = pool.conditions.length;
     return h('div', { class: 'pool' },
         h('div', { class: 'pool-head' },
-            h('div', { class: 'pool-title' }, `Pool ${pi + 1}`, infoBtn(HELP.pool, 'Was ist ein Pool?'),
-                h('span', { class: 'badge' }, `${pool.entries.length} Einträge`),
-                h('span', { class: 'badge green' }, rMin === rMax ? `${rMin}× ziehen` : `${Math.min(rMin, rMax)}–${Math.max(rMin, rMax)}× ziehen`),
-                poolCondCount ? h('span', { class: 'badge blue' }, `${poolCondCount} Bedingung${poolCondCount > 1 ? 'en' : ''}`) : null),
+            h('div', { class: 'pool-title' }, tr`Pool ${pi + 1}`, infoBtn(HELP.pool, tr('Was ist ein Pool?')),
+                h('span', { class: 'badge' }, tr`${pool.entries.length} Einträge`),
+                h('span', { class: 'badge green' }, rMin === rMax ? tr`${rMin}× ziehen` : tr`${Math.min(rMin, rMax)}–${Math.max(rMin, rMax)}× ziehen`),
+                poolCondCount ? h('span', { class: 'badge blue' }, tr`${poolCondCount} Bedingung${poolCondCount > 1 ? 'en' : ''}`) : null),
             h('span', { class: 'spacer' }),
-            h('button', { class: 'icon-btn', title: 'Nach oben', disabled: pi === 0, onclick: () => { movePool(pi, -1); } }, '↑'),
-            h('button', { class: 'icon-btn', title: 'Nach unten', disabled: pi === t.pools.length - 1, onclick: () => { movePool(pi, 1); } }, '↓'),
-            h('button', { class: 'icon-btn', title: 'Pool duplizieren', onclick: () => {
+            h('button', { class: 'icon-btn', title: tr('Nach oben'), disabled: pi === 0, onclick: () => { movePool(pi, -1); } }, '↑'),
+            h('button', { class: 'icon-btn', title: tr('Nach unten'), disabled: pi === t.pools.length - 1, onclick: () => { movePool(pi, 1); } }, '↓'),
+            h('button', { class: 'icon-btn', title: tr('Pool duplizieren'), onclick: () => {
                 const c = clone(pool); c.id = uid(); c.entries.forEach(e => e.id = uid());
                 t.pools.splice(pi + 1, 0, c); refresh();
             } }, '⧉'),
-            h('button', { class: 'icon-btn', title: 'Pool löschen', onclick: () => {
-                if (pool.entries.length && !confirm(`Pool ${pi + 1} mit ${pool.entries.length} Einträgen löschen?`)) return;
+            h('button', { class: 'icon-btn', title: tr('Pool löschen'), onclick: () => {
+                if (pool.entries.length && !confirm(tr`Pool ${pi + 1} mit ${pool.entries.length} Einträgen löschen?`)) return;
                 t.pools.splice(pi, 1); refresh();
             } }, '🗑')),
         h('div', { class: 'pool-body' },
             h('div', { class: 'pool-rolls' },
-                field('Würfe (wie oft gezogen wird)', rangeInput(pool.rolls, { min: 0, step: 1 }), null, HELP.rolls),
-                field('Bonus-Würfe pro Glück-Punkt', numInput(pool, 'bonusRolls', { step: 0.1, width: 90 }), 'Meist 0. Wirkt mit „Glück“-Effekt.', HELP.bonusRolls)),
-            h('div', { class: 'section-label' }, 'Einträge', infoBtn(HELP.entries, 'Einträge'), h('span', { class: 'hint explain-inline', style: 'text-transform:none;letter-spacing:0;font-weight:400' }, '% = Chance pro Wurf · Klick zum Bearbeiten')),
+                field(tr('Würfe (wie oft gezogen wird)'), rangeInput(pool.rolls, { min: 0, step: 1 }), null, HELP.rolls),
+                field(tr('Bonus-Würfe pro Glück-Punkt'), numInput(pool, 'bonusRolls', { step: 0.1, width: 90 }), tr('Meist 0. Wirkt mit „Glück“-Effekt.'), HELP.bonusRolls)),
+            h('div', { class: 'section-label' }, tr('Einträge'), infoBtn(HELP.entries, tr('Einträge')), h('span', { class: 'hint explain-inline', style: 'text-transform:none;letter-spacing:0;font-weight:400' }, tr('% = Chance pro Wurf · Klick zum Bearbeiten'))),
             inventoryView(slots),
             h('div', { class: 'pool-foot' },
-                h('button', { class: 'btn btn-small', onclick: () => addItemsToPool(pool) }, '+ Item'),
-                h('button', { class: 'btn btn-small', title: 'Ein Eintrag, der nichts droppt – senkt die Chance der anderen', onclick: () => {
+                h('button', { class: 'btn btn-small', onclick: () => addItemsToPool(pool) }, tr('+ Item')),
+                h('button', { class: 'btn btn-small', title: tr('Ein Eintrag, der nichts droppt – senkt die Chance der anderen'), onclick: () => {
                     const e = newEntry('empty'); pool.entries.push(e); refresh(); openEntryEditor(pool, e);
-                } }, '+ Nichts'),
-                h('button', { class: 'btn btn-small', title: 'Alle Items eines Item-Tags (z. B. alle Wollblöcke)', onclick: () => openTagPicker(tag => {
+                } }, tr('+ Nichts')),
+                h('button', { class: 'btn btn-small', title: tr('Alle Items eines Item-Tags (z. B. alle Wollblöcke)'), onclick: () => openTagPicker(tag => {
                     const e = newEntry('tag', tag); pool.entries.push(e); refresh(); openEntryEditor(pool, e);
-                }) }, '+ Item-Tag'),
-                h('button', { class: 'btn btn-small', title: 'Eine andere Loot-Table einbinden (z. B. Vanilla-Dungeon-Loot)', onclick: () => {
+                }) }, tr('+ Item-Tag')),
+                h('button', { class: 'btn btn-small', title: tr('Eine andere Loot-Table einbinden (z. B. Vanilla-Dungeon-Loot)'), onclick: () => {
                     const e = newEntry('loot_table', 'minecraft:chests/simple_dungeon'); pool.entries.push(e); refresh(); openEntryEditor(pool, e);
-                } }, '+ Andere Loot-Table'),
-                infoBtn(HELP.addButtons, 'Was kann in einen Pool?')),
+                } }, tr('+ Andere Loot-Table')),
+                infoBtn(HELP.addButtons, tr('Was kann in einen Pool?'))),
             h('details', { class: 'box', open: poolCondCount > 0 || undefined },
-                h('summary', null, `Bedingungen für den ganzen Pool (${poolCondCount})`, infoBtn(HELP.poolConds, 'Pool-Bedingungen')),
-                h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, 'Nur wenn diese zutreffen, wird überhaupt aus diesem Pool gezogen – z. B. „nur in der Nacht“ oder „nur im Nether“.'),
+                h('summary', null, tr`Bedingungen für den ganzen Pool (${poolCondCount})`, infoBtn(HELP.poolConds, tr('Pool-Bedingungen'))),
+                h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, tr('Nur wenn diese zutreffen, wird überhaupt aus diesem Pool gezogen – z. B. „nur in der Nacht“ oder „nur im Nether“.')),
                 condEditor(pool)))
     );
 }
@@ -982,14 +1077,14 @@ function movePool(i, d) {
 
 function addItemsToPool(pool) {
     openItemPicker({
-        title: 'Item hinzufügen',
+        title: tr('Item hinzufügen'),
         multi: true,
         onPick: id => {
             const e = newEntry('item', id);
             pool.entries.push(e);
             renderPoolsSoon();
             changed();
-            toast(`${itemName(id)} hinzugefügt`);
+            toast(tr`${itemName(id)} hinzugefügt`);
         }
     });
 }
@@ -999,7 +1094,7 @@ function addItemsToPool(pool) {
  * ===================================================================== */
 const ALL_ITEMS = [...ITEMS.values()];
 const PICKER_FILTERS = [
-    ['all', 'Alle'], ['items', 'Items'], ['blocks', 'Blöcke'], ['gear', 'Werkzeug & Rüstung'], ['ench', 'Verzauberbar']
+    ['all', tr('Alle')], ['items', 'Items'], ['blocks', tr('Blöcke')], ['gear', tr('Werkzeug & Rüstung')], ['ench', tr('Verzauberbar')]
 ];
 const ENCHANTABLE = new Set(D.enchantments.flatMap(e => e[4]));
 
@@ -1007,7 +1102,7 @@ const ENCHANTABLE = new Set(D.enchantments.flatMap(e => e[4]));
 function openItemPicker({ title, onPick, multi, filter }) {
     const st = { q: '', filter: 'all', keep: !!multi };
     const grid = h('div', { class: 'picker-grid' });
-    const input = h('input', { type: 'text', placeholder: 'Suchen… (deutsch, englisch oder ID)', spellcheck: 'false' });
+    const input = h('input', { type: 'text', placeholder: tr('Suchen… (deutsch, englisch oder ID)'), spellcheck: 'false' });
     let modal;
 
     const pick = id => {
@@ -1040,12 +1135,12 @@ function openItemPicker({ title, onPick, multi, filter }) {
         }
         const cells = [];
         if (!q && st.filter === 'all' && !filter && recent.length) {
-            cells.push(h('div', { class: 'section-label', style: 'grid-column:1/-1' }, 'Zuletzt verwendet'));
+            cells.push(h('div', { class: 'section-label', style: 'grid-column:1/-1' }, tr('Zuletzt verwendet')));
             recent.filter(id => ITEMS.has(id) && availIn('items', id) && (!filter || filter(id))).forEach(id => cells.push(pickCell(ITEMS.get(id), pick)));
-            cells.push(h('div', { class: 'section-label', style: 'grid-column:1/-1;margin-top:8px' }, 'Alle Items'));
+            cells.push(h('div', { class: 'section-label', style: 'grid-column:1/-1;margin-top:8px' }, tr('Alle Items')));
         }
         list.forEach(i => cells.push(pickCell(i, pick)));
-        if (!list.length) cells.push(h('div', { class: 'picker-empty' }, 'Nichts gefunden.'));
+        if (!list.length) cells.push(h('div', { class: 'picker-empty' }, tr('Nichts gefunden.')));
         grid.replaceChildren(...cells);
         grid.scrollTop = 0;
     };
@@ -1059,9 +1154,9 @@ function openItemPicker({ title, onPick, multi, filter }) {
     });
 
     const body = h('div', null,
-        explain('Klicke ein Item an, um es hinzuzufügen. Suche auf Deutsch, Englisch oder per ID – Enter nimmt den ersten Treffer.', infoBtn(HELP.picker, 'Item-Auswahl')),
+        explain(tr('Klicke ein Item an, um es hinzuzufügen. Suche auf Deutsch, Englisch oder per ID – Enter nimmt den ersten Treffer.'), infoBtn(HELP.picker, tr('Item-Auswahl'))),
         h('div', { class: 'picker-top' }, input, seg(st, 'filter', PICKER_FILTERS, { ch: () => {}, after: draw })),
-        multi ? h('div', { style: 'margin-bottom:10px' }, checkInput(st, 'keep', 'Fenster offen lassen, um mehrere Items hinzuzufügen', { ch: () => {} })) : null,
+        multi ? h('div', { style: 'margin-bottom:10px' }, checkInput(st, 'keep', tr('Fenster offen lassen, um mehrere Items hinzuzufügen'), { ch: () => {} })) : null,
         grid);
     modal = openModal({ title, wide: true, body, iconEl: icon('bundle', { eager: true }) });
     draw();
@@ -1076,7 +1171,7 @@ function pickCell(i, pick) {
 
 function openTagPicker(onPick) {
     const grid = h('div', { class: 'picker-grid' });
-    const input = h('input', { type: 'text', placeholder: 'Tag suchen… (z. B. wool, logs, swords)', spellcheck: 'false' });
+    const input = h('input', { type: 'text', placeholder: tr('Tag suchen… (z. B. wool, logs, swords)'), spellcheck: 'false' });
     let modal;
     const draw = () => {
         const q = input.value.trim().toLowerCase().replace(/^#?(minecraft:)?/, '');
@@ -1084,11 +1179,11 @@ function openTagPicker(onPick) {
         grid.replaceChildren(...list.map(([t, first]) => h('button', {
             class: 'pick', onclick: () => { modal.close(); onPick(t); }
         }, first ? icon(first) : specialIcon('#'), h('span', null, '#' + t))),
-        ...(list.length ? [] : [h('div', { class: 'picker-empty' }, 'Kein Tag gefunden.')]));
+        ...(list.length ? [] : [h('div', { class: 'picker-empty' }, tr('Kein Tag gefunden.'))]));
     };
     input.addEventListener('input', debounce(draw, 100));
-    modal = openModal({ title: 'Item-Tag wählen', wide: true, body: h('div', null,
-        explain('Ein Item-Tag ist eine Gruppe von Items, z. B. #wool = alle Wollfarben.', infoBtn(HELP.tags, 'Item-Tags')),
+    modal = openModal({ title: tr('Item-Tag wählen'), wide: true, body: h('div', null,
+        explain(tr('Ein Item-Tag ist eine Gruppe von Items, z. B. #wool = alle Wollfarben.'), infoBtn(HELP.tags, tr('Item-Tags'))),
         h('div', { class: 'picker-top' }, input), grid) });
     draw();
     setTimeout(() => input.focus(), 30);
@@ -1131,30 +1226,30 @@ function openEntryEditor(pool, e) {
                     h('div', { class: 'name' }, e.kind === 'item' ? itemName(e.name) : entryTitle(e)),
                     h('div', { class: 'id' }, e.kind === 'item' ? 'minecraft:' + strip(e.name) : e.kind)),
                 e.kind === 'item' ? h('button', { class: 'btn btn-small', onclick: () => openItemPicker({
-                    title: 'Item ändern', onPick: id => {
+                    title: tr('Item ändern'), onPick: id => {
                         e.name = id;
                         const ni = itemInfo(id);
                         if (!POTION_ITEMS.has(id)) e.potion = '';
                         if (!ni?.maxDamage) e.damage.on = false;
                         ch(); drawAll();
                     }
-                }) }, 'Ändern') : null),
-            h('div', { class: 'field-label' }, 'Vorschau im Spiel', infoBtn(HELP.preview, 'Vorschau')),
+                }) }, tr('Ändern')) : null),
+            h('div', { class: 'field-label' }, tr('Vorschau im Spiel'), infoBtn(HELP.preview, tr('Vorschau'))),
             tooltipPreview(e, info),
             h('div', { class: 'panel', style: 'padding:12px' },
-                h('div', { class: 'hint' }, 'Chance pro Wurf in diesem Pool', infoBtn(HELP.chanceBox, 'Chance pro Wurf')),
+                h('div', { class: 'hint' }, tr('Chance pro Wurf in diesem Pool'), infoBtn(HELP.chanceBox, tr('Chance pro Wurf'))),
                 h('div', { style: 'font-size:22px;font-weight:700;color:var(--accent)' }, fmtPct(tw ? w / tw * 100 : 0)),
-                h('div', { class: 'hint' }, `Gewicht ${w} von insgesamt ${tw}`)),
+                h('div', { class: 'hint' }, tr`Gewicht ${w} von insgesamt ${tw}`)),
             h('div', { class: 'row' },
                 h('button', { class: 'btn btn-small grow', onclick: () => {
                     const c = clone(e); c.id = uid();
                     pool.entries.splice(pool.entries.indexOf(e) + 1, 0, c);
-                    refresh(); modal.close(); toast('Eintrag dupliziert');
-                } }, 'Duplizieren'),
+                    refresh(); modal.close(); toast(tr('Eintrag dupliziert'));
+                } }, tr('Duplizieren')),
                 h('button', { class: 'btn btn-small btn-danger grow', onclick: () => {
                     pool.entries.splice(pool.entries.indexOf(e), 1);
                     refresh(); modal.close();
-                } }, 'Löschen'))
+                } }, tr('Löschen')))
         );
     }
 
@@ -1165,32 +1260,37 @@ function openEntryEditor(pool, e) {
         const parts = [];
 
         // --- Menge & Gewicht
-        parts.push(section('count', 'Menge & Gewicht', null, h('div', null,
-            e.kind === 'loot_table' ? field('Loot-Table-ID', h('div', null,
+        parts.push(section('count', tr('Menge & Gewicht'), null, h('div', null,
+            e.kind === 'loot_table' ? field(tr('Loot-Table-ID'), h('div', null,
                 textInput(e, 'name', { ch, list: 'dl-vanilla-ids', placeholder: 'minecraft:chests/simple_dungeon' }),
                 h('datalist', { id: 'dl-vanilla-ids' }, [...VANILLA_TABLES.keys()].filter(k => availIn('lootTables', k)).map(k => h('option', { value: 'minecraft:' + k })))),
-                'Alle Drops dieser Tabelle werden als ein Eintrag behandelt. Eigene Tabellen: namespace:pfad', HELP.lootTableRef) : null,
+                tr('Alle Drops dieser Tabelle werden als ein Eintrag behandelt. Eigene Tabellen: namespace:pfad'), HELP.lootTableRef) : null,
             e.kind === 'tag' ? h('div', null,
-                field('Item-Tag', h('div', { class: 'row' },
+                field(tr('Item-Tag'), h('div', { class: 'row' },
                     textInput(e, 'name', { ch, placeholder: 'minecraft:wool' }),
-                    h('button', { class: 'btn btn-small', onclick: () => openTagPicker(tag => { e.name = tag; ch(); drawAll(); }) }, 'Auswählen…')), null, HELP.tags),
-                h('div', { style: 'margin-bottom:12px' }, checkInput(e, 'expand', 'Nur ein zufälliges Item aus dem Tag (sonst: alle Items des Tags auf einmal)', { ch, help: HELP.expand }))) : null,
+                    h('button', { class: 'btn btn-small', onclick: () => openTagPicker(tag => { e.name = tag; ch(); drawAll(); }) }, tr('Auswählen…'))), null, HELP.tags),
+                h('div', { style: 'margin-bottom:12px' }, checkInput(e, 'expand', tr('Nur ein zufälliges Item aus dem Tag (sonst: alle Items des Tags auf einmal)'), { ch, help: HELP.expand }))) : null,
             h('div', { class: 'grid-2' },
-                field('Gewicht', numInput(e, 'weight', { min: 1, step: 1, ch: () => { ch(); drawSide(); } }),
-                    'Höher = häufiger. Chance = Gewicht ÷ Summe aller Gewichte im Pool.', HELP.weight),
-                isItemish ? field('Anzahl', rangeInput(e.count, { min: 0, step: 1, ch: () => { ch(); drawSide(); } }),
-                    info && info.maxStack < num(e.count.max, 1) ? `⚠ Maximal ${info.maxStack} pro Stapel – wird aufgeteilt.` : 'Zufällige Menge zwischen min und max', HELP.count) : null),
-            h('details', { class: 'box' }, h('summary', null, 'Erweitert'),
-                field('Qualität (quality)', numInput(e, 'quality', { step: 1, width: 100, ch }),
-                    'Ändert das Gewicht je Glück-Punkt des Spielers: Gewicht + Qualität × Glück. Meist 0.', HELP.quality)))));
+                field(tr('Gewicht'), numInput(e, 'weight', { min: 1, step: 1, ch: () => { ch(); drawSide(); } }),
+                    tr('Höher = häufiger. Chance = Gewicht ÷ Summe aller Gewichte im Pool.'), HELP.weight),
+                isItemish ? field(tr('Anzahl'), rangeInput(e.count, { min: 0, step: 1, ch: () => { ch(); drawSide(); } }),
+                    info && info.maxStack < num(e.count.max, 1) ? tr`⚠ Maximal ${info.maxStack} pro Stapel – wird aufgeteilt.` : tr('Zufällige Menge zwischen min und max'), HELP.count) : null),
+            h('details', { class: 'box' }, h('summary', null, tr('Erweitert')),
+                field(tr('Qualität (quality)'), numInput(e, 'quality', { step: 1, width: 100, ch }),
+                    tr('Ändert das Gewicht je Glück-Punkt des Spielers: Gewicht + Qualität × Glück. Meist 0.'), HELP.quality)))));
 
         // --- Verzauberungen
         if (isItemish) {
             const en = e.ench;
             const enchBody = h('div');
             const drawEnch = () => {
-                const rows = [seg(en, 'mode', [['none', 'Keine'], ['fixed', 'Feste'], ['random', 'Zufällige'], ['levels', 'Wie Zaubertisch']], { ch, after: () => { drawEnch(); drawSide(); } })];
-                if (en.mode === 'fixed') {
+                const rows = [seg(en, 'mode', [['none', tr('Keine')], ['fixed', tr('Feste')], ['random', tr('Zufällige')], ['levels', tr('Wie Zaubertisch')]], { ch, after: () => { drawEnch(); drawSide(); } })];
+                const canEnchant = e.kind !== 'item' || applicableEnchants(e, false).length > 0;
+                if (!canEnchant && en.mode !== 'none' && !en.showAll) {
+                    rows.push(h('div', { class: 'cond-warn', style: 'margin-top:10px' },
+                        tr`${itemName(e.name)} kann im Spiel nicht verzaubert werden – Verzauberungen hätten keine Wirkung. `,
+                        checkInput(en, 'showAll', tr('trotzdem erzwingen'), { ch: () => {}, after: drawEnch })));
+                } else if (en.mode === 'fixed') {
                     const opts = applicableEnchants(e, en.showAll);
                     const excl = {};
                     en.list.forEach(x => { const ex = ENCH.get(x.id)?.excl; if (ex) (excl[ex] ||= []).push(x.id); });
@@ -1206,29 +1306,30 @@ function openEntryEditor(pool, e) {
                                         x.min = m; x.max = m;
                                         ch(); drawEnch(); drawSide();
                                     }
-                                }, (opts.some(o => o.id === x.id) ? opts : [ENCH.get(x.id), ...opts].filter(Boolean)).map(o => h('option', { value: o.id }, `${o.de}${o.curse ? ' (Fluch)' : ''}`))),
-                                h('span', { class: 'hint' }, 'Stufe'),
+                                }, (opts.some(o => o.id === x.id) ? opts : [ENCH.get(x.id), ...opts].filter(Boolean)).map(o => h('option', { value: o.id }, `${o.de}${o.curse ? tr(' (Fluch)') : ''}`))),
+                                h('span', { class: 'hint' }, tr('Stufe')),
                                 rangeInput(x, { min: 1, max: 255, step: 1, width: 64, ch: () => { ch(); drawSide(); } }),
-                                h('span', { class: 'hint' }, `max. normal ${roman(max)}`),
-                                h('button', { class: 'icon-btn', title: 'Entfernen', onclick: () => { en.list.splice(i, 1); ch(); drawEnch(); drawSide(); } }, '🗑'));
+                                h('span', { class: 'hint' }, tr`max. normal ${roman(max)}`),
+                                h('button', { class: 'icon-btn', title: tr('Entfernen'), onclick: () => { en.list.splice(i, 1); ch(); drawEnch(); drawSide(); } }, '🗑'));
                         }),
-                        conflicts.length ? h('div', { class: 'cond-warn' }, '⚠ Diese Verzauberungen sind normalerweise nicht kombinierbar: ' +
-                            conflicts.map(c => c.map(enchName).join(' + ')).join('; ') + '. Per Loot-Table geht es trotzdem.') : null,
+                        conflicts.length ? h('div', { class: 'cond-warn' }, tr('⚠ Diese Verzauberungen sind normalerweise nicht kombinierbar: ') +
+                            conflicts.map(c => c.map(enchName).join(' + ')).join('; ') + tr('. Per Loot-Table geht es trotzdem.')) : null,
                         h('div', { class: 'row', style: 'flex-wrap:wrap' },
                             h('button', { class: 'btn btn-small', onclick: () => {
                                 const used = new Set(en.list.map(x => x.id));
-                                const next = opts.find(o => !used.has(o.id)) || ENCH_LIST[0];
+                                const next = opts.find(o => !used.has(o.id));
+                                if (!next) return;
                                 en.list.push({ id: next.id, min: next.max, max: next.max });
                                 ch(); drawEnch(); drawSide();
-                            } }, '+ Verzauberung'),
-                            checkInput(en, 'showAll', 'Alle Verzauberungen zeigen (auch unpassende)', { ch: () => {}, after: drawEnch })),
-                        h('div', { class: 'hint explain-inline', style: 'margin-top:6px' }, 'Tipp: Stufen über dem Maximum (z. B. Schärfe X) sind möglich. Auf ein Buch angewendet entsteht ein verzaubertes Buch.')));
+                            } }, tr('+ Verzauberung')),
+                            checkInput(en, 'showAll', tr('Alle Verzauberungen zeigen (auch unpassende)'), { ch: () => {}, after: drawEnch })),
+                        h('div', { class: 'hint explain-inline', style: 'margin-top:6px' }, tr('Tipp: Stufen über dem Maximum (z. B. Schärfe X) sind möglich. Auf ein Buch angewendet entsteht ein verzaubertes Buch.'))));
                 } else if (en.mode === 'random') {
                     rows.push(h('div', { style: 'margin-top:12px' },
-                        h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, 'Eine zufällige Verzauberung mit zufälliger Stufe (wie in Dungeon-Truhen).'),
-                        seg(en.random, 'source', [['tag', 'Aus Gruppe'], ['list', 'Aus eigener Liste']], { ch, after: drawEnch }),
+                        h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, tr('Eine zufällige Verzauberung mit zufälliger Stufe (wie in Dungeon-Truhen).')),
+                        seg(en.random, 'source', [['tag', tr('Aus Gruppe')], ['list', tr('Aus eigener Liste')]], { ch, after: drawEnch }),
                         h('div', { style: 'margin-top:10px' }, en.random.source === 'tag'
-                            ? field('Gruppe', selectInput(en.random, 'tag', ENCH_TAGS, { ch }), null, HELP.enchGroup)
+                            ? field(tr('Gruppe'), selectInput(en.random, 'tag', ENCH_TAGS, { ch }), null, HELP.enchGroup)
                             : h('div', { class: 'chips', style: 'max-height:220px;overflow:auto' },
                                 applicableEnchants(e, true).map(x => h('label', { class: 'chip', style: 'padding-right:10px' },
                                     h('input', {
@@ -1240,80 +1341,80 @@ function openEntryEditor(pool, e) {
                                             ch(); drawSide();
                                         }
                                     }), x.de)))),
-                        h('div', { style: 'margin-top:10px' }, checkInput(en.random, 'anyItem', 'Auch Verzauberungen erlauben, die nicht zum Item passen', { ch, help: HELP.anyItem }))));
+                        h('div', { style: 'margin-top:10px' }, checkInput(en.random, 'anyItem', tr('Auch Verzauberungen erlauben, die nicht zum Item passen'), { ch, help: HELP.anyItem }))));
                 } else if (en.mode === 'levels') {
                     rows.push(h('div', { style: 'margin-top:12px' },
-                        h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, 'Verzaubert wie am Zaubertisch mit der angegebenen Anzahl Erfahrungslevel (30 = beste Tisch-Verzauberung).'),
+                        h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, tr('Verzaubert wie am Zaubertisch mit der angegebenen Anzahl Erfahrungslevel (30 = beste Tisch-Verzauberung).')),
                         h('div', { class: 'grid-2' },
                             field('Level', rangeInput(en.levels, { min: 1, max: 255, step: 1, ch: () => { ch(); drawSide(); } }), null, HELP.enchLevels),
-                            field('Mögliche Verzauberungen', selectInput(en.levels, 'tag', ENCH_TAGS, { ch }), null, HELP.enchGroup))));
+                            field(tr('Mögliche Verzauberungen'), selectInput(en.levels, 'tag', ENCH_TAGS, { ch }), null, HELP.enchGroup))));
                 }
                 enchBody.replaceChildren(...rows);
             };
             drawEnch();
-            parts.push(section('ench', 'Verzauberungen', { none: '', fixed: 'feste', random: 'zufällig', levels: 'wie Zaubertisch' }[en.mode], enchBody, HELP.ench));
+            parts.push(section('ench', tr('Verzauberungen'), { none: '', fixed: tr('feste'), random: tr('zufällig'), levels: tr('wie Zaubertisch') }[en.mode], enchBody, HELP.ench));
 
             // --- Name & Lore
             const loreBox = h('div');
             const drawLore = () => loreBox.replaceChildren(
                 ...e.lore.map((l, i) => h('div', { class: 'list-row' },
-                    h('input', { type: 'text', value: l.text, placeholder: `Zeile ${i + 1}`, style: 'flex:1;min-width:160px', oninput: ev => { l.text = ev.target.value; ch(); drawSide(); } }),
+                    h('input', { type: 'text', value: l.text, placeholder: tr`Zeile ${i + 1}`, style: 'flex:1;min-width:160px', oninput: ev => { l.text = ev.target.value; ch(); drawSide(); } }),
                     colorInput(l, 'color', () => { ch(); drawSide(); }),
-                    checkInput(l, 'italic', 'kursiv', { ch: () => { ch(); drawSide(); } }),
-                    h('button', { class: 'icon-btn', title: 'Zeile löschen', onclick: () => { e.lore.splice(i, 1); ch(); drawLore(); drawSide(); } }, '🗑'))),
-                h('button', { class: 'btn btn-small', onclick: () => { e.lore.push({ text: '', color: 'gray', italic: false, bold: false }); drawLore(); } }, '+ Beschreibungszeile'));
+                    checkInput(l, 'italic', tr('kursiv'), { ch: () => { ch(); drawSide(); } }),
+                    h('button', { class: 'icon-btn', title: tr('Zeile löschen'), onclick: () => { e.lore.splice(i, 1); ch(); drawLore(); drawSide(); } }, '🗑'))),
+                h('button', { class: 'btn btn-small', onclick: () => { e.lore.push({ text: '', color: 'gray', italic: false, bold: false }); drawLore(); } }, tr('+ Beschreibungszeile')));
             drawLore();
-            parts.push(section('name', 'Name & Beschreibung', e.customName.text ? `„${e.customName.text}“` : null, h('div', null,
-                field('Anzeigename', h('div', { class: 'list-row', style: 'margin:0' },
-                    h('input', { type: 'text', value: e.customName.text, placeholder: info ? info.de : 'Eigener Name', style: 'flex:1;min-width:160px',
+            parts.push(section('name', tr('Name & Beschreibung'), e.customName.text ? `„${e.customName.text}“` : null, h('div', null,
+                field(tr('Anzeigename'), h('div', { class: 'list-row', style: 'margin:0' },
+                    h('input', { type: 'text', value: e.customName.text, placeholder: info ? info.de : tr('Eigener Name'), style: 'flex:1;min-width:160px',
                         oninput: ev => { e.customName.text = ev.target.value; ch(); drawSide(); } }),
                     colorInput(e.customName, 'color', () => { ch(); drawSide(); }),
-                    checkInput(e.customName, 'bold', 'fett', { ch: () => { ch(); drawSide(); } }),
-                    checkInput(e.customName, 'italic', 'kursiv', { ch: () => { ch(); drawSide(); } })), null, HELP.name),
-                h('div', { class: 'field-label', style: 'margin:4px 0 6px' }, 'Beschreibung (Lore)', infoBtn(HELP.lore, 'Lore')),
+                    checkInput(e.customName, 'bold', tr('fett'), { ch: () => { ch(); drawSide(); } }),
+                    checkInput(e.customName, 'italic', tr('kursiv'), { ch: () => { ch(); drawSide(); } })), null, HELP.name),
+                h('div', { class: 'field-label', style: 'margin:4px 0 6px' }, tr('Beschreibung (Lore)'), infoBtn(HELP.lore, tr('Lore'))),
                 loreBox)));
 
             // --- Haltbarkeit & Extras
             const showDamage = e.kind === 'tag' || (info && info.maxDamage > 0);
             const showPotion = e.kind === 'item' && POTION_ITEMS.has(strip(e.name));
             const extras = h('div', null,
-                showPotion ? field('Trank-Effekt', selectInput(e, 'potion',
-                    [['', '– kein Effekt (Wasserflasche) –'], ...inVersion('potions', POTIONS).sort((a, b) => a[1].localeCompare(b[1], 'de'))], { ch: () => { ch(); drawSide(); } }), null, HELP.potion) : null,
+                showPotion ? field(tr('Trank-Effekt'), selectInput(e, 'potion',
+                    [['', tr('– kein Effekt (Wasserflasche) –')], ...inVersion('potions', POTIONS).sort((a, b) => a[1].localeCompare(b[1], 'de'))], { ch: () => { ch(); drawSide(); } }), null, HELP.potion) : null,
                 showDamage ? h('div', { class: 'field' },
-                    checkInput(e.damage, 'on', 'Beschädigt droppen', { ch: () => { ch(); drawSide(); }, after: drawMain, help: HELP.damage }),
-                    e.damage.on ? h('div', { style: 'margin-top:6px' }, rangeInput(e.damage, { min: 0, max: 100, step: 1, suffix: '% Resthaltbarkeit', ch: () => { ch(); drawSide(); } }),
-                        info ? h('div', { class: 'hint' }, `Max. Haltbarkeit: ${info.maxDamage}. 100 % = neu, 10 % = fast kaputt.`) : null) : null) : null,
+                    checkInput(e.damage, 'on', tr('Beschädigt droppen'), { ch: () => { ch(); drawSide(); }, after: drawMain, help: HELP.damage }),
+                    e.damage.on ? h('div', { style: 'margin-top:6px' }, rangeInput(e.damage, { min: 0, max: 100, step: 1, suffix: tr('% Resthaltbarkeit'), ch: () => { ch(); drawSide(); } }),
+                        info ? h('div', { class: 'hint' }, tr`Max. Haltbarkeit: ${info.maxDamage}. 100 % = neu, 10 % = fast kaputt.`) : null) : null) : null,
                 h('div', { class: 'grid-2' },
-                    field('Namensfarbe / Seltenheit', selectInput(e, 'rarity', RARITIES, { ch: () => { ch(); drawSide(); } }), null, HELP.rarity),
-                    field('Verzauberungs-Glanz', selectInput(e, 'glint', [['', 'Automatisch'], ['on', 'Immer glänzen'], ['off', 'Nie glänzen']], { ch: () => { ch(); drawSide(); } }), null, HELP.glint)),
-                h('div', { class: 'field' }, checkInput(e, 'unbreakable', 'Unzerbrechlich', { ch: () => { ch(); drawSide(); }, help: HELP.unbreakable })),
-                h('details', { class: 'box' }, h('summary', null, 'Custom Model Data (für Resource Packs)', infoBtn(HELP.cmd, 'Custom Model Data')),
+                    field(tr('Namensfarbe / Seltenheit'), selectInput(e, 'rarity', RARITIES, { ch: () => { ch(); drawSide(); } }), null, HELP.rarity),
+                    field(tr('Verzauberungs-Glanz'), selectInput(e, 'glint', [['', tr('Automatisch')], ['on', tr('Immer glänzen')], ['off', tr('Nie glänzen')]], { ch: () => { ch(); drawSide(); } }), null, HELP.glint)),
+                h('div', { class: 'field' }, checkInput(e, 'unbreakable', tr('Unzerbrechlich'), { ch: () => { ch(); drawSide(); }, help: HELP.unbreakable })),
+                h('details', { class: 'box' }, h('summary', null, tr('Custom Model Data (für Resource Packs)'), infoBtn(HELP.cmd, tr('Custom Model Data'))),
                     h('div', { class: 'grid-2' },
-                        field('Zahlen (floats)', textInput(e.cmd, 'floats', { ch, placeholder: 'z. B. 1001' }), 'Mehrere mit Komma trennen'),
-                        field('Texte (strings)', textInput(e.cmd, 'strings', { ch, placeholder: 'z. B. rubin_schwert' }), 'Mehrere mit Komma trennen'))));
-            parts.push(section('extra', 'Haltbarkeit & Extras', null, extras, 'Weitere Eigenschaften des Items: Trank-Effekt, Abnutzung, Namensfarbe, Glanz, Unzerbrechlichkeit und Custom Model Data für Resource Packs. Jede Option hat ihren eigenen „?“-Knopf.'));
+                        field(tr('Zahlen (floats)'), textInput(e.cmd, 'floats', { ch, placeholder: 'z. B. 1001' }), tr('Mehrere mit Komma trennen')),
+                        field(tr('Texte (strings)'), textInput(e.cmd, 'strings', { ch, placeholder: tr('z. B. rubin_schwert') }), tr('Mehrere mit Komma trennen')))));
+            parts.push(section('extra', tr('Haltbarkeit & Extras'), null, extras, tr('Weitere Eigenschaften des Items: Trank-Effekt, Abnutzung, Namensfarbe, Glanz, Unzerbrechlichkeit und Custom Model Data für Resource Packs. Jede Option hat ihren eigenen „?“-Knopf.')));
 
             // --- Umgebungs-Boni
             const bonus = [];
             if (typeId === 'entity' || typeId === 'generic') {
                 bonus.push(h('div', { class: 'field' },
-                    checkInput(e.looting, 'on', 'Plünderung erhöht die Anzahl', { ch, after: drawMain, help: HELP.looting }),
-                    e.looting.on ? h('div', { style: 'margin-top:6px' }, rangeInput(e.looting, { min: 0, step: 0.5, suffix: 'zusätzlich pro Stufe', ch })) : null));
-                bonus.push(h('div', { class: 'field' }, checkInput(e, 'smelt', 'Gebraten droppen, wenn der Mob brennt (z. B. rohes → gebratenes Fleisch)', { ch, help: HELP.smelt })));
+                    checkInput(e.looting, 'on', tr('Plünderung erhöht die Anzahl'), { ch, after: drawMain, help: HELP.looting }),
+                    e.looting.on ? h('div', { style: 'margin-top:6px' }, rangeInput(e.looting, { min: 0, step: 0.5, suffix: tr('zusätzlich pro Stufe'), ch })) : null));
+                bonus.push(h('div', { class: 'field' }, checkInput(e, 'smelt', tr('Gebraten droppen, wenn der Mob brennt (z. B. rohes → gebratenes Fleisch)'), { ch, help: HELP.smelt })));
             }
             if (typeId === 'block' || typeId === 'generic') {
                 bonus.push(h('div', { class: 'field' },
-                    checkInput(e.fortune, 'on', 'Glück (Fortune) erhöht die Anzahl', { ch, after: drawMain, help: HELP.fortune }),
-                    e.fortune.on ? h('div', { style: 'margin-top:6px' }, seg(e.fortune, 'formula', [['ore_drops', 'Wie Erze (Multiplikator)'], ['uniform_bonus_count', '+0 bis +Stufe']], { ch })) : null));
-                bonus.push(h('div', { class: 'field' }, checkInput(e, 'explosionDecay', 'Bei Explosionen geht ein Teil verloren (wie Vanilla)', { ch, help: HELP.explosionDecay })));
+                    checkInput(e.fortune, 'on', tr('Glück (Fortune) erhöht die Anzahl'), { ch, after: drawMain, help: HELP.fortune }),
+                    e.fortune.on ? h('div', { style: 'margin-top:6px' }, seg(e.fortune, 'formula', [['ore_drops', tr('Wie Erze (Multiplikator)')], ['uniform_bonus_count', tr('+0 bis +Stufe')]], { ch })) : null));
+                bonus.push(h('div', { class: 'field' }, checkInput(e, 'explosionDecay', tr('Bei Explosionen geht ein Teil verloren (wie Vanilla)'), { ch, help: HELP.explosionDecay })));
             }
-            if (bonus.length) parts.push(section('bonus', 'Verzauberungs- & Umgebungs-Boni', null, h('div', null, bonus),
-                'Diese Optionen gibt es nur bei Mob- bzw. Block-Drops, weil nur dort eine Waffe oder ein Werkzeug im Spiel ist. Sie machen die Menge abhängig von Plünderung, Glück, Feuer oder Explosionen – genau wie bei Vanilla-Drops.'));
+            if (bonus.length) parts.push(section('bonus', tr('Verzauberungs- & Umgebungs-Boni'), null, h('div', null, bonus),
+                tr('Diese Optionen gibt es nur bei Mob- bzw. Block-Drops, weil nur dort eine Waffe oder ein Werkzeug im Spiel ist. Sie machen die Menge abhängig von Plünderung, Glück, Feuer oder Explosionen – genau wie bei Vanilla-Drops.')));
         }
 
         // --- Bedingungen
-        parts.push(section('cond', 'Bedingungen für diesen Eintrag', e.conditions.length ? `${e.conditions.length} aktiv` : null, h('div', null,
-            h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, 'Der Eintrag kann nur gezogen werden, wenn die Bedingungen zutreffen – z. B. „nur bei Regen“ oder „nur mit Behutsamkeit“.'),
+        parts.push(section('cond', tr('Bedingungen für diesen Eintrag'), e.conditions.length ? tr`${e.conditions.length} aktiv` : null, h('div', null,
+            h('div', { class: 'hint explain-inline', style: 'margin-bottom:8px' }, tr('Der Eintrag kann nur gezogen werden, wenn die Bedingungen zutreffen – z. B. „nur bei Regen“ oder „nur mit Behutsamkeit“.')),
             condEditor(e, () => { ch(); drawSide(); })), HELP.entryConds));
 
         main.replaceChildren(...parts);
@@ -1328,7 +1429,7 @@ function openEntryEditor(pool, e) {
     modal = openModal({
         title: entryTitle(e), wide: true,
         body: h('div', { class: 'editor' }, main, side),
-        foot: h('button', { class: 'btn btn-primary', onclick: () => modal.close() }, 'Fertig'),
+        foot: h('button', { class: 'btn btn-primary', onclick: () => modal.close() }, tr('Fertig')),
         onClose: refresh
     });
     drawSide();
@@ -1359,21 +1460,21 @@ function tooltipPreview(e, info) {
         lines.push(h('div', { style: `color:${ench?.curse ? '#FF5555' : '#AAAAAA'}` },
             `${enchName(x.id)} ${ench?.max === 1 && a === 1 && b === 1 ? '' : (a === b ? roman(a) : roman(Math.min(a, b)) + '–' + roman(Math.max(a, b)))}`));
     });
-    if (en.mode === 'random') lines.push(h('div', { class: 'dim' }, 'Zufällige Verzauberung'));
-    if (en.mode === 'levels') lines.push(h('div', { class: 'dim' }, `Verzaubert (Level ${en.levels.min}–${en.levels.max})`));
+    if (en.mode === 'random') lines.push(h('div', { class: 'dim' }, tr('Zufällige Verzauberung')));
+    if (en.mode === 'levels') lines.push(h('div', { class: 'dim' }, tr`Verzaubert (Level ${en.levels.min}–${en.levels.max})`));
     e.lore.filter(l => l.text).forEach(l => lines.push(h('div', {
         style: `color:${mcColor(l.color, '#AAAAAA')};${l.italic ? 'font-style:italic;' : ''}`
     }, l.text)));
-    if (e.unbreakable) lines.push(h('div', { style: 'color:#5555FF' }, 'Unzerbrechlich'));
+    if (e.unbreakable) lines.push(h('div', { style: 'color:#5555FF' }, tr('Unzerbrechlich')));
     if (e.damage.on && info?.maxDamage) {
         const a = Math.round(info.maxDamage * num(e.damage.min) / 100), b = Math.round(info.maxDamage * num(e.damage.max) / 100);
-        lines.push(h('div', { style: 'color:#FFFFFF' }, `Haltbarkeit: ${a === b ? a : a + '–' + b} / ${info.maxDamage}`));
+        lines.push(h('div', { style: 'color:#FFFFFF' }, tr`Haltbarkeit: ${a === b ? a : a + '–' + b} / ${info.maxDamage}`));
     }
     const cnt = countLabel(e);
-    if (cnt) lines.push(h('div', { class: 'dim' }, `Anzahl: ${cnt}`));
+    if (cnt) lines.push(h('div', { class: 'dim' }, tr`Anzahl: ${cnt}`));
     if (e.kind === 'item') lines.push(h('div', { class: 'muted' }, 'minecraft:' + strip(e.name)));
     if (e.conditions.length) {
-        lines.push(h('div', { style: 'color:#55FFFF;margin-top:4px;font-size:11px' }, 'Nur wenn:'));
+        lines.push(h('div', { style: 'color:#55FFFF;margin-top:4px;font-size:11px' }, tr('Nur wenn:')));
         e.conditions.forEach(c => lines.push(h('div', { style: 'color:#55FFFF;font-size:11px' }, '• ' + condSummary(c))));
     }
     return h('div', { class: 'mc-tooltip' }, lines);
@@ -1398,24 +1499,32 @@ function highlight(json) {
 function validate() {
     const t = T();
     const out = [];
-    if (!/^[a-z0-9_.-]+$/.test(t.namespace)) out.push(['err', 'Ungültiger Namespace – nur a–z, 0–9, _ . - erlaubt.']);
-    if (!/^[a-z0-9_./-]+$/.test(t.path)) out.push(['err', 'Ungültiger Pfad – nur a–z, 0–9, _ . - / erlaubt.']);
-    if (!t.pools.length) out.push(['err', 'Die Loot-Table hat keinen Pool und droppt nichts.']);
+    if (!/^[a-z0-9_.-]+$/.test(t.namespace)) out.push(['err', tr('Ungültiger Namespace – nur a–z, 0–9, _ . - erlaubt.')]);
+    if (!/^[a-z0-9_./-]+$/.test(t.path)) out.push(['err', tr('Ungültiger Pfad – nur a–z, 0–9, _ . - / erlaubt.')]);
+    if (!t.pools.length) out.push(['err', tr('Die Loot-Table hat keinen Pool und droppt nichts.')]);
+    const twin = state.tables.find(x => x.id !== t.id && tableId(x) === tableId(t));
+    if (twin) out.push(['err', tr`Eine andere Loot-Table in deiner Liste heißt auch „${tableId(t)}“ – gib dieser einen anderen Pfad, sonst überschreiben sich die Dateien.`]);
     t.pools.forEach((p, i) => {
-        if (!p.entries.length) out.push(['warn', `Pool ${i + 1} hat keine Einträge.`]);
-        if (p.entries.length && p.entries.every(e => e.kind === 'empty')) out.push(['warn', `Pool ${i + 1} enthält nur „Nichts“-Einträge.`]);
+        if (!p.entries.length) out.push(['warn', tr`Pool ${i + 1} hat keine Einträge.`]);
+        if (p.entries.length && p.entries.every(e => e.kind === 'empty')) out.push(['warn', tr`Pool ${i + 1} enthält nur „Nichts“-Einträge.`]);
         const bad = [...p.conditions, ...p.entries.flatMap(e => e.conditions)].filter(c => !condAvailable(COND_BY_TYPE.get(c.type) || {}));
-        if (bad.length) out.push(['warn', `Pool ${i + 1}: ${bad.length} Bedingung(en) passen nicht zum Typ „${TYPE_BY_ID.get(t.type).label}“.`]);
+        if (bad.length) out.push(['warn', tr`Pool ${i + 1}: ${bad.length} Bedingung(en) passen nicht zum Typ „${TYPE_BY_ID.get(t.type).label}“.`]);
         p.entries.forEach(e => {
-            if ((e.kind === 'tag' || e.kind === 'loot_table') && !e.name) out.push(['err', `Pool ${i + 1}: Ein Eintrag hat keine ID und wird weggelassen.`]);
-            if (e.kind === 'item' && !ITEMS.has(strip(e.name))) out.push(['warn', `Pool ${i + 1}: „${e.name}“ ist kein bekanntes Item.`]);
-            if (e.kind === 'item' && e.ench.mode === 'fixed' && !e.ench.list.length) out.push(['warn', `Pool ${i + 1}: ${itemName(e.name)} hat „Feste Verzauberungen“, aber keine ausgewählt.`]);
+            if ((e.kind === 'tag' || e.kind === 'loot_table') && !e.name) out.push(['err', tr`Pool ${i + 1}: Ein Eintrag hat keine ID und wird weggelassen.`]);
+            if (e.kind === 'item' && !ITEMS.has(strip(e.name))) out.push(['warn', tr`Pool ${i + 1}: „${e.name}“ ist kein bekanntes Item.`]);
+            if (e.kind === 'item' && e.ench.mode === 'fixed' && !e.ench.list.length) out.push(['warn', tr`Pool ${i + 1}: ${itemName(e.name)} hat „Feste Verzauberungen“, aber keine ausgewählt.`]);
             [...e.conditions].forEach(c => {
-                if (['biome', 'structure', 'tool_item'].includes(c.type) && !c.p.list.length) out.push(['warn', `Pool ${i + 1}: Bedingung „${COND_BY_TYPE.get(c.type).label}“ ist leer und wird ignoriert.`]);
-                if (c.type === 'score' && !c.p.objective) out.push(['warn', `Pool ${i + 1}: Scoreboard-Bedingung ohne Ziel wird ignoriert.`]);
+                if (['biome', 'structure', 'tool_item'].includes(c.type) && !c.p.list.length) out.push(['warn', tr`Pool ${i + 1}: Bedingung „${COND_BY_TYPE.get(c.type).label}“ ist leer und wird ignoriert.`]);
+                if (c.type === 'score' && !c.p.objective) out.push(['warn', tr`Pool ${i + 1}: Scoreboard-Bedingung ohne Ziel wird ignoriert.`]);
             });
         });
     });
+    // Gemeißelte Bücherregale nehmen nur Bücher an – andere Items lassen den Platz leer (auf dem Server geprüft)
+    if (t.type === 'display') {
+        const shelfBooks = new Set(['book', 'writable_book', 'written_book', 'enchanted_book', 'knowledge_book']);
+        const other = [...new Set(t.pools.flatMap(p => p.entries).filter(e => e.kind === 'item' && !shelfBooks.has(strip(e.name))).map(e => itemName(e.name)))];
+        if (other.length) out.push(['warn', tr`Nur für gemeißelte Bücherregale wichtig: ${other.slice(0, 4).join(', ')}${other.length > 4 ? ' …' : ''} ${other.length === 1 ? tr('ist kein Buch') : tr('sind keine Bücher')} – diese Plätze bleiben im Bücherregal leer. Für normale Regale, Item-Rahmen und Töpfe ist das egal.`]);
+    }
     const fmtLabel = versionLabel();
     const tooNew = new Map();
     const noteNew = (kind, id, label) => { const v = missingIn(kind, id); if (v) tooNew.set(label, v); };
@@ -1428,13 +1537,13 @@ function validate() {
             if (c.type === 'tool_item') c.p.list.forEach(i => noteNew('items', i, itemName(i)));
         });
     });
-    tooNew.forEach((v, label) => out.push(['err', `„${label}“ gibt es ${v} – in ${fmtLabel} lädt die Loot-Table damit nicht.`]));
+    tooNew.forEach((v, label) => out.push(['err', tr`„${label}“ gibt es ${v} – in ${fmtLabel} lädt die Loot-Table damit nicht.`]));
     t.pools.forEach(p => p.entries.forEach(e => {
-        if (e.kind === 'item' && e.ench.mode === 'fixed') e.ench.list.forEach(x => { const m = missingIn('enchantments', x.id); if (m) out.push(['err', `Verzauberung „${enchName(x.id)}“ gibt es ${m}.`]); });
-        if (e.potion && missingIn('potions', e.potion)) out.push(['err', `Trank „${POTIONS.get(e.potion) || e.potion}“ gibt es ${missingIn('potions', e.potion)}.`]);
+        if (e.kind === 'item' && e.ench.mode === 'fixed') e.ench.list.forEach(x => { const m = missingIn('enchantments', x.id); if (m) out.push(['err', tr`Verzauberung „${enchName(x.id)}“ gibt es ${m}.`]); });
+        if (e.potion && missingIn('potions', e.potion)) out.push(['err', tr`Trank „${POTIONS.get(e.potion) || e.potion}“ gibt es ${missingIn('potions', e.potion)}.`]);
     }));
     if (state.fmt === 'v1_21_0' && t.pools.some(p => p.entries.some(e => String(e.cmd.strings || '').trim() || String(e.cmd.floats || '').split(',').filter(x => x.trim()).length > 1))) {
-        out.push(['warn', 'Vor 1.21.4 kennt Custom Model Data nur eine einzelne Zahl – Texte und weitere Zahlen werden weggelassen.']);
+        out.push(['warn', tr('Vor 1.21.4 kennt Custom Model Data nur eine einzelne Zahl – Texte und weitere Zahlen werden weggelassen.')]);
     }
     return out;
 }
@@ -1443,7 +1552,7 @@ function updateOutput() {
     const json = currentJson();
     $('#json').innerHTML = highlight(json);
     const w = validate();
-    $('#warnings').replaceChildren(...(w.length ? w : [['ok', 'Alles in Ordnung – bereit zum Herunterladen.']]).map(([cls, msg]) => h('li', { class: cls }, msg)));
+    $('#warnings').replaceChildren(...(w.length ? w : [['ok', tr('Alles in Ordnung – bereit zum Herunterladen.')]]).map(([cls, msg]) => h('li', { class: cls }, msg)));
     updatePathBox();
 }
 
@@ -1528,17 +1637,17 @@ function openSimulation() {
         } else if (th.cls === 'shelf') {
             // Regal mit 3 Plätzen + Item-Rahmen (zeigt nur das erste Item)
             chest.replaceChildren(
-                h('div', { class: 'section-label', style: 'color:#fff' }, 'Regal'),
+                h('div', { class: 'section-label', style: 'color:#fff' }, tr('Regal')),
                 h('div', { class: 'shelf-row' }, [0, 1, 2].map(i => slotEl(stacks[i] || null))),
-                h('div', { class: 'section-label', style: 'color:#fff;margin-top:14px' }, 'Item-Rahmen'),
+                h('div', { class: 'section-label', style: 'color:#fff;margin-top:14px' }, tr('Item-Rahmen')),
                 h('div', { class: 'frame' }, slotEl(stacks[0] || null)));
         } else {
-            chest.replaceChildren(...(stacks.length ? stacks.map(slotEl) : [h('div', { class: 'empty-drop' }, '… nichts gedroppt')]));
+            chest.replaceChildren(...(stacks.length ? stacks.map(slotEl) : [h('div', { class: 'empty-drop' }, tr('… nichts gedroppt'))]));
         }
         const limit = th.cls === 'chest' ? 27 : th.cls === 'shelf' ? 3 : Infinity;
         summary.textContent = stacks.length
-            ? `${stacks.length} Stapel gewürfelt${stacks.length > limit ? ` (nur die ersten ${limit} passen hinein)` : ''}.`
-            : 'Diesmal nichts – probiere es nochmal.';
+            ? tr`${stacks.length} Stapel gewürfelt${stacks.length > limit ? tr` (nur die ersten ${limit} passen hinein)` : ''}.`
+            : tr('Diesmal nichts – probiere es nochmal.');
     };
 
     const runStats = () => {
@@ -1560,30 +1669,30 @@ function openSimulation() {
         const rows = [...agg.values()].sort((a, b) => b.hits - a.hits);
         const maxHit = Math.max(1, ...rows.map(r => r.hits));
         stats.replaceChildren(
-            h('div', { class: 'section-label', style: 'margin-top:18px' }, `Statistik aus ${N} Würfen`),
+            h('div', { class: 'section-label', style: 'margin-top:18px' }, tr`Statistik aus ${N} Würfen`),
             h('div', { style: 'overflow-x:auto' }, h('table', { class: 'stats' },
-                h('thead', null, h('tr', null, h('th', null, 'Eintrag'), h('th', null, 'Chance, dass es droppt'), h('th', { class: 'num' }, ''), h('th', { class: 'num' }, 'Ø Anzahl'))),
+                h('thead', null, h('tr', null, h('th', null, tr('Eintrag')), h('th', null, tr('Chance, dass es droppt')), h('th', { class: 'num' }, ''), h('th', { class: 'num' }, tr('Ø Anzahl')))),
                 h('tbody', null, rows.map(r => h('tr', null,
                     h('td', null, h('div', { class: 'item-cell' }, entryIcon(r.e), entryTitle(r.e))),
                     h('td', { style: 'width:40%' }, h('div', { class: 'bar', style: `width:${(r.hits / maxHit) * 100}%` })),
                     h('td', { class: 'num' }, fmtPct(r.hits / N * 100)),
                     h('td', { class: 'num' }, (r.total / N).toFixed(2).replace('.', ',')))),
-                    empty ? h('tr', null, h('td', null, h('div', { class: 'item-cell' }, icon('barrier'), 'Gar nichts')), h('td'), h('td', { class: 'num' }, fmtPct(empty / N * 100)), h('td')) : null))));
+                    empty ? h('tr', null, h('td', null, h('div', { class: 'item-cell' }, icon('barrier'), tr('Gar nichts'))), h('td'), h('td', { class: 'num' }, fmtPct(empty / N * 100)), h('td')) : null))));
     };
 
     const ty = T().type;
-    const lvlLabel = ty === 'block' ? 'Glück-Stufe' : ty === 'entity' ? 'Plünderung-Stufe' : 'Plünderung/Glück-Stufe';
+    const lvlLabel = ty === 'block' ? tr('Glück-Stufe') : ty === 'entity' ? tr('Plünderung-Stufe') : tr('Plünderung/Glück-Stufe');
     const body = h('div', null,
-        explain('Hier siehst du, was bei einem echten Durchlauf herauskommen könnte. Klick mehrmals auf „Nochmal würfeln“ – die Statistik unten zeigt, wie oft jedes Item im Schnitt droppt.', infoBtn(HELP.sim, 'Testwurf')),
+        explain(tr('Hier siehst du, was bei einem echten Durchlauf herauskommen könnte. Klick mehrmals auf „Nochmal würfeln“ – die Statistik unten zeigt, wie oft jedes Item im Schnitt droppt.'), infoBtn(HELP.sim, tr('Testwurf'))),
         h('div', { class: 'row', style: 'flex-wrap:wrap;gap:14px;margin-bottom:12px' },
-            h('button', { class: 'btn btn-primary', onclick: roll }, '🎲 Nochmal würfeln'),
-            h('button', { class: 'btn', onclick: runStats }, 'Statistik berechnen'),
+            h('button', { class: 'btn btn-primary', onclick: roll }, tr('🎲 Nochmal würfeln')),
+            h('button', { class: 'btn', onclick: runStats }, tr('Statistik berechnen')),
             h('span', { class: 'hint' }, lvlLabel),
             seg(st, 'lvl', [[0, '0'], [1, 'I'], [2, 'II'], [3, 'III']], { ch: () => {}, after: () => { roll(); if (stats.childNodes.length) runStats(); } })),
         chest, summary,
-        h('div', { class: 'hint' }, 'Zufallschancen werden ausgewürfelt. Alle anderen Bedingungen (Wetter, Biom, Werkzeug …) gelten im Test als erfüllt.'),
+        h('div', { class: 'hint' }, tr('Zufallschancen werden ausgewürfelt. Alle anderen Bedingungen (Wetter, Biom, Werkzeug …) gelten im Test als erfüllt.')),
         stats);
-    openModal({ title: 'Testwurf – ' + th.title, wide: true, body, iconEl: icon(th.icon, { eager: true }) });
+    openModal({ title: tr('Testwurf – ') + th.title, wide: true, body, iconEl: icon(th.icon, { eager: true }) });
     roll();
     runStats();
 }
@@ -1824,19 +1933,23 @@ function importLootTable(json) {
 
 function loadProjectText(text, fileName = '') {
     let json;
-    try { json = JSON.parse(text); } catch { toast('Die Datei ist kein gültiges JSON.'); return; }
-    if (json && json.app === 'loot-table-builder' && json.table) {
+    try { json = JSON.parse(text); } catch { toast(tr('Die Datei ist kein gültiges JSON.')); return; }
+    if (json && json.app === 'loot-table-builder' && (json.tables || json.table)) {
         setVersion(json.version || FMT_TO_VERSION[json.fmt] || state.version);
-        state.table = hydrate(json.table);
-        toast('Projekt geladen');
+        const incoming = (json.tables || [json.table]).map(hydrate);
+        const replace = state.tables.every(t => !t.pools.some(p => p.entries.length)) ||
+            confirm(tr`Projekt mit ${incoming.length} Loot-Table(s) laden.\n\nOK = deine aktuellen Loot-Tables ersetzen\nAbbrechen = zusätzlich hinzufügen`);
+        if (replace) { state.tables = incoming; state.current = json.current && incoming.some(t => t.id === json.current) ? json.current : incoming[0].id; }
+        else incoming.forEach(t => addTable(t, false));
+        toast(tr`Projekt geladen – ${incoming.length} Loot-Table(s)`);
     } else if (json && Array.isArray(json.pools)) {
         const { table, skipped } = importLootTable(json);
         const name = fileName.replace(/\.json$/i, '');
         if (name) table.path = (TYPE_BY_ID.get(table.type)?.folder ? TYPE_BY_ID.get(table.type).folder + '/' : '') + name.toLowerCase().replace(/[^a-z0-9_.-]/g, '_');
-        state.table = hydrate(table);
-        toast(skipped ? `Loot-Table importiert – ${skipped} Teil(e) konnten nicht übernommen werden.` : 'Loot-Table importiert');
+        addTable(table);
+        toast(skipped ? tr`Loot-Table importiert – ${skipped} Teil(e) konnten nicht übernommen werden.` : tr('Loot-Table importiert'));
     } else {
-        toast('Unbekanntes Dateiformat.');
+        toast(tr('Unbekanntes Dateiformat.'));
         return;
     }
     syncVersionSelect();
@@ -1846,8 +1959,7 @@ function loadProjectText(text, fileName = '') {
 
 async function loadVanilla(path) {
     path = strip(String(path || '').trim()).replace(/\.json$/, '');
-    if (!VANILLA_TABLES.has(path) || !availIn('lootTables', path)) { toast(`Diese Vanilla-Loot-Table gibt es in ${versionLabel()} nicht.`); return; }
-    if (T().pools.some(p => p.entries.length) && !confirm('Die aktuelle Loot-Table wird ersetzt. Fortfahren?')) return;
+    if (!VANILLA_TABLES.has(path) || !availIn('lootTables', path)) { toast(tr`Diese Vanilla-Loot-Table gibt es in ${versionLabel()} nicht.`); return; }
     try {
         const res = await fetch(`${vanillaDataUrl()}/${path}.json`);
         if (!res.ok) throw new Error(res.status);
@@ -1855,12 +1967,12 @@ async function loadVanilla(path) {
         const { table, skipped } = importLootTable(json);
         table.namespace = 'minecraft';
         table.path = path;
-        state.table = hydrate(table);
+        addTable(table);
         renderSettings();
         refresh();
-        toast(skipped ? `Vorlage geladen – ${skipped} Spezial-Teil(e) wurden vereinfacht oder weggelassen.` : 'Vanilla-Vorlage geladen');
+        toast(skipped ? tr`Vorlage als neue Loot-Table geladen – ${skipped} Spezial-Teil(e) wurden vereinfacht.` : tr('Vanilla-Vorlage als neue Loot-Table geladen'));
     } catch (err) {
-        toast('Laden fehlgeschlagen – bist du online?');
+        toast(tr('Laden fehlgeschlagen – bist du online?'));
     }
 }
 
@@ -1874,10 +1986,15 @@ function syncVersionSelect() {
 
 function init() {
     loadState();
+    // Sprache: feste Texte der Seite übersetzen und Auswahl füllen (Umschalten lädt die Seite neu)
+    translateStatic();
+    $('#lang').replaceChildren(...LANGS.map(([k, l]) => h('option', { value: k }, l)));
+    $('#lang').value = LANG;
+    $('#lang').addEventListener('change', e => setLang(e.target.value));
     $('#brand-icon').append(icon('chest', { eager: true }));
-    $('#brand-sub').textContent = `Loot-Tables & Mob-Generator · Minecraft ${VERSIONS[0].id} – ${VERSIONS[VERSIONS.length - 1].id}`;
+    $('#brand-sub').textContent = tr`Loot-Tables & Mob-Generator · Minecraft ${VERSIONS[0].id} – ${VERSIONS[VERSIONS.length - 1].id}`;
     // neueste Version oben
-    $('#version').replaceChildren(...[...VERSIONS].reverse().map((v, i) => h('option', { value: v.id }, v.id + (i === 0 ? ' (neueste)' : ''))));
+    $('#version').replaceChildren(...[...VERSIONS].reverse().map((v, i) => h('option', { value: v.id }, v.id + (i === 0 ? tr(' (neueste)') : ''))));
     syncVersionSelect();
     $('#version').addEventListener('change', e => {
         setVersion(e.target.value);
@@ -1885,16 +2002,16 @@ function init() {
         renderSettings();
         refresh();
         versionListeners.forEach(fn => fn());
-        toast(`${versionLabel()} gewählt – es werden nur noch Inhalte dieser Version angezeigt.`);
+        toast(tr`${versionLabel()} gewählt – es werden nur noch Inhalte dieser Version angezeigt.`);
     });
 
-    $('.fmt-select').append(infoBtn(HELP.format, 'Minecraft-Version'));
+    $('.fmt-select').append(infoBtn(HELP.format, tr('Minecraft-Version')));
     const topbar = $('.topbar');
     new ResizeObserver(() => document.documentElement.style.setProperty('--topbar-h', topbar.offsetHeight + 'px')).observe(topbar);
     const head = $('#view-loot .output-head h2');
     head.prepend(h('span', { class: 'step-no' }, '3'));
-    head.append(infoBtn(HELP.output, 'Ausgabe'));
-    $('#view-loot .output-head').after(explain('Die fertige Datei entsteht automatisch. Lade sie oben mit „JSON herunterladen“ herunter und leg sie unter diesem Pfad ins Datapack:'));
+    head.append(infoBtn(HELP.output, tr('Ausgabe')));
+    $('#view-loot .output-head').after(explain(tr('Die fertige Datei entsteht automatisch. Lade sie oben mit „JSON herunterladen“ herunter und leg sie unter diesem Pfad ins Datapack:')));
 
     // Erklärtexte ein-/ausblenden
     let showExplain = true;
@@ -1908,21 +2025,21 @@ function init() {
         try { localStorage.setItem('lootbuilder.explain', showExplain ? '1' : '0'); } catch { /* egal */ }
         applyExplain();
     });
-    $('#explain-wrap').append(infoBtn(HELP.explainToggle, 'Erklärungen'));
+    $('#explain-wrap').append(infoBtn(HELP.explainToggle, tr('Erklärungen')));
     applyExplain();
     $('#btn-guide').addEventListener('click', () => openGuide(typeof currentView === 'function' && currentView() === 'mob' ? GUIDE_MOB_START : 0));
-    $('#btn-load').after(infoBtn(HELP.project, 'Projekte'));
+    $('#btn-load').after(infoBtn(HELP.project, tr('Projekte')));
 
     $('#btn-add-pool').addEventListener('click', () => { T().pools.push(newPool()); refresh(); });
     $('#btn-new').addEventListener('click', () => {
-        if (!confirm('Neue Loot-Table beginnen? Die aktuelle wird verworfen (vorher ggf. „Projekt speichern“).')) return;
-        state.table = newTable();
+        addTable({ ...newTable(), namespace: T().namespace });
         renderSettings();
         refresh();
+        toast(tr('Neue Loot-Table angelegt – deine anderen bleiben links in der Liste erhalten.'));
     });
     $('#btn-save').addEventListener('click', () => {
-        const name = (T().path.split('/').pop() || 'loot_table') + '.lootproject.json';
-        downloadFile(name, JSON.stringify({ app: 'loot-table-builder', version: state.version, fmt: state.fmt, table: T() }, null, 2));
+        downloadFile(`${T().namespace || 'loot'}.lootproject.json`,
+            JSON.stringify({ app: 'loot-table-builder', version: state.version, fmt: state.fmt, tables: state.tables, current: state.current }, null, 2));
     });
     $('#btn-load').addEventListener('click', () => $('#file-load').click());
     $('#file-load').addEventListener('change', async e => {
@@ -1932,7 +2049,7 @@ function init() {
     });
     $('#btn-download').addEventListener('click', () => {
         const errs = validate().filter(w => w[0] === 'err');
-        if (errs.length && !confirm('Es gibt noch Fehler:\n\n' + errs.map(w => '• ' + w[1]).join('\n') + '\n\nTrotzdem herunterladen?')) return;
+        if (errs.length && !confirm(tr('Es gibt noch Fehler:\n\n') + errs.map(w => '• ' + w[1]).join('\n') + tr('\n\nTrotzdem herunterladen?'))) return;
         downloadFile((T().path.split('/').pop() || 'loot_table') + '.json', currentJson() + '\n');
     });
     $('#btn-copy').addEventListener('click', () => copyText(currentJson()));

@@ -1,0 +1,181 @@
+{
+ "allay": [
+  "ItemInHandLayer"
+ ],
+ "armor_stand": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "bogged": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "camel": [
+  "SimpleEquipmentLayer"
+ ],
+ "copper_golem": [
+  "CustomHeadLayer",
+  "ItemInHandLayer"
+ ],
+ "dolphin": [
+  "DolphinCarryingItemLayer"
+ ],
+ "donkey": [
+  "SimpleEquipmentLayer"
+ ],
+ "drowned": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "evoker": [
+  "CustomHeadLayer",
+  "ItemInHandLayer"
+ ],
+ "fox": [
+  "FoxHeldItemLayer"
+ ],
+ "giant": [
+  "HumanoidArmorLayer",
+  "ItemInHandLayer"
+ ],
+ "happy_ghast": [
+  "SimpleEquipmentLayer"
+ ],
+ "horse": [
+  "SimpleEquipmentLayer"
+ ],
+ "husk": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "illusioner": [
+  "CustomHeadLayer",
+  "ItemInHandLayer"
+ ],
+ "llama": [
+  "LlamaDecorLayer"
+ ],
+ "mannequin": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "PlayerItemInHandLayer",
+  "WingsLayer"
+ ],
+ "mule": [
+  "SimpleEquipmentLayer"
+ ],
+ "nautilus": [
+  "SimpleEquipmentLayer"
+ ],
+ "panda": [
+  "PandaHoldsItemLayer"
+ ],
+ "parched": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "pig": [
+  "SimpleEquipmentLayer"
+ ],
+ "piglin": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "piglin_brute": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "pillager": [
+  "CustomHeadLayer",
+  "ItemInHandLayer"
+ ],
+ "skeleton": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "skeleton_horse": [
+  "SimpleEquipmentLayer"
+ ],
+ "stray": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "strider": [
+  "SimpleEquipmentLayer"
+ ],
+ "sulfur_cube": [
+  "CustomHeadLayer"
+ ],
+ "trader_llama": [
+  "LlamaDecorLayer"
+ ],
+ "vex": [
+  "ItemInHandLayer"
+ ],
+ "villager": [
+  "CrossedArmsItemLayer",
+  "CustomHeadLayer"
+ ],
+ "vindicator": [
+  "CustomHeadLayer",
+  "ItemInHandLayer"
+ ],
+ "wandering_trader": [
+  "CrossedArmsItemLayer",
+  "CustomHeadLayer"
+ ],
+ "witch": [
+  "WitchItemLayer"
+ ],
+ "wither_skeleton": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "wolf": [
+  "WolfArmorLayer"
+ ],
+ "zombie": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "zombie_horse": [
+  "SimpleEquipmentLayer"
+ ],
+ "zombie_nautilus": [
+  "SimpleEquipmentLayer"
+ ],
+ "zombie_villager": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ],
+ "zombified_piglin": [
+  "CustomHeadLayer",
+  "HumanoidArmorLayer",
+  "ItemInHandLayer",
+  "WingsLayer"
+ ]
+}

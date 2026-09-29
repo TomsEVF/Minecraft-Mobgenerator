@@ -28,19 +28,39 @@ Reines HTML/CSS/JavaScript, kein Build-Schritt und kein Server nötig: einfach `
   z. B. Beruf und Stufe beim Dorfbewohner, Varianten und Stimmen bei Katze/Wolf/Schwein, Gene beim Panda, Muster beim Tropenfisch,
   Explosionsradius beim Creeper, Körperhaltung beim Rüstungsständer
 - Name (Farbe, fett), Leben, Baby, Größe, Blickrichtung, KI, Unverwundbarkeit, Despawn, Tags …
-- **Ausrüstung mit Item-Bildern**: Rüstung, Waffen, Körper-Slot (Pferderüstung, Wolfsrüstung, Teppich, Geschirr, Nautilusrüstung)
-  und Sattel – jeweils mit Verzauberungen, Namen, Beschreibung, Farbe, Rüstungsbesatz, Haltbarkeit und Drop-Chance
+- **Ausrüstung mit Item-Bildern – nur so, wie das Spiel sie zeigt**: Welche Plätze ein Mob hat, ist aus dem Minecraft-Client
+  ausgelesen (Render-Ebenen). Zombies bekommen Rüstung und Waffen, Füchse ein Item ins Maul, Wölfe nur Wolfsrüstung,
+  Pferde Pferderüstung und Sattel, Lachse gar nichts. Die Item-Auswahl ist je Platz passend gefiltert.
+  Jedes Teil mit Verzauberungen, Namen, Beschreibung, Farbe, Rüstungsbesatz, Haltbarkeit und Drop-Chance
+- **Attribute nur, wenn der Mob sie hat** – samt Standardwert (auf echten Servern abgefragt)
 - Attribute, Effekte, Handelsangebote, Reiter/Reittier, eigenes NBT
+- **Truhe mit Loot-Table** für Esel, Maultiere, Lamas und Händlerlamas: der Inhalt wird direkt nach dem Beschwören
+  aus einer Loot-Table gewürfelt (als Befehlsfolge oder `.mcfunction`)
+- Verzauberungen nur bei Items, die im Spiel verzauberbar sind (nicht bei Pferde-/Wolfsrüstung, Sattel, Teppich …)
 - **Drops**: eigene Loot-Table aus dem Loot-Bereich verknüpfen, Drops eines anderen Mobs oder gar keine
 
 ## Loot-Tables
 
-- Alle Items mit Bildern, deutschen Namen und Suche
+- **Mehrere Loot-Tables pro Projekt** in der Liste „Meine Loot-Tables“ – neu anlegen, wechseln, duplizieren, löschen;
+  im Mob-Generator direkt als Drops oder Truheninhalt auswählbar
+- Alle Items mit Bildern, deutschen bzw. englischen Namen und Suche (findet beide)
 - Pools, Gewichte mit Live-Prozentanzeige, Mengen, „Nichts“-Einträge, Item-Tags, verschachtelte Loot-Tables
 - Verzauberungen, Namen, Lore, Haltbarkeit, Tränke, Seltenheit, Glanz, Custom Model Data
 - 21 Umgebungsbedingungen (Wetter, Tageszeit, Biom, Struktur, Höhe, Werkzeug, Plünderung, Scoreboard …), umkehrbar, UND/ODER
 - Testwurf mit Statistik, Vanilla-Vorlagen der gewählten Version, Import vorhandener Loot-Tables
 - Regale, Item-Rahmen und Deko-Töpfe per `/loot`-Befehl füllen
+- **Gemeißelte Bücherregale** selbst mit bis zu 6 Büchern bestücken (verzaubert, beschrieben mit Titel/Autor/Seiten …)
+  und als Block setzen oder als fertig gefülltes Item geben – es sind nur Bücher wählbar, genau wie im Spiel
+
+## Sprache: Deutsch / English
+
+Oben rechts (🌐) lässt sich die Oberfläche zwischen **Deutsch** und **English** umschalten. Die Wahl wird im Browser
+gespeichert; beim ersten Start richtet sie sich nach der Browsersprache. Übersetzt werden alle Texte, Erklärungen und die
+Anleitung – Minecraft-Namen (Items, Mobs, Verzauberungen, Biome …) kommen aus den offiziellen Sprachdateien des Spiels.
+Die erzeugten Befehle und JSON-Dateien sind in beiden Sprachen identisch.
+
+Die englischen Texte stehen in `js/i18n-en.js` (deutscher Text → englische Übersetzung); fehlt eine Übersetzung,
+bleibt der deutsche Text stehen.
 
 ## Erklärungen
 
@@ -76,7 +96,8 @@ Für eine neue Version diese in der Liste `VERSIONS` oben in `tools/gen_data.py`
 | `js/export.js` | Loot-Table → JSON (alle Formate) |
 | `js/help.js` | Erklärtexte, „?“-Popover, Anleitung |
 | `js/mcdata.js`, `js/mobdata.js` | Minecraft-Daten (generiert) |
-| `tools/` | Daten-Generator und mcdoc-Parser |
+| `js/bookshelf.js` | Baukasten für gemeißelte Bücherregale |
+| `tools/` | Daten-Generator, mcdoc-Parser, Auslesen der Render-Ebenen (`read_render_layers.py`) und Attribut-Abfrage (`probe_attributes.py`) |
 
 Bilder: gerenderte Icons von [mc.nerothe.com](https://mc.nerothe.com), sonst die offiziellen Texturen aus misode/mcmeta.
 

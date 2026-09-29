@@ -255,14 +255,20 @@ for f in sorted(glob.glob(os.path.join(DATA, 'enchantment', '*.json'))):
                  ex if isinstance(ex, str) else ','.join(ex), (1 if eid in curse else 0) | (2 if eid in treasure else 0)])
 
 
-def potion_name(p):
+def potion_name(p, en=False):
     base = re.sub(r'^(strong|long)_', '', p)
-    n = L('item.minecraft.potion.effect.' + base, pretty(base))
+    key = 'item.minecraft.potion.effect.' + base
+    n = EN.get(key, pretty(base)) if en else L(key, pretty(base))
     if p.startswith('strong_'):
         n += ' II'
     if p.startswith('long_'):
-        n += ' (verlängert)'
+        n += ' (long)' if en else ' (verlängert)'
     return n
+
+
+def E(key, fallback):
+    """Englischer Name aus der Sprachdatei des Spiels."""
+    return EN.get(key) or fallback
 
 
 def union_ids(name):
@@ -274,10 +280,11 @@ def union_ids(name):
     return out
 
 
-potions = [[p, potion_name(p)] for p in union_ids('potion')]
-biomes = sorted([[b, L('biome.minecraft.' + b, pretty(b))] for b in union_ids('worldgen/biome')], key=lambda x: x[1])
+# [id, deutscher Name, englischer Name]
+potions = [[p, potion_name(p), potion_name(p, True)] for p in union_ids('potion')]
+biomes = sorted([[b, L('biome.minecraft.' + b, pretty(b)), E('biome.minecraft.' + b, pretty(b))] for b in union_ids('worldgen/biome')], key=lambda x: x[1])
 structures = [[s, pretty(s)] for s in union_ids('worldgen/structure')]
-entities = [[e, L('entity.minecraft.' + e, pretty(e))] for e in union_ids('entity_type')]
+entities = [[e, L('entity.minecraft.' + e, pretty(e)), E('entity.minecraft.' + e, pretty(e))] for e in union_ids('entity_type')]
 loot_type = {}
 for f in glob.glob(os.path.join(DATA, 'loot_table', '**', '*.json'), recursive=True):
     loot_type[os.path.relpath(f, os.path.join(DATA, 'loot_table'))[:-5]] = jload(f).get('type', 'minecraft:generic').replace('minecraft:', '')
@@ -361,8 +368,47 @@ HORSE_MARK = {'WhiteStockings': 'weiße Fesseln', 'WhiteField': 'weiße Flecken'
               'BlackDots': 'schwarze Punkte'}
 
 
+ENUM_EN = {
+    'AxolotlVariantInt': {'Lucy': 'Leucistic (pink)', 'Wild': 'Wild (brown)', 'Blue': 'Blue (very rare)'},
+    'ParrotVariantInt': {'RedBlue': 'Red-blue', 'YellowBlue': 'Yellow-blue'},
+    'RabbitType': {'BlackAndWhite': 'Black and white', 'SaltAndPepper': 'Salt and pepper', 'Killer': 'Killer bunny (hostile!)'},
+    'FoxType': {'Snow': 'Snow fox (white)'},
+    'Gene': {'Brown': 'Brown (recessive)', 'Weak': 'Weak (recessive)'},
+    'PuffState': {'Deflated': 'Normal', 'HalfPuffed': 'Half puffed', 'Puffed': 'Puffed up'},
+    'ArmadilloState': {'Idle': 'Normal', 'Rolling': 'Rolling up', 'Scared': 'Rolled up (scared)', 'Unrolling': 'Unrolling'},
+    'DragonPhase': {'Strafing': 'Attacking (fireball)', 'FlyingToPortal': 'Flying to portal', 'TakingOff': 'Taking off',
+                    'BreathAttack': 'Dragon breath', 'Landed': 'Landed (perched)', 'Charging': 'Charging at player',
+                    'Hovering': 'Hovering (no AI)'},
+    'WeatherState': {'Unaffected': 'New (shiny)'},
+    'ShulkerColor': {'Normal': 'Default (purple)'},
+}
+HORSE_MARK_EN = {'WhiteStockings': 'white stockings', 'WhiteField': 'white field', 'WhiteDots': 'white dots', 'BlackDots': 'black dots'}
+
+
+def enum_label_en(name, key):
+    """Englische Beschriftung eines Enum-Werts (key = Name aus dem Schema, z. B. „LightBlue“)."""
+    for part in [name] + name.split('+'):
+        if part.startswith('DyeColor'):
+            ck = re.sub(r'(?<!^)(?=[A-Z])', '_', key).lower()
+            if ck in DYE:
+                return E('color.minecraft.' + ck, pretty(key))
+    for part in [name] + name.split('+'):
+        if key in ENUM_EN.get(part, {}):
+            return ENUM_EN[part][key]
+    if name == 'HorseVariantAndMarkings':
+        base, _, mark = key.partition('_With_')
+        return pretty(base) + (' with ' + HORSE_MARK_EN.get(mark, mark) if mark else '')
+    return pretty(key)
+
+
 def label_enum(desc):
     name = desc.get('name') or ''
+    # Englische Beschriftung an Stelle 3 merken, solange Stelle 1 noch der Originalname ist
+    for val in desc['values']:
+        while len(val) < 3:
+            val.append('')
+        if len(val) < 4:
+            val.append(enum_label_en(name, str(val[1])))
     for key in [name] + name.split('+'):
         if key.startswith('DyeColor'):
             for val in desc['values']:
@@ -437,6 +483,7 @@ for eid in sorted(schema.dispatch):
     mobs.append({
         'id': eid,
         'de': L('entity.minecraft.' + eid, pretty(eid)),
+        'en': E('entity.minecraft.' + eid, pretty(eid)),
         'cat': cat_of.get(eid, 'other'),
         'egg': egg if egg in seen else None,
         'avail': [idx[0], idx[-1]],
@@ -467,6 +514,24 @@ def reg_label(reg, rid):
     return pretty(base)
 
 
+def reg_label_en(reg, rid):
+    base = rid.split('/')[-1]
+    if reg == 'attribute':
+        short = re.sub(r'^(generic|player|zombie|horse)\.', '', rid)
+        return E('attribute.name.' + short, E('attribute.name.' + rid, pretty(short)))
+    if reg == 'mob_effect':
+        return E('effect.minecraft.' + rid, pretty(rid))
+    if reg == 'villager_profession':
+        return 'No profession' if rid == 'none' else E('entity.minecraft.villager.' + rid, pretty(rid))
+    if reg == 'villager_type':
+        return pretty(rid)
+    if reg in ('trim_material', 'trim_pattern'):
+        return E(f'{reg}.minecraft.{rid}', pretty(rid))
+    if reg == 'dimension':
+        return {'overworld': 'Overworld', 'the_nether': 'Nether', 'the_end': 'The End'}.get(rid, pretty(rid))
+    return pretty(base)
+
+
 regs_out = {}
 # Registries, die das Tool nicht als Auswahlliste braucht (sehr groß oder nur für versteckte Felder)
 SKIP_REGS = {'loot_table', 'texture', 'game_event', 'position_source_type'}
@@ -476,7 +541,7 @@ for reg in sorted(needed_regs):
     ids = union_ids(reg)
     if not ids:
         continue
-    regs_out[reg] = {'v': [[x, reg_label(reg, x)] for x in ids], 'avail': availability(reg)}
+    regs_out[reg] = {'v': [[x, reg_label(reg, x), reg_label_en(reg, x)] for x in ids], 'avail': availability(reg)}
 
 # Welche Mobs haben Körper- bzw. Sattel-Slot?
 slots = {}
@@ -484,6 +549,18 @@ for iid, (slot, allowed) in equip.items():
     if slot in ('body', 'saddle') and allowed:
         for m in allowed:
             slots.setdefault(m, set()).add(slot)
+
+# Sichtbare Ausrüstung je Mob (aus dem Client ausgelesen: tools/read_render_layers.py)
+# und vorhandene Attribute mit Standardwerten (auf echten Servern abgefragt: tools/probe_attributes.py)
+LAYER_SHORT = {'HumanoidArmorLayer': 'armor', 'CustomHeadLayer': 'head', 'ItemInHandLayer': 'hands', 'PlayerItemInHandLayer': 'hands',
+               'CrossedArmsItemLayer': 'crossed', 'FoxHeldItemLayer': 'mouth', 'DolphinCarryingItemLayer': 'mouth',
+               'PandaHoldsItemLayer': 'paws', 'WitchItemLayer': 'hand', 'WingsLayer': 'wings'}
+render_layers = jload(os.path.join(HERE, 'render_layers.json')) if os.path.exists(os.path.join(HERE, 'render_layers.json')) else {}
+mob_attrs = jload(os.path.join(HERE, 'mob_attributes.json')) if os.path.exists(os.path.join(HERE, 'mob_attributes.json')) else {}
+for m in mobs:
+    m['eq'] = sorted({LAYER_SHORT[l] for l in render_layers.get(m['id'], []) if l in LAYER_SHORT})
+    if m['id'] in mob_attrs:
+        m['at'] = {k: round(v, 4) for k, v in mob_attrs[m['id']].items()}
 
 mobdata = {
     'mobs': mobs,
